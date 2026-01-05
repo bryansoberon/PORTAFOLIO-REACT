@@ -236,7 +236,7 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav }) {
                 <span style={activeId === item.id ? { color: ACCENT } : undefined}>
                   {item.label}
                 </span>
-                <span className="text-xs text-zinc-500">#{item.id}</span>
+                <span className="text-xs text-zinc-500">{item.id}</span>
               </button>
             ))}
           </div>
