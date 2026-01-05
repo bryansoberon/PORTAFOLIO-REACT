@@ -28,7 +28,7 @@ import {
 const ACCENT = "#a855f7"; // purple-500
 
 const navItems = [
-  { id: "home", label: "Casa" },
+  { id: "home", label: "Inicio" },
   { id: "Educación", label: "Educación" },
   { id: "Servicios", label: "Servicios" },
   { id: "Testimonios", label: "Testimonios" },
@@ -382,23 +382,19 @@ function Education() {
     {
       year: "2017 – 2019",
       title: "Colegio",
-      desc: "Fortalecimiento de bases en ciencias y tecnología. Participación en actividades académicas y proyectos escolares.",
+      desc: "Secundaria 3ero a 5to - IEP Sagrado Divino Maestro",
     },
     {
       year: "2021 – 2025",
       title: "Universidad",
-      desc: "Ingeniería de Sistemas. Enfoque en desarrollo de software, arquitectura, analítica y gestión de proyectos.",
+      desc: "Universidad Señor de sipan - Ingeniería de Sistemas. Enfoque en desarrollo de software, arquitectura, analítica y gestión de proyectos.",
     },
     {
-      year: "2026",
-      title: "Primera chamba",
-      desc: "Implementación de soluciones web, automatización y mejoras en procesos con enfoque práctico.",
+      year: "2025 – Septiembre a diciembre",
+      title: "Prácticas preprofesionales",
+      desc: "Implementación de soluciones web, automatización y mejoras en procesos de negocio en Carlos Gabriel Transportes S.A.C.",
     },
-    {
-      year: "2027",
-      title: "Segunda chamba",
-      desc: "Consolidación como desarrollador full‑stack, mejorando escalabilidad, seguridad y observabilidad.",
-    },
+
   ];
 
   return (
