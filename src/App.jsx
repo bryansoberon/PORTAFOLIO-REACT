@@ -624,7 +624,7 @@ function Contact() {
     <section id="contact" className="py-16">
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="text-center text-4xl font-extrabold sm:text-5xl">
-          Contact <span style={{ color: ACCENT }}>Me</span>
+          Contactame <span style={{ color: ACCENT }}>Ahora</span>
         </h2>
 
         <div className="mt-10 grid gap-8 md:grid-cols-2">
