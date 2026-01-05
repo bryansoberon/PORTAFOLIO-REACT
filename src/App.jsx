@@ -677,7 +677,7 @@ function Contact() {
             )}
             {status === "sent" && (
               <p className="mt-3 text-sm text-emerald-300">
-                Listo. Te llegó el mensaje a tu correo ✅
+                Se envió tu mensaje correctamente ✅
               </p>
             )}
 
