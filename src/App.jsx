@@ -28,11 +28,11 @@ import {
 const ACCENT = "#a855f7"; // purple-500
 
 const navItems = [
-  { id: "home", label: "Home" },
-  { id: "education", label: "Education" },
-  { id: "services", label: "Services" },
-  { id: "testimonials", label: "Testimonials" },
-  { id: "contact", label: "Contact" },
+  { id: "home", label: "Casa" },
+  { id: "Educación", label: "Educación" },
+  { id: "Servicios", label: "Servicios" },
+  { id: "Testimonios", label: "Testimonios" },
+  { id: "Contacto", label: "Contacto" },
 ];
 
 export default function App() {
@@ -42,11 +42,11 @@ export default function App() {
   // Cambia por tus links reales
   const links = useMemo(
     () => ({
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/bernabe-bryan-sober%C3%B3n-quintana-195437307/",
       github: "https://github.com/bryansoberon",
-      instagram: "#",
-      twitter: "#",
-      cv: "/cv-bryan.pdf", // pon tu PDF en /public
+      instagram: "https://www.instagram.com/bryansoberon/",
+      twitter: "https://x.com/BryanEseCu",
+      cv: "/cv-bryan.pdf", 
     }),
     []
   );
@@ -102,14 +102,35 @@ export default function App() {
         @keyframes floaty { 0%{ transform: translateY(0);} 50%{ transform: translateY(-8px);} 100%{ transform: translateY(0);} }
         .glow { box-shadow: 0 0 18px rgba(168,85,247,.45), 0 0 40px rgba(168,85,247,.25); }
         .text-glow { text-shadow: 0 0 18px rgba(168,85,247,.55); }
-        .typing {
-          display: inline-block;
-          white-space: nowrap;
-          overflow: hidden;
-          border-right: 2px solid var(--accent);
-          width: 0;
-          animation: typing 2.2s steps(18, end) forwards, caret .75s step-end infinite;
-        }
+       /* === TYPING SIN SALTO === */
+      .typing-wrap{
+        display: inline-block;
+        width: 18ch;               /* reserva ancho fijo */
+        white-space: nowrap;
+        overflow: hidden;
+        position: relative;
+        vertical-align: bottom;     /* evita que “suba” */
+      }
+
+      .typing{
+        display: inline-block;
+        white-space: nowrap;
+        width: 0;
+        overflow: hidden;
+        animation: typing 2.2s steps(18, end) forwards;
+      }
+
+      .typing-wrap::after{
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 1.1em;
+        border-right: 2px solid var(--accent);
+        animation: caret .75s step-end infinite;
+      }
+
+
       `}</style>
 
       <Header
@@ -231,17 +252,18 @@ function Home({ links }) {
       <div className="grid items-center gap-10 md:grid-cols-2">
         <div className="relative">
           <BadgeRow />
+        <div className="mt-3 text-lg text-zinc-200 sm:text-xl flex items-baseline gap-2">
+          <span className="text-zinc-300">Soy</span>
 
-          <h1 className="mt-5 text-4xl font-extrabold leading-tight sm:text-5xl">
-            Hi, I&apos;m <span className="text-glow" style={{ color: ACCENT }}>Bryan</span>
-          </h1>
+          <span
+            className="typing"
+            style={{ color: ACCENT }}
+            aria-label="Full-Stack Developer"
+          >
+            Full-Stack Developer
+          </span>
+        </div>
 
-          <div className="mt-3 text-lg text-zinc-200 sm:text-xl">
-            <span className="mr-2 text-zinc-300">I&apos;m a</span>
-            <span className="typing font-semibold" style={{ color: ACCENT }}>
-              Full‑Stack Developer
-            </span>
-          </div>
 
           <p className="mt-5 max-w-xl text-sm leading-relaxed text-zinc-300 sm:text-base">
             Soy Bernabé Bryan Soberón Quintana. Me enfoco en desarrollo web (Front/Back),
@@ -383,7 +405,7 @@ function Education() {
     <section id="education" className="bg-zinc-900/40 py-16">
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="text-center text-4xl font-extrabold sm:text-5xl">
-          Education
+          Educación
           <span className="ml-3 text-glow" style={{ color: ACCENT }}>
             Timeline
           </span>
@@ -449,7 +471,7 @@ function Services() {
   return (
     <section id="services" className="py-16">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-4xl font-extrabold sm:text-5xl">Services</h2>
+        <h2 className="text-center text-4xl font-extrabold sm:text-5xl">Servicios</h2>
         <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-zinc-300 sm:text-base">
           Lo que puedo construir para ti: interfaz, lógica y entrega con enfoque profesional.
         </p>
@@ -505,7 +527,7 @@ function Testimonials() {
   return (
     <section id="testimonials" className="bg-zinc-900/40 py-16">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-4xl font-extrabold sm:text-5xl">Testimonials</h2>
+        <h2 className="text-center text-4xl font-extrabold sm:text-5xl">Testimonios</h2>
 
         <div className="mt-10 grid gap-5 lg:grid-cols-3">
           {items.map((t) => (
@@ -627,16 +649,12 @@ function Contact() {
             </div>
 
             <div className="mt-6 space-y-3 text-sm text-zinc-300">
-              <InfoRow icon={<Mail size={16} />} text="bryan@example.com" />
-              <InfoRow icon={<Phone size={16} />} text="+51 999 999 999" />
+              <InfoRow icon={<Mail size={16} />} text="briansoberonq@gmail.com" />
+              <InfoRow icon={<Phone size={16} />} text="+51 933 698 031" />
               <InfoRow icon={<MapPin size={16} />} text="Perú" />
             </div>
 
-            <div className="mt-7 rounded-2xl border border-white/10 bg-white/5 p-4 text-xs text-zinc-300">
-              Si quieres que el formulario envíe a un correo real (sin mailto), lo conectamos a:
-              <span className="font-semibold"> Formspree</span>, <span className="font-semibold">Resend</span>,
-              <span className="font-semibold"> Firebase Functions</span> o un backend tuyo.
-            </div>
+  
           </div>
 
          <form
@@ -645,14 +663,14 @@ function Contact() {
           >
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <Input label="Full Name" name="name" value={form.name} onChange={onChange} />
-              <Input label="Email" name="email" type="email" value={form.email} onChange={onChange} />
-              <Input label="Mobile Number" name="phone" value={form.phone} onChange={onChange} />
-              <Input label="Subject" name="subject" value={form.subject} onChange={onChange} />
+              <Input label="Nombre completo" name="name" value={form.name} onChange={onChange} />
+              <Input label="Correo electronico" name="email" type="email" value={form.email} onChange={onChange} />
+              <Input label="Telefono" name="phone" value={form.phone} onChange={onChange} />
+              <Input label="Asunto" name="subject" value={form.subject} onChange={onChange} />
             </div>
 
             <div className="mt-4">
-              <label className="text-xs font-semibold text-zinc-200">Your Message</label>
+              <label className="text-xs font-semibold text-zinc-200">Mensaje</label>
               <textarea
                 name="message"
                 value={form.message}
@@ -670,7 +688,7 @@ function Contact() {
               style={{ backgroundColor: ACCENT, boxShadow: `0 0 24px ${ACCENT}55` }}
             >
               <Send size={18} />
-              {status === "sending" ? "Enviando..." : status === "sent" ? "Enviado ✅" : "Send Message"}
+              {status === "sending" ? "Enviando..." : status === "sent" ? "Enviado ✅" : "Enviar"}
             </button>
             {status === "error" && (
               <p className="mt-3 text-sm text-red-300">{errorMsg}</p>
@@ -680,8 +698,6 @@ function Contact() {
                 Se envió tu mensaje correctamente ✅
               </p>
             )}
-
-
           </form>
         </div>
       </div>
