@@ -29,10 +29,10 @@ const ACCENT = "#a855f7"; // purple-500
 
 const navItems = [
   { id: "home", label: "Inicio" },
-  { id: "Educación", label: "Educación" },
-  { id: "Servicios", label: "Servicios" },
-  { id: "Testimonios", label: "Testimonios" },
-  { id: "Contacto", label: "Contacto" },
+  { id: "education", label: "Educacion" },
+  { id: "services", label: "Servicios" },
+  { id: "testimonials", label: "Testimonios" },
+  { id: "contact", label: "Contacto" },
 ];
 
 export default function App() {
