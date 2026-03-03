@@ -252,8 +252,8 @@ function Home({ links }) {
 
           <div className="mt-8 grid grid-cols-3 gap-3 max-w-lg">
             <Stat label="Projects" value="10+" />
-            <Stat label="Stack" value="React • Laravel" />
-            <Stat label="Focus" value="Web • Data" />
+            <Stat label="Stack" value="Django & NextJS • Angular & Vue" />
+            <Stat label="Focus" value="Web • Data Science • me" />
           </div>
         </div>
 
