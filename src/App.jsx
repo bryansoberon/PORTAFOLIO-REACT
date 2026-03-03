@@ -38,6 +38,7 @@ const navItems = [
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeId, setActiveId] = useState("home");
+  const cvHref = `${import.meta.env.BASE_URL}cv_documentado.pdf`;
 
   // Cambia por tus links reales
   const links = useMemo(
@@ -46,9 +47,9 @@ export default function App() {
       github: "https://github.com/bryansoberon",
       instagram: "https://www.instagram.com/bryansoberon/",
       twitter: "https://x.com/BryanEseCu",
-      cv: "/cv-bryan.pdf", 
+      cv: cvHref,
     }),
-    []
+    [cvHref]
   );
 
   const sectionsRef = useRef([]);
@@ -276,10 +277,10 @@ function Home({ links }) {
               className="glow inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black transition hover:scale-[1.02]"
               style={{ backgroundColor: ACCENT }}
               href={links.cv}
-              download
+              download="CV_Bryan_Soberon.pdf"
             >
               <Download size={18} />
-              Download CV
+              Descargar CV
             </a>
             <a
               className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-zinc-100 transition hover:bg-white/10"
