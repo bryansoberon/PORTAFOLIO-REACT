@@ -428,9 +428,24 @@ function ServiceCard({ title, desc }) {
 /* ── TESTIMONIALS ────────────────────────────────────── */
 function Testimonials() {
   const items = [
-    { name: "Juan Carlos Chuquipoma Jimenez",   role: "Cliente", avatar: "/JUAN.jpg",   text: "Gracias al trabajo de Bryan, mi negocio ahora cuenta con un sistema web eficiente que optimiza nuestras campañas. ¡Totalmente recomendado!" },
-    { name: "Claudia Victoria Soberón Quintana", role: "Cliente", avatar: "/CALA.jpg",   text: "El sistema de gestión que nos brindó Bryan mejoró significativamente administración de productos y ventas. Compromiso y calidad." },
-    { name: "José Carlos Rivera Guadalupe",      role: "Cliente", avatar: "/CARLOS.jpg", text: "Optimización y predicción para marketing con IA: subió la eficiencia de campañas y el ROI. Asesoría clave." },
+    {
+    name: "Ing. Juan Carlos Chuquipoma Jimenez",
+    role: "Socio",
+    avatar: "/JUAN.jpg",
+    text: "Bryan demuestra un dominio sólido en desarrollo de software y arquitectura de sistemas. Su capacidad para estructurar soluciones escalables y aplicar buenas prácticas, junto con su conocimiento de Scrum, ha sido clave para mantener organización, enfoque y entregas de calidad en nuestros proyectos."
+    },
+    {
+      name: "Claudia Victoria Soberón Quintana",
+      role: "Cliente",
+      avatar: "/CALA.jpg",
+      text: "El sistema de gestión desarrollado por Bryan mejoró significativamente la administración de nuestros productos y ventas. Destaco su responsabilidad, claridad en el proceso y enfoque en ofrecer soluciones de calidad."
+    },
+    {
+      name: "Elizabeth Quintana Bances",
+      role: "Cliente",
+      avatar: "/ELITA.jpg",
+      text: "El sistema me permitió tener un control real de mi inventario y mis ventas. Ahora puedo visualizar ingresos, costos y stock en tiempo real, lo que me ayuda a tomar decisiones más acertadas. He reducido errores y optimizado la gestión de mi negocio."
+    },
   ];
 
   return (
@@ -531,7 +546,7 @@ function Contact() {
               </div>
             </div>
             <div className="mt-6 space-y-3 text-sm" style={{ color: "var(--text-3)" }}>
-              <InfoRow icon={<Mail  size={16} />} text="briansoberonq@gmail.com" />
+              <InfoRow icon={<Mail  size={16} />} text="bryansoberonq@gmail.com" />
               <InfoRow icon={<Phone size={16} />} text="+51 933 698 031" />
               <InfoRow icon={<MapPin size={16} />} text="Perú" />
             </div>
