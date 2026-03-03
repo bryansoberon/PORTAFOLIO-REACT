@@ -20,6 +20,7 @@ const navItems = [
   { id: "home",         label: "Inicio"      },
   { id: "education",    label: "Educacion"   },
   { id: "services",     label: "Servicios"   },
+  { id: "stack",        label: "Stack"       },
   { id: "testimonials", label: "Testimonios" },
   { id: "contact",      label: "Contacto"    },
 ];
@@ -101,6 +102,7 @@ export default function App() {
         <Home links={links} />
         <Education />
         <Services />
+        <Stack />
         <Testimonials />
         <Contact />
       </main>
@@ -422,6 +424,84 @@ function ServiceCard({ title, desc }) {
         Entregables: UI • Componentes • API • Deploy
       </div>
     </div>
+  );
+}
+
+/* ── STACK ───────────────────────────────────────────── */
+const stackCategories = [
+  {
+    title: "Frontend",
+    techs: [ "Vue.js", "Angular", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind CSS", "Bootstrap"],
+  },
+  {
+    title: "Backend",
+    techs: ["Laravel", "Django", "Node.js", "PHP", "Java", "C++"],
+  },
+  {
+    title: "Base de datos",
+    techs: ["MySQL", "PostgreSQL", "MongoDB", "SQL Server", "SQLite"],
+  },
+  {
+    title: "Herramientas",
+    techs: ["Git", "GitHub", "VS Code", "Docker", "Insomnia", "Scrum"],
+  },
+];
+
+function Stack() {
+  return (
+    <section id="stack" className="py-16">
+      <div className="mx-auto max-w-6xl px-4">
+        {/* Header */}
+        <div className="flex flex-col items-center gap-3">
+          <span
+            className="rounded-full px-3 py-1 text-xs font-semibold tracking-widest uppercase"
+            style={{ border: "1px solid var(--border-md)", backgroundColor: "var(--bg-pill)", color: "var(--accent)" }}
+          >
+            Stack
+          </span>
+          <h2 className="text-center text-4xl font-extrabold sm:text-5xl" style={{ color: "var(--text)" }}>
+            Tecnologías que utilizo
+          </h2>
+          <p className="max-w-xl text-center text-sm sm:text-base" style={{ color: "var(--text-3)" }}>
+            Herramientas y tecnologías con las que desarrollo aplicaciones web modernas, escalables y bien estructuradas.
+          </p>
+        </div>
+
+        {/* Cards grid */}
+        <div className="mt-10 grid gap-5 sm:grid-cols-2">
+          {stackCategories.map((cat) => (
+            <div
+              key={cat.title}
+              className="rounded-3xl p-7 transition hover:-translate-y-1"
+              style={S.card}
+            >
+              {/* Category title with gold left bar */}
+              <div className="flex items-center gap-3 mb-5">
+                <div className="h-5 w-[3px] rounded-full" style={{ backgroundColor: "var(--accent)" }} />
+                <h3 className="text-base font-bold" style={{ color: "var(--text)" }}>{cat.title}</h3>
+              </div>
+
+              {/* Tech pills */}
+              <div className="flex flex-wrap gap-2">
+                {cat.techs.map((tech) => (
+                  <span
+                    key={tech}
+                    className="rounded-full px-3 py-1 text-xs font-medium transition hover:scale-105"
+                    style={{
+                      border: "1px solid var(--border)",
+                      backgroundColor: "var(--bg-pill)",
+                      color: "var(--text-2)",
+                    }}
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
