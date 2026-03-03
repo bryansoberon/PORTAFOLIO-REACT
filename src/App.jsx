@@ -570,7 +570,7 @@ function Stars() {
 /* ── CONTACT ─────────────────────────────────────────── */
 function Contact() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
-  const FORMSPREE = "https://formspree.io/f/xykzozvb";
+  const FORMSPREE = "https://formspree.io/f/maqdrnwr";
   const [status,   setStatus]   = useState("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
