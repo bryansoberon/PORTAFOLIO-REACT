@@ -303,8 +303,8 @@ function Home({ links }) {
 function BadgeRow() {
   return (
     <div className="inline-flex flex-wrap items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-zinc-200">
-      <span className="rounded-full bg-white/10 px-2 py-1">React</span>
-      <span className="rounded-full bg-white/10 px-2 py-1">Laravel</span>
+      <span className="rounded-full bg-white/10 px-2 py-1">Vue</span>
+      <span className="rounded-full bg-white/10 px-2 py-1">Django</span>
       <span className="rounded-full bg-white/10 px-2 py-1">Data</span>
       <span className="rounded-full bg-white/10 px-2 py-1">Scrum</span>
     </div>
