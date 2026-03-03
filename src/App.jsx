@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Spline from "@splinetool/react-spline";
 import {
   Github,
@@ -38,29 +38,20 @@ const navItems = [
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeId, setActiveId] = useState("home");
-  const cvHref = `${import.meta.env.BASE_URL}cv_documentado.pdf`;
 
-  // Cambia por tus links reales
-  const links = useMemo(
-    () => ({
-      linkedin: "https://www.linkedin.com/in/bernabe-bryan-sober%C3%B3n-quintana-195437307/",
-      github: "https://github.com/bryansoberon",
-      instagram: "https://www.instagram.com/bryansoberon/",
-      twitter: "https://x.com/BryanEseCu",
-      cv: cvHref,
-    }),
-    [cvHref]
-  );
-
-  const sectionsRef = useRef([]);
+  const links = {
+    linkedin: "https://www.linkedin.com/in/bernabe-bryan-sober%C3%B3n-quintana-195437307/",
+    github: "https://github.com/bryansoberon",
+    instagram: "https://www.instagram.com/bryansoberon/",
+    twitter: "https://x.com/BryanEseCu",
+    cv: `${import.meta.env.BASE_URL}cv_documentado.pdf`,
+  };
 
   useEffect(() => {
     // ScrollSpy robusto con IntersectionObserver
     const els = navItems
       .map((x) => document.getElementById(x.id))
       .filter(Boolean);
-
-    sectionsRef.current = els;
 
     const obs = new IntersectionObserver(
       (entries) => {
@@ -95,45 +86,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-fuchsia-500/30 selection:text-white">
-      {/* Keyframes (typing + glow) */}
-      <style>{`
-        :root { --accent: ${ACCENT}; }
-        @keyframes caret { 50% { border-color: transparent; } }
-        @keyframes typing { from { width: 0; } to { width: 100%; } }
-        @keyframes floaty { 0%{ transform: translateY(0);} 50%{ transform: translateY(-8px);} 100%{ transform: translateY(0);} }
-        .glow { box-shadow: 0 0 18px rgba(168,85,247,.45), 0 0 40px rgba(168,85,247,.25); }
-        .text-glow { text-shadow: 0 0 18px rgba(168,85,247,.55); }
-       /* === TYPING SIN SALTO === */
-      .typing-wrap{
-        display: inline-block;
-        width: 18ch;               /* reserva ancho fijo */
-        white-space: nowrap;
-        overflow: hidden;
-        position: relative;
-        vertical-align: bottom;     /* evita que “suba” */
-      }
-
-      .typing{
-        display: inline-block;
-        white-space: nowrap;
-        width: 0;
-        overflow: hidden;
-        animation: typing 2.2s steps(18, end) forwards;
-      }
-
-      .typing-wrap::after{
-        content: "";
-        position: absolute;
-        right: 0;
-        top: 0;
-        height: 1.1em;
-        border-right: 2px solid var(--accent);
-        animation: caret .75s step-end infinite;
-      }
-
-
-      `}</style>
-
       <Header
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
@@ -312,9 +264,14 @@ function Home({ links }) {
           <Spline scene="https://prod.spline.design/Pbg4uemZbXh3i3ec/scene.splinecode" />
         </div>
 
-        {/* MÁSCARA para tapar el botón original */}
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 z-10
-                        bg-gradient-to-t from-black via-black/80 to-transparent" />
+        {/* MÁSCARA para tapar el botón original de Spline */}
+        <div
+          className="pointer-events-none absolute bottom-0 left-0 right-0 z-10"
+          style={{
+            height: "120px",
+            background: "linear-gradient(to top, black 55%, rgba(0,0,0,0.85) 75%, transparent 100%)",
+          }}
+        />
 
         {/* TU botón real */}
         <a
@@ -359,8 +316,9 @@ function SocialIcon({ href, label, icon }) {
     <a
       href={href}
       aria-label={label}
+      target="_blank"
+      rel="noreferrer"
       className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-200 transition hover:scale-105 hover:bg-white/10"
-      style={{ boxShadow: `0 0 0 0 rgba(168,85,247,0)` }}
     >
       {icon}
     </a>
@@ -477,8 +435,7 @@ function Services() {
           {services.map((s) => (
             <div
               key={s.title}
-              className="group rounded-3xl border border-white/10 bg-white/5 p-7 transition hover:-translate-y-1 hover:bg-white/7"
-              style={{ boxShadow: "0 0 0 0 rgba(0,0,0,0)" }}
+              className="group rounded-3xl border border-white/10 bg-white/5 p-7 transition hover:-translate-y-1 hover:bg-white/10"
             >
               <div
                 className="inline-flex items-center rounded-2xl border border-white/10 bg-black/30 px-3 py-2 text-xs font-semibold"
@@ -583,9 +540,15 @@ function Contact() {
     setErrorMsg("");
 
     // Validación mínima profesional
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
       setStatus("error");
       setErrorMsg("Completa: nombre, correo y mensaje.");
+      return;
+    }
+    if (!emailRegex.test(form.email)) {
+      setStatus("error");
+      setErrorMsg("Ingresa un correo válido.");
       return;
     }
 
@@ -661,14 +624,15 @@ function Contact() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <Input label="Nombre completo" name="name" value={form.name} onChange={onChange} />
-              <Input label="Correo electronico" name="email" type="email" value={form.email} onChange={onChange} />
-              <Input label="Telefono" name="phone" value={form.phone} onChange={onChange} />
+              <Input label="Correo electrónico" name="email" type="email" value={form.email} onChange={onChange} />
+              <Input label="Teléfono" name="phone" type="tel" value={form.phone} onChange={onChange} />
               <Input label="Asunto" name="subject" value={form.subject} onChange={onChange} />
             </div>
 
             <div className="mt-4">
-              <label className="text-xs font-semibold text-zinc-200">Mensaje</label>
+              <label htmlFor="message" className="text-xs font-semibold text-zinc-200">Mensaje</label>
               <textarea
+                id="message"
                 name="message"
                 value={form.message}
                 onChange={onChange}
@@ -687,14 +651,16 @@ function Contact() {
               <Send size={18} />
               {status === "sending" ? "Enviando..." : status === "sent" ? "Enviado ✅" : "Enviar"}
             </button>
-            {status === "error" && (
-              <p className="mt-3 text-sm text-red-300">{errorMsg}</p>
-            )}
-            {status === "sent" && (
-              <p className="mt-3 text-sm text-emerald-300">
-                Se envió tu mensaje correctamente ✅
-              </p>
-            )}
+            <div aria-live="polite">
+              {status === "error" && (
+                <p className="mt-3 text-sm text-red-300">{errorMsg}</p>
+              )}
+              {status === "sent" && (
+                <p className="mt-3 text-sm text-emerald-300">
+                  Se envió tu mensaje correctamente ✅
+                </p>
+              )}
+            </div>
           </form>
         </div>
       </div>
@@ -702,11 +668,13 @@ function Contact() {
   );
 }
 
-function Input({ label, ...props }) {
+function Input({ label, name, ...props }) {
   return (
     <div>
-      <label className="text-xs font-semibold text-zinc-200">{label}</label>
+      <label htmlFor={name} className="text-xs font-semibold text-zinc-200">{label}</label>
       <input
+        id={name}
+        name={name}
         {...props}
         className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-zinc-100 outline-none placeholder:text-zinc-500 focus:border-white/20"
       />
@@ -754,6 +722,8 @@ function Footer({ links, onNav }) {
               className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-200 hover:bg-white/10"
               href={links.linkedin}
               aria-label="LinkedIn"
+              target="_blank"
+              rel="noreferrer"
             >
               <Linkedin size={18} />
             </a>
@@ -761,6 +731,8 @@ function Footer({ links, onNav }) {
               className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-200 hover:bg-white/10"
               href={links.github}
               aria-label="GitHub"
+              target="_blank"
+              rel="noreferrer"
             >
               <Github size={18} />
             </a>

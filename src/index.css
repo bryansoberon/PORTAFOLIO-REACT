@@ -1,1 +1,60 @@
 @import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --accent: #a855f7;
+}
+
+@keyframes caret {
+  50% { border-color: transparent; }
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+@keyframes floaty {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+.glow {
+  box-shadow: 0 0 18px rgba(168, 85, 247, .45), 0 0 40px rgba(168, 85, 247, .25);
+}
+
+.text-glow {
+  text-shadow: 0 0 18px rgba(168, 85, 247, .55);
+}
+
+/* === TYPING SIN SALTO === */
+.typing-wrap {
+  display: inline-block;
+  width: 18ch;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  vertical-align: bottom;
+}
+
+.typing {
+  display: inline-block;
+  white-space: nowrap;
+  width: 0;
+  overflow: hidden;
+  animation: typing 2.2s steps(18, end) forwards;
+}
+
+.typing-wrap::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 1.1em;
+  border-right: 2px solid var(--accent);
+  animation: caret .75s step-end infinite;
+}
