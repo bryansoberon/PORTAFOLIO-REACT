@@ -435,7 +435,7 @@ const stackCategories = [
   },
   {
     title: "Backend",
-    techs: ["Laravel", "Django", "Node.js", "PHP", "Java", "C++"],
+    techs: ["Laravel", "Django", "Next.js", "PHP", "Java", "C++"],
   },
   {
     title: "Base de datos",
