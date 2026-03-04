@@ -201,7 +201,6 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav, theme, toggleTheme }) 
                 <span style={activeId === item.id ? { color: "var(--accent)" } : { color: "var(--text-3)" }}>
                   {item.label}
                 </span>
-                <span style={{ color: "var(--text-5)", fontSize: "0.7rem" }}>{item.id}</span>
               </button>
             ))}
           </div>
