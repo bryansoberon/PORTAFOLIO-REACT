@@ -616,7 +616,7 @@ function Contact() {
           <div className="rounded-3xl p-7 backdrop-blur-xl" style={S.card}>
             <div className="flex items-center gap-4">
               <img
-                src="/BRYAN.png" alt="Bryan"
+                src="/BRYAN.jpg" alt="Bryan"
                 className="h-20 w-20 rounded-full object-cover"
                 style={{ border: "1px solid var(--border-st)", boxShadow: "0 0 30px var(--glow-avatar)" }}
               />
