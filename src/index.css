@@ -2,6 +2,13 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* ── DARK THEME (default) ─────────────────────────── */
@@ -126,7 +133,7 @@ html {
 /* === TYPING SIN SALTO === */
 .typing-wrap {
   display: inline-block;
-  width: 18ch;
+  max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
   position: relative;
@@ -138,7 +145,8 @@ html {
   white-space: nowrap;
   width: 0;
   overflow: hidden;
-  animation: typing 2.2s steps(18, end) forwards;
+  max-width: 100%;
+  animation: typing 2.4s steps(35, end) forwards;
 }
 
 .typing-wrap::after {

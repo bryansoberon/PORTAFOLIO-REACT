@@ -323,12 +323,12 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav, theme, toggleTheme }) 
 /* ── HOME ────────────────────────────────────────────── */
 function Home({ links }) {
   return (
-    <section id="home" className="mx-auto max-w-6xl px-4 py-14 md:py-20">
-      <div className="grid items-center gap-10 md:grid-cols-2">
+    <section id="home" className="mx-auto max-w-6xl px-4 py-10 md:py-20">
+      <div className="grid items-center gap-8 md:grid-cols-2">
 
         {/* Left col – stagger on mount */}
         <motion.div
-          className="relative"
+          className="relative min-w-0 overflow-hidden"
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
@@ -339,11 +339,11 @@ function Home({ links }) {
 
           <motion.div
             variants={fadeUp}
-            className="mt-3 text-lg sm:text-xl flex items-baseline gap-2"
+            className="mt-3 text-base sm:text-xl flex flex-wrap items-baseline gap-x-2 gap-y-1 overflow-hidden min-w-0"
             style={{ color: "var(--text-2)" }}
           >
             <span style={{ color: "var(--text-3)" }}>Soy</span>
-            <span className="typing" style={{ color: "var(--accent)" }} aria-label="Full-Stack Developer">
+            <span className="typing" style={{ color: "var(--accent)" }} aria-label="Bachiller en Ingenieria de Sistemas">
               Bachiller en Ingenieria de Sistemas
             </span>
           </motion.div>
@@ -391,11 +391,11 @@ function Home({ links }) {
 
           <motion.div
             variants={staggerContainer}
-            className="mt-8 grid grid-cols-3 gap-3 max-w-lg"
+            className="mt-8 grid grid-cols-3 gap-2 w-full max-w-lg"
           >
             <motion.div variants={fadeUp}><Stat label="Projects" value="10+" /></motion.div>
-            <motion.div variants={fadeUp}><Stat label="Stack"    value="Django & NextJS • Angular & Vue" /></motion.div>
-            <motion.div variants={fadeUp}><Stat label="Focus"    value="Web • Data Science • me" /></motion.div>
+            <motion.div variants={fadeUp}><Stat label="Stack"    value="Django • NextJS • Vue" /></motion.div>
+            <motion.div variants={fadeUp}><Stat label="Focus"    value="Web • Data • Dev" /></motion.div>
           </motion.div>
         </motion.div>
 
@@ -404,7 +404,7 @@ function Home({ links }) {
           initial={{ opacity: 0, x: 56, scale: 0.96 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
-          className="relative h-[420px] md:h-[520px] overflow-hidden rounded-3xl"
+          className="relative h-[280px] sm:h-[420px] md:h-[520px] overflow-hidden rounded-3xl"
         >
           <div className="pointer-events-none absolute inset-0 z-0">
             <Spline scene="https://prod.spline.design/Pbg4uemZbXh3i3ec/scene.splinecode" />
@@ -435,7 +435,7 @@ function Home({ links }) {
 
 function BadgeRow() {
   return (
-    <div className="inline-flex flex-wrap items-center gap-2 rounded-full px-3 py-2 text-xs" style={{ ...S.pill, color: "var(--text-2)" }}>
+    <div className="inline-flex flex-wrap items-center gap-2 rounded-2xl px-3 py-2 text-xs" style={{ ...S.pill, color: "var(--text-2)" }}>
       {["Vue", "Django", "Data", "Scrum"].map((tag) => (
         <span key={tag} className="rounded-full px-2 py-1" style={{ backgroundColor: "var(--bg-active)" }}>{tag}</span>
       ))}
@@ -462,8 +462,8 @@ function SocialIcon({ href, label, icon }) {
 
 function Stat({ label, value }) {
   return (
-    <div className="rounded-2xl p-4" style={S.pill}>
-      <div className="text-lg font-bold" style={{ color: "var(--accent)" }}>{value}</div>
+    <div className="rounded-2xl p-3 sm:p-4" style={S.pill}>
+      <div className="text-sm sm:text-base font-bold break-words leading-snug" style={{ color: "var(--accent)" }}>{value}</div>
       <div className="mt-1 text-xs" style={{ color: "var(--text-4)" }}>{label}</div>
     </div>
   );
