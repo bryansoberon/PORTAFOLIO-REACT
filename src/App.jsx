@@ -802,7 +802,7 @@ function Stars() {
 /* ── CONTACT ─────────────────────────────────────────── */
 function Contact() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
-  const FORMSPREE = "https://formspree.io/f/maqdrnwr";
+  const FORMSPREE = import.meta.env.VITE_FORMSPREE_URL;
   const [status,   setStatus]   = useState("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [ref, inView] = useScrollReveal();
