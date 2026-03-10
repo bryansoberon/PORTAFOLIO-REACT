@@ -214,7 +214,7 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav, theme, toggleTheme }) 
                 className="mt-[2px] hidden text-[10px] font-semibold tracking-widest uppercase sm:block"
                 style={{ color: "var(--accent)", opacity: 0.7 }}
               >
-                BRYANDEV_001
+                BRYANDEV_333
               </span>
             </div>
           </button>
@@ -553,7 +553,7 @@ function TimelineItem({ item, side, mt = "" }) {
 function Services() {
   const services = [
     { title: "Web Designer",       desc: "Diseño de interfaces responsivas y consistentes. Prioridad en legibilidad, jerarquía visual y UX." },
-    { title: "Frontend Developer", desc: "React + buenas prácticas: componentes reutilizables, estado claro, rendimiento y accesibilidad." },
+    { title: "Frontend Developer", desc: "Vue + Arquitectura de componentes reutilizables, gestión de estado escalable y optimización de Web Vitals." },
     { title: "Backend Developer",  desc: "APIs limpias y seguras. Integraciones, validación, control de errores, y bases de datos bien modeladas." },
     { title: "Testing",            desc: "Pruebas y verificación: casos críticos, regresión, y automatización básica para reducir fallos en producción." },
   ];
@@ -719,12 +719,6 @@ function Testimonials() {
       role:   "Socio",
       avatar: "/JUAN.jpg",
       text:   "Bryan demuestra un dominio sólido en desarrollo de software y arquitectura de sistemas. Su capacidad para estructurar soluciones escalables y aplicar buenas prácticas, junto con su conocimiento de Scrum, ha sido clave para mantener organización, enfoque y entregas de calidad en nuestros proyectos.",
-    },
-    {
-      name:   "Claudia Victoria Soberón Quintana",
-      role:   "Cliente",
-      avatar: "/CALA.jpg",
-      text:   "El sistema de gestión desarrollado por Bryan mejoró significativamente la administración de nuestros productos y ventas. Destaco su responsabilidad, claridad en el proceso y enfoque en ofrecer soluciones de calidad.",
     },
     {
       name:   "Elizabeth Quintana Bances",
