@@ -181,14 +181,42 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav, theme, toggleTheme }) 
           style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-navbar)" }}
         >
           {/* Logo */}
-          <button onClick={() => onNav("home")} className="group flex items-baseline gap-2 text-left" aria-label="Ir al inicio">
-            <span className="text-lg font-extrabold tracking-wide" style={{ color: "var(--text)" }}>
-              PORTAFOLIO
-              <span className="ml-2 text-glow" style={{ color: "var(--accent)" }}>BRYAN</span>
-            </span>
-            <span className="hidden text-xs sm:inline" style={{ color: "var(--text-4)" }}>
-              Systems Engineer
-            </span>
+          <button onClick={() => onNav("home")} className="group flex items-center gap-3 text-left" aria-label="Ir al inicio">
+            {/* Logo image */}
+            <motion.div
+              className="relative flex-shrink-0"
+              whileHover={{ scale: 1.08 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+              <div
+                className="h-9 w-9 overflow-hidden rounded-xl"
+                style={{
+                  border: "1px solid var(--border-st)",
+                  boxShadow: "0 0 14px var(--glow-avatar)",
+                  padding: "2px",
+                  backgroundColor: "var(--bg-pill)",
+                }}
+              >
+                <img
+                  src="/LOGO%20BRYANDEV_001.png"
+                  alt="BryanDev logo"
+                  className="h-full w-full rounded-lg object-contain"
+                />
+              </div>
+            </motion.div>
+
+            {/* Text */}
+            <div className="flex flex-col leading-none">
+              <span className="text-base font-extrabold tracking-wide" style={{ color: "var(--text)" }}>
+                PORTAFOLIO <span className="text-glow" style={{ color: "var(--accent)" }}>BRYAN</span>
+              </span>
+              <span
+                className="mt-[2px] hidden text-[10px] font-semibold tracking-widest uppercase sm:block"
+                style={{ color: "var(--accent)", opacity: 0.7 }}
+              >
+                BRYANDEV_001
+              </span>
+            </div>
           </button>
 
           {/* Desktop nav */}
@@ -475,7 +503,8 @@ function Education() {
                 key={it.year}
                 item={it}
                 side={idx % 2 === 0 ? "left" : "right"}
-                mt={idx === 0 ? "" : idx === 2 ? "mt-3" : "mt-7"}
+                mt={idx === 0 ? "" : "mt-12"}
+
               />
             ))}
           </div>
