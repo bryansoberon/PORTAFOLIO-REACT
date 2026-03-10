@@ -101,7 +101,7 @@ export default function App() {
     linkedin:  "https://www.linkedin.com/in/bernabe-bryan-sober%C3%B3n-quintana-195437307/",
     github:    "https://github.com/bryansoberon",
     instagram: "https://www.instagram.com/bryansoberon/",
-    twitter:   "https://x.com/BryanEseCu",
+    twitter:   "https://x.com/bryandev333",
     cv:        `${import.meta.env.BASE_URL}cv_documentado.pdf`,
   };
 
