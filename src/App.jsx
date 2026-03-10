@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Spline from "@splinetool/react-spline";
+import { motion, AnimatePresence, useInView, useScroll, useSpring } from "framer-motion";
 import {
   Github,
   Linkedin,
@@ -34,12 +35,54 @@ const S = {
   activeBg:  { backgroundColor: "var(--bg-active)", boxShadow: "inset 0 0 0 1px var(--border-in)" },
 };
 
+/* ── Animation variants ─────────────────────────────── */
+const fadeUp = {
+  hidden:  { opacity: 0, y: 32 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+};
+
+const fadeIn = {
+  hidden:  { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.45 } },
+};
+
+const slideFromLeft = {
+  hidden:  { opacity: 0, x: -44 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+};
+
+const slideFromRight = {
+  hidden:  { opacity: 0, x: 44 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+};
+
+const scaleIn = {
+  hidden:  { opacity: 0, scale: 0.92 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } },
+};
+
+const staggerContainer = {
+  hidden:  {},
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+};
+
+const staggerPills = {
+  hidden:  {},
+  visible: { transition: { staggerChildren: 0.04, delayChildren: 0.2 } },
+};
+
+/* ── Hook scroll reveal ─────────────────────────────── */
+function useScrollReveal(margin = "-80px") {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin });
+  return [ref, inView];
+}
+
 /* ── App ────────────────────────────────────────────── */
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeId, setActiveId] = useState("home");
 
-  // ── Theme ──
   const [theme, setTheme] = useState(() => {
     if (typeof localStorage !== "undefined") {
       return localStorage.getItem("theme") || "dark";
@@ -54,7 +97,6 @@ export default function App() {
 
   const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
 
-  // ── Links ──
   const links = {
     linkedin:  "https://www.linkedin.com/in/bernabe-bryan-sober%C3%B3n-quintana-195437307/",
     github:    "https://github.com/bryansoberon",
@@ -86,7 +128,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen selection:bg-amber-400/30 selection:text-white"
+    <div
+      className="min-h-screen selection:bg-amber-400/30 selection:text-white"
       style={{ backgroundColor: "var(--bg)", color: "var(--text)" }}
     >
       <Header
@@ -121,8 +164,17 @@ export default function App() {
 
 /* ── HEADER ─────────────────────────────────────────── */
 function Header({ menuOpen, setMenuOpen, activeId, onNav, theme, toggleTheme }) {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+
   return (
     <header className="fixed inset-x-0 top-0 z-50">
+      {/* Scroll progress bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 z-[60] h-[2px] origin-left"
+        style={{ scaleX, backgroundColor: "var(--accent)" }}
+      />
+
       <div className="mx-auto max-w-6xl px-4">
         <div
           className="mt-3 flex items-center justify-between rounded-2xl px-4 py-3 backdrop-blur-xl"
@@ -157,9 +209,8 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav, theme, toggleTheme }) 
             ))}
           </nav>
 
-          {/* Right side: theme toggle + hamburger */}
+          {/* Right side */}
           <div className="flex items-center gap-2">
-            {/* Theme toggle */}
             <button
               onClick={toggleTheme}
               aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
@@ -168,7 +219,18 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav, theme, toggleTheme }) 
               onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "var(--bg-pill-hover)"; }}
               onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "var(--bg-pill)"; }}
             >
-              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={theme}
+                  initial={{ rotate: -90, opacity: 0, scale: 0.6 }}
+                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                  exit={{ rotate: 90, opacity: 0, scale: 0.6 }}
+                  transition={{ duration: 0.22 }}
+                  className="flex"
+                >
+                  {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+                </motion.span>
+              </AnimatePresence>
             </button>
 
             {/* Mobile hamburger */}
@@ -179,32 +241,54 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav, theme, toggleTheme }) 
               aria-label="Abrir menú"
               aria-expanded={menuOpen}
             >
-              {menuOpen ? <X size={18} /> : <Menu size={18} />}
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={menuOpen ? "x" : "menu"}
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.18 }}
+                  className="flex"
+                >
+                  {menuOpen ? <X size={18} /> : <Menu size={18} />}
+                </motion.span>
+              </AnimatePresence>
               <span>Menu</span>
             </button>
           </div>
         </div>
 
-        {/* Mobile menu */}
-        {menuOpen && (
-          <div
-            className="mt-2 rounded-2xl p-2 backdrop-blur-xl md:hidden"
-            style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-navbar)" }}
-          >
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => onNav(item.id)}
-                className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-medium transition"
-                style={{ backgroundColor: activeId === item.id ? "var(--bg-active)" : "transparent" }}
-              >
-                <span style={activeId === item.id ? { color: "var(--accent)" } : { color: "var(--text-3)" }}>
-                  {item.label}
-                </span>
-              </button>
-            ))}
-          </div>
-        )}
+        {/* Mobile menu with AnimatePresence */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0, y: -8 }}
+              animate={{ opacity: 1, height: "auto", y: 0 }}
+              exit={{ opacity: 0, height: 0, y: -8 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
+              className="mt-2 overflow-hidden rounded-2xl backdrop-blur-xl md:hidden"
+              style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-navbar)" }}
+            >
+              <div className="p-2">
+                {navItems.map((item, i) => (
+                  <motion.button
+                    key={item.id}
+                    initial={{ opacity: 0, x: -14 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.045, duration: 0.2 }}
+                    onClick={() => onNav(item.id)}
+                    className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-medium"
+                    style={{ backgroundColor: activeId === item.id ? "var(--bg-active)" : "transparent" }}
+                  >
+                    <span style={activeId === item.id ? { color: "var(--accent)" } : { color: "var(--text-3)" }}>
+                      {item.label}
+                    </span>
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </header>
   );
@@ -215,62 +299,91 @@ function Home({ links }) {
   return (
     <section id="home" className="mx-auto max-w-6xl px-4 py-14 md:py-20">
       <div className="grid items-center gap-10 md:grid-cols-2">
-        <div className="relative">
-          <BadgeRow />
 
-          <div className="mt-3 text-lg sm:text-xl flex items-baseline gap-2" style={{ color: "var(--text-2)" }}>
+        {/* Left col – stagger on mount */}
+        <motion.div
+          className="relative"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div variants={fadeUp}>
+            <BadgeRow />
+          </motion.div>
+
+          <motion.div
+            variants={fadeUp}
+            className="mt-3 text-lg sm:text-xl flex items-baseline gap-2"
+            style={{ color: "var(--text-2)" }}
+          >
             <span style={{ color: "var(--text-3)" }}>Soy</span>
             <span className="typing" style={{ color: "var(--accent)" }} aria-label="Full-Stack Developer">
               Full-Stack Developer
             </span>
-          </div>
+          </motion.div>
 
-          <p className="mt-5 max-w-xl text-sm leading-relaxed sm:text-base" style={{ color: "var(--text-3)" }}>
+          <motion.p
+            variants={fadeUp}
+            className="mt-5 max-w-xl text-sm leading-relaxed sm:text-base"
+            style={{ color: "var(--text-3)" }}
+          >
             Soy Bernabé Bryan Soberón Quintana. Me enfoco en desarrollo web (Front/Back),
             analítica de datos y gestión de proyectos tecnológicos con enfoque ágil.
             Me interesa construir soluciones escalables, limpias y medibles.
-          </p>
+          </motion.p>
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <a
-              className="glow inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black transition hover:scale-[1.02]"
+          <motion.div variants={fadeUp} className="mt-6 flex flex-wrap items-center gap-3">
+            <motion.a
+              className="glow inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black"
               style={{ backgroundColor: "var(--accent)" }}
               href={links.cv}
               download="CV_Bryan_Soberon.pdf"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
             >
               <Download size={18} />
               Descargar CV
-            </a>
-            <a
-              className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition hover:scale-[1.01]"
+            </motion.a>
+            <motion.a
+              className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold"
               style={{ ...S.pill, color: "var(--text)" }}
               href="#contact"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
             >
               <Send size={18} />
               Contactar
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
 
-          <div className="mt-7 flex items-center gap-3">
+          <motion.div variants={fadeUp} className="mt-7 flex items-center gap-3">
             <SocialIcon href={links.linkedin}  label="LinkedIn"  icon={<Linkedin  size={18} />} />
             <SocialIcon href={links.github}    label="GitHub"    icon={<Github    size={18} />} />
             <SocialIcon href={links.instagram} label="Instagram" icon={<Instagram size={18} />} />
             <SocialIcon href={links.twitter}   label="Twitter"   icon={<Twitter   size={18} />} />
-          </div>
+          </motion.div>
 
-          <div className="mt-8 grid grid-cols-3 gap-3 max-w-lg">
-            <Stat label="Projects" value="10+" />
-            <Stat label="Stack"    value="Django & NextJS • Angular & Vue" />
-            <Stat label="Focus"    value="Web • Data Science • me" />
-          </div>
-        </div>
+          <motion.div
+            variants={staggerContainer}
+            className="mt-8 grid grid-cols-3 gap-3 max-w-lg"
+          >
+            <motion.div variants={fadeUp}><Stat label="Projects" value="10+" /></motion.div>
+            <motion.div variants={fadeUp}><Stat label="Stack"    value="Django & NextJS • Angular & Vue" /></motion.div>
+            <motion.div variants={fadeUp}><Stat label="Focus"    value="Web • Data Science • me" /></motion.div>
+          </motion.div>
+        </motion.div>
 
-        <div className="relative h-[420px] md:h-[520px] overflow-hidden rounded-3xl">
+        {/* Right col – Spline, slide in from right */}
+        <motion.div
+          initial={{ opacity: 0, x: 56, scale: 0.96 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
+          className="relative h-[420px] md:h-[520px] overflow-hidden rounded-3xl"
+        >
           <div className="pointer-events-none absolute inset-0 z-0">
             <Spline scene="https://prod.spline.design/Pbg4uemZbXh3i3ec/scene.splinecode" />
           </div>
 
-          {/* Máscara Spline — usa var para coincidir con bg del tema */}
           <div
             className="pointer-events-none absolute bottom-0 left-0 right-0 z-10"
             style={{ height: "120px", background: "var(--spline-mask)" }}
@@ -288,7 +401,7 @@ function Home({ links }) {
             </svg>
             Ir a mi GitHub
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -306,18 +419,18 @@ function BadgeRow() {
 
 function SocialIcon({ href, label, icon }) {
   return (
-    <a
+    <motion.a
       href={href}
       aria-label={label}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex h-11 w-11 items-center justify-center rounded-full transition hover:scale-105"
+      className="inline-flex h-11 w-11 items-center justify-center rounded-full"
       style={{ ...S.pill, color: "var(--text-2)" }}
-      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "var(--bg-pill-hover)"; }}
-      onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "var(--bg-pill)"; }}
+      whileHover={{ scale: 1.15, backgroundColor: "var(--bg-pill-hover)" }}
+      whileTap={{ scale: 0.92 }}
     >
       {icon}
-    </a>
+    </motion.a>
   );
 }
 
@@ -333,17 +446,27 @@ function Stat({ label, value }) {
 /* ── EDUCATION ───────────────────────────────────────── */
 function Education() {
   const items = [
-    { year: "2017 – 2019", title: "Colegio",              desc: "Secundaria 3ero a 5to - IEP Sagrado Divino Maestro" },
-    { year: "2021 – 2025", title: "Universidad",           desc: "Universidad Señor de Sipán - Ingeniería de Sistemas. Enfoque en desarrollo de software, arquitectura, analítica y gestión de proyectos." },
+    { year: "2017 – 2019",     title: "Colegio",                   desc: "Secundaria 3ero a 5to - IEP Sagrado Divino Maestro" },
+    { year: "2021 – 2025",     title: "Universidad",                desc: "Universidad Señor de Sipán - Ingeniería de Sistemas. Enfoque en desarrollo de software, arquitectura, analítica y gestión de proyectos." },
     { year: "2025 – Sep a Dic", title: "Prácticas preprofesionales", desc: "Implementación de soluciones web, automatización y mejoras en procesos de negocio en Carlos Gabriel Transportes S.A.C." },
   ];
+
+  const [titleRef, titleInView] = useScrollReveal("-60px");
 
   return (
     <section id="education" className="py-16" style={{ backgroundColor: "var(--bg-sec)" }}>
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-4xl font-extrabold sm:text-5xl" style={{ color: "var(--text)" }}>
+        <motion.h2
+          ref={titleRef}
+          variants={fadeUp}
+          initial="hidden"
+          animate={titleInView ? "visible" : "hidden"}
+          className="text-center text-4xl font-extrabold sm:text-5xl"
+          style={{ color: "var(--text)" }}
+        >
           Educación <span className="ml-1 text-glow" style={{ color: "var(--accent)" }}>Timeline</span>
-        </h2>
+        </motion.h2>
+
         <div className="relative mx-auto mt-12 max-w-4xl">
           <div className="absolute left-5 top-0 h-full w-[2px] sm:left-1/2 sm:-ml-[1px]" style={S.divider} />
           <div className="space-y-7">
@@ -358,14 +481,27 @@ function Education() {
 }
 
 function TimelineItem({ item, side }) {
+  const [ref, inView] = useScrollReveal("-40px");
   const isLeft = side === "left";
+
   return (
-    <div className="relative flex items-start gap-4 sm:gap-0">
+    <motion.div
+      ref={ref}
+      variants={isLeft ? slideFromLeft : slideFromRight}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      className="relative flex items-start gap-4 sm:gap-0"
+    >
       <div
         className="relative z-10 mt-1 flex h-10 w-10 items-center justify-center rounded-full sm:absolute sm:left-1/2 sm:-ml-5"
         style={{ border: "1px solid var(--border-md)", backgroundColor: "var(--bg)" }}
       >
-        <div className="h-3 w-3 rounded-full" style={{ backgroundColor: "var(--accent)", boxShadow: "0 0 18px var(--glow-avatar)" }} />
+        <motion.div
+          className="h-3 w-3 rounded-full"
+          style={{ backgroundColor: "var(--accent)", boxShadow: "0 0 18px var(--glow-avatar)" }}
+          animate={inView ? { scale: [1, 1.5, 1] } : {}}
+          transition={{ delay: 0.45, duration: 0.45 }}
+        />
       </div>
       <div
         className={`w-full rounded-3xl p-6 backdrop-blur-xl sm:w-[46%] ${isLeft ? "sm:pr-8" : "sm:ml-auto sm:pl-8"}`}
@@ -375,7 +511,7 @@ function TimelineItem({ item, side }) {
         <div className="mt-1 text-xl font-bold" style={{ color: "var(--text)" }}>{item.title}</div>
         <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-3)" }}>{item.desc}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -388,18 +524,33 @@ function Services() {
     { title: "Testing",            desc: "Pruebas y verificación: casos críticos, regresión, y automatización básica para reducir fallos en producción." },
   ];
 
+  const [ref, inView] = useScrollReveal();
+
   return (
     <section id="services" className="py-16">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-4xl font-extrabold sm:text-5xl" style={{ color: "var(--text)" }}>Servicios</h2>
-        <p className="mx-auto mt-3 max-w-2xl text-center text-sm sm:text-base" style={{ color: "var(--text-3)" }}>
-          Lo que puedo construir para ti: interfaz, lógica y entrega con enfoque profesional.
-        </p>
-        <div className="mt-10 grid gap-5 sm:grid-cols-2">
+        <motion.div
+          ref={ref}
+          variants={fadeUp}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+        >
+          <h2 className="text-center text-4xl font-extrabold sm:text-5xl" style={{ color: "var(--text)" }}>Servicios</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-center text-sm sm:text-base" style={{ color: "var(--text-3)" }}>
+            Lo que puedo construir para ti: interfaz, lógica y entrega con enfoque profesional.
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="mt-10 grid gap-5 sm:grid-cols-2"
+        >
           {services.map((s) => (
             <ServiceCard key={s.title} {...s} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -407,14 +558,18 @@ function Services() {
 
 function ServiceCard({ title, desc }) {
   return (
-    <div
-      className="rounded-3xl p-7 transition hover:-translate-y-1"
+    <motion.div
+      variants={fadeUp}
+      whileHover={{ y: -6, transition: { duration: 0.2 } }}
+      className="rounded-3xl p-7"
       style={S.pill}
       onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "var(--bg-pill-hover)"; }}
       onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "var(--bg-pill)"; }}
     >
-      <div className="inline-flex items-center rounded-2xl px-3 py-2 text-xs font-semibold"
-        style={{ border: "1px solid var(--border-md)", backgroundColor: "var(--bg-card)", color: "var(--accent)" }}>
+      <div
+        className="inline-flex items-center rounded-2xl px-3 py-2 text-xs font-semibold"
+        style={{ border: "1px solid var(--border-md)", backgroundColor: "var(--bg-card)", color: "var(--accent)" }}
+      >
         {title}
       </div>
       <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{desc}</p>
@@ -422,81 +577,59 @@ function ServiceCard({ title, desc }) {
       <div className="mt-4 text-xs" style={{ color: "var(--text-4)" }}>
         Entregables: UI • Componentes • API • Deploy
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 /* ── STACK ───────────────────────────────────────────── */
 const stackCategories = [
-  {
-    title: "Frontend",
-    techs: [ "Vue.js", "Angular", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind CSS", "Bootstrap"],
-  },
-  {
-    title: "Backend",
-    techs: ["Django", "Next.js", "Laravel", "PHP", "Java", "C++"],
-  },
-  {
-    title: "Base de datos",
-    techs: ["MySQL", "PostgreSQL", "MongoDB", "SQL Server", "SQLite"],
-  },
-  {
-    title: "Herramientas",
-    techs: ["Git", "GitHub", "VS Code", "Docker", "Insomnia", "Scrum"],
-  },
+  { title: "Frontend",      techs: ["Vue.js", "Angular", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind CSS", "Bootstrap"] },
+  { title: "Backend",       techs: ["Django", "Next.js", "Laravel", "PHP", "Java", "C++"] },
+  { title: "Base de datos", techs: ["MySQL", "PostgreSQL", "MongoDB", "SQL Server", "SQLite"] },
+  { title: "Herramientas",  techs: ["Git", "GitHub", "VS Code", "Docker", "Insomnia", "Scrum"] },
 ];
 
 function Stack() {
+  const [headerRef, headerInView] = useScrollReveal();
+
   return (
     <section id="stack" className="py-16">
       <div className="mx-auto max-w-6xl px-4">
         {/* Header */}
-        <div className="flex flex-col items-center gap-3">
-          <span
+        <motion.div
+          ref={headerRef}
+          variants={staggerContainer}
+          initial="hidden"
+          animate={headerInView ? "visible" : "hidden"}
+          className="flex flex-col items-center gap-3"
+        >
+          <motion.span
+            variants={fadeUp}
             className="rounded-full px-3 py-1 text-xs font-semibold tracking-widest uppercase"
             style={{ border: "1px solid var(--border-md)", backgroundColor: "var(--bg-pill)", color: "var(--accent)" }}
           >
             Stack
-          </span>
-          <h2 className="text-center text-4xl font-extrabold sm:text-5xl" style={{ color: "var(--text)" }}>
+          </motion.span>
+          <motion.h2
+            variants={fadeUp}
+            className="text-center text-4xl font-extrabold sm:text-5xl"
+            style={{ color: "var(--text)" }}
+          >
             Tecnologías que utilizo
-          </h2>
-          <p className="max-w-xl text-center text-sm sm:text-base" style={{ color: "var(--text-3)" }}>
+          </motion.h2>
+          <motion.p
+            variants={fadeUp}
+            className="max-w-xl text-center text-sm sm:text-base"
+            style={{ color: "var(--text-3)" }}
+          >
             Herramientas y tecnologías con las que desarrollo aplicaciones web modernas, escalables y bien estructuradas.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
-        {/* Cards grid */}
+        {/* Cards */}
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
-          {stackCategories.map((cat) => (
-            <div
-              key={cat.title}
-              className="rounded-3xl p-7 transition hover:-translate-y-1"
-              style={S.card}
-            >
-              {/* Category title with gold left bar */}
-              <div className="flex items-center gap-3 mb-5">
-                <div className="h-5 w-[3px] rounded-full" style={{ backgroundColor: "var(--accent)" }} />
-                <h3 className="text-base font-bold" style={{ color: "var(--text)" }}>{cat.title}</h3>
-              </div>
-
-              {/* Tech pills */}
-              <div className="flex flex-wrap gap-2">
-                {cat.techs.map((tech) => (
-                  <span
-                    key={tech}
-                    className="rounded-full px-3 py-1 text-xs font-medium transition hover:scale-105"
-                    style={{
-                      border: "1px solid var(--border)",
-                      backgroundColor: "var(--bg-pill)",
-                      color: "var(--text-2)",
-                    }}
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
+          {stackCategories.map((cat, i) => (
+            <StackCard key={cat.title} cat={cat} delay={i * 0.07} />
           ))}
         </div>
       </div>
@@ -504,36 +637,99 @@ function Stack() {
   );
 }
 
+function StackCard({ cat, delay }) {
+  const [ref, inView] = useScrollReveal("-40px");
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.93, y: 20 }}
+      animate={inView ? { opacity: 1, scale: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, ease: "easeOut", delay }}
+      whileHover={{ y: -5, transition: { duration: 0.2 } }}
+      className="rounded-3xl p-7"
+      style={S.card}
+    >
+      <div className="flex items-center gap-3 mb-5">
+        <div className="h-5 w-[3px] rounded-full" style={{ backgroundColor: "var(--accent)" }} />
+        <h3 className="text-base font-bold" style={{ color: "var(--text)" }}>{cat.title}</h3>
+      </div>
+
+      <motion.div
+        className="flex flex-wrap gap-2"
+        variants={staggerPills}
+        initial="hidden"
+        animate={inView ? "visible" : "hidden"}
+      >
+        {cat.techs.map((tech) => (
+          <motion.span
+            key={tech}
+            variants={fadeIn}
+            whileHover={{ scale: 1.1, transition: { duration: 0.14 } }}
+            className="rounded-full px-3 py-1 text-xs font-medium cursor-default"
+            style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-pill)", color: "var(--text-2)" }}
+          >
+            {tech}
+          </motion.span>
+        ))}
+      </motion.div>
+    </motion.div>
+  );
+}
+
 /* ── TESTIMONIALS ────────────────────────────────────── */
 function Testimonials() {
   const items = [
     {
-    name: "Ing. Juan Carlos Chuquipoma Jimenez",
-    role: "Socio",
-    avatar: "/JUAN.jpg",
-    text: "Bryan demuestra un dominio sólido en desarrollo de software y arquitectura de sistemas. Su capacidad para estructurar soluciones escalables y aplicar buenas prácticas, junto con su conocimiento de Scrum, ha sido clave para mantener organización, enfoque y entregas de calidad en nuestros proyectos."
+      name:   "Ing. Juan Carlos Chuquipoma Jimenez",
+      role:   "Socio",
+      avatar: "/JUAN.jpg",
+      text:   "Bryan demuestra un dominio sólido en desarrollo de software y arquitectura de sistemas. Su capacidad para estructurar soluciones escalables y aplicar buenas prácticas, junto con su conocimiento de Scrum, ha sido clave para mantener organización, enfoque y entregas de calidad en nuestros proyectos.",
     },
     {
-      name: "Claudia Victoria Soberón Quintana",
-      role: "Cliente",
+      name:   "Claudia Victoria Soberón Quintana",
+      role:   "Cliente",
       avatar: "/CALA.jpg",
-      text: "El sistema de gestión desarrollado por Bryan mejoró significativamente la administración de nuestros productos y ventas. Destaco su responsabilidad, claridad en el proceso y enfoque en ofrecer soluciones de calidad."
+      text:   "El sistema de gestión desarrollado por Bryan mejoró significativamente la administración de nuestros productos y ventas. Destaco su responsabilidad, claridad en el proceso y enfoque en ofrecer soluciones de calidad.",
     },
     {
-      name: "Elizabeth Quintana Bances",
-      role: "Cliente",
+      name:   "Elizabeth Quintana Bances",
+      role:   "Cliente",
       avatar: "/ELITA.jpg",
-      text: "El sistema me permitió tener un control real de mi inventario y mis ventas. Ahora puedo visualizar ingresos, costos y stock en tiempo real, lo que me ayuda a tomar decisiones más acertadas. He reducido errores y optimizado la gestión de mi negocio."
+      text:   "El sistema me permitió tener un control real de mi inventario y mis ventas. Ahora puedo visualizar ingresos, costos y stock en tiempo real, lo que me ayuda a tomar decisiones más acertadas. He reducido errores y optimizado la gestión de mi negocio.",
     },
   ];
+
+  const [ref, inView] = useScrollReveal();
 
   return (
     <section id="testimonials" className="py-16" style={{ backgroundColor: "var(--bg-sec)" }}>
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-4xl font-extrabold sm:text-5xl" style={{ color: "var(--text)" }}>Testimonios</h2>
-        <div className="mt-10 grid gap-5 lg:grid-cols-3">
+        <motion.h2
+          ref={ref}
+          variants={fadeUp}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="text-center text-4xl font-extrabold sm:text-5xl"
+          style={{ color: "var(--text)" }}
+        >
+          Testimonios
+        </motion.h2>
+
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="mt-10 grid gap-5 lg:grid-cols-3"
+        >
           {items.map((t) => (
-            <div key={t.name} className="rounded-3xl p-7 backdrop-blur-xl transition hover:-translate-y-1" style={S.card}>
+            <motion.div
+              key={t.name}
+              variants={scaleIn}
+              whileHover={{ y: -7, transition: { duration: 0.2 } }}
+              className="rounded-3xl p-7 backdrop-blur-xl"
+              style={S.card}
+            >
               <div className="flex items-center gap-4">
                 <img
                   src={t.avatar}
@@ -548,9 +744,9 @@ function Testimonials() {
               </div>
               <p className="mt-5 text-sm leading-relaxed" style={{ color: "var(--text-3)" }}>"{t.text}"</p>
               <Stars />
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -560,7 +756,16 @@ function Stars() {
   return (
     <div className="mt-5 flex gap-1" aria-label="5 estrellas">
       {Array.from({ length: 5 }).map((_, i) => (
-        <span key={i} className="text-lg" style={{ color: "var(--accent)" }}>★</span>
+        <motion.span
+          key={i}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4 + i * 0.07, type: "spring", stiffness: 300, damping: 15 }}
+          className="text-lg"
+          style={{ color: "var(--accent)" }}
+        >
+          ★
+        </motion.span>
       ))}
     </div>
   );
@@ -572,6 +777,7 @@ function Contact() {
   const FORMSPREE = "https://formspree.io/f/maqdrnwr";
   const [status,   setStatus]   = useState("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [ref, inView] = useScrollReveal();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -606,13 +812,26 @@ function Contact() {
   return (
     <section id="contact" className="py-16">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-4xl font-extrabold sm:text-5xl" style={{ color: "var(--text)" }}>
+        <motion.h2
+          ref={ref}
+          variants={fadeUp}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="text-center text-4xl font-extrabold sm:text-5xl"
+          style={{ color: "var(--text)" }}
+        >
           Contactame <span style={{ color: "var(--accent)" }}>Ahora</span>
-        </h2>
+        </motion.h2>
 
         <div className="mt-10 grid gap-8 md:grid-cols-2">
           {/* Info */}
-          <div className="rounded-3xl p-7 backdrop-blur-xl" style={S.card}>
+          <motion.div
+            initial={{ opacity: 0, x: -44 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.18 }}
+            className="rounded-3xl p-7 backdrop-blur-xl"
+            style={S.card}
+          >
             <div className="flex items-center gap-4">
               <img
                 src="/BRYAN.jpg" alt="Bryan"
@@ -629,10 +848,17 @@ function Contact() {
               <InfoRow icon={<Phone size={16} />} text="+51 933 698 031" />
               <InfoRow icon={<MapPin size={16} />} text="Perú" />
             </div>
-          </div>
+          </motion.div>
 
           {/* Form */}
-          <form className="rounded-3xl p-7" style={S.pill} onSubmit={handleSubmit}>
+          <motion.form
+            initial={{ opacity: 0, x: 44 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.18 }}
+            className="rounded-3xl p-7"
+            style={S.pill}
+            onSubmit={handleSubmit}
+          >
             <div className="grid gap-4 sm:grid-cols-2">
               <Input label="Nombre completo"    name="name"    value={form.name}    onChange={onChange} />
               <Input label="Correo electrónico" name="email"   type="email" value={form.email}   onChange={onChange} />
@@ -650,21 +876,23 @@ function Contact() {
               />
             </div>
 
-            <button
+            <motion.button
               type="submit"
               disabled={status === "sending"}
-              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold text-black transition hover:scale-[1.01] disabled:opacity-60 disabled:cursor-not-allowed"
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold text-black disabled:opacity-60 disabled:cursor-not-allowed"
               style={{ backgroundColor: "var(--accent)", boxShadow: "var(--glow-btn)" }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               <Send size={18} />
               {status === "sending" ? "Enviando..." : status === "sent" ? "Enviado ✅" : "Enviar"}
-            </button>
+            </motion.button>
 
             <div aria-live="polite">
               {status === "error" && <p className="mt-3 text-sm text-red-400">{errorMsg}</p>}
               {status === "sent"  && <p className="mt-3 text-sm text-emerald-400">Se envió tu mensaje correctamente ✅</p>}
             </div>
-          </form>
+          </motion.form>
         </div>
       </div>
     </section>
