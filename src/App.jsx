@@ -22,7 +22,6 @@ const navItems = [
   { id: "education",    label: "Educacion"   },
   { id: "services",     label: "Servicios"   },
   { id: "stack",        label: "Stack"       },
-  { id: "testimonials", label: "Testimonios" },
   { id: "contact",      label: "Contacto"    },
 ];
 
@@ -146,7 +145,6 @@ export default function App() {
         <Education />
         <Services />
         <Stack />
-        <Testimonials />
         <Contact />
       </main>
 
@@ -708,75 +706,6 @@ function StackCard({ cat, delay }) {
         ))}
       </motion.div>
     </motion.div>
-  );
-}
-
-/* ── TESTIMONIALS ────────────────────────────────────── */
-function Testimonials() {
-  const items = [
-    {
-      name:   "Ing. Juan Carlos Chuquipoma Jimenez",
-      role:   "Socio",
-      avatar: "/JUAN.jpg",
-      text:   "Bryan demuestra un dominio sólido en desarrollo de software y arquitectura de sistemas. Su capacidad para estructurar soluciones escalables y aplicar buenas prácticas, junto con su conocimiento de Scrum, ha sido clave para mantener organización, enfoque y entregas de calidad en nuestros proyectos.",
-    },
-    {
-      name:   "Elizabeth Quintana Bances",
-      role:   "Cliente",
-      avatar: "/ELITA.jpg",
-      text:   "El sistema me permitió tener un control real de mi inventario y mis ventas. Ahora puedo visualizar ingresos, costos y stock en tiempo real, lo que me ayuda a tomar decisiones más acertadas. He reducido errores y optimizado la gestión de mi negocio.",
-    },
-  ];
-
-  const [ref, inView] = useScrollReveal();
-
-  return (
-    <section id="testimonials" className="py-16" style={{ backgroundColor: "var(--bg-sec)" }}>
-      <div className="mx-auto max-w-6xl px-4">
-        <motion.h2
-          ref={ref}
-          variants={fadeUp}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="text-center text-4xl font-extrabold sm:text-5xl"
-          style={{ color: "var(--text)" }}
-        >
-          Testimonios
-        </motion.h2>
-
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="mt-10 grid gap-5 lg:grid-cols-3"
-        >
-          {items.map((t) => (
-            <motion.div
-              key={t.name}
-              variants={scaleIn}
-              whileHover={{ y: -7, transition: { duration: 0.2 } }}
-              className="rounded-3xl p-7 backdrop-blur-xl"
-              style={S.card}
-            >
-              <div className="flex items-center gap-4">
-                <img
-                  src={t.avatar}
-                  alt={t.name}
-                  className="h-14 w-14 rounded-full object-cover"
-                  style={{ border: "1px solid var(--border-st)", boxShadow: "0 0 24px var(--glow-avatar)" }}
-                />
-                <div>
-                  <div className="text-sm font-bold" style={{ color: "var(--text)" }}>{t.name}</div>
-                  <div className="text-xs" style={{ color: "var(--accent)" }}>{t.role}</div>
-                </div>
-              </div>
-              <p className="mt-5 text-sm leading-relaxed" style={{ color: "var(--text-3)" }}>"{t.text}"</p>
-              <Stars />
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
   );
 }
 
