@@ -13,13 +13,11 @@ import {
   Mail,
   Phone,
   MapPin,
-  Sun,
-  Moon,
 } from "lucide-react";
 
 const navItems = [
   { id: "home",         label: "Inicio"      },
-  { id: "education",    label: "Educacion"   },
+  { id: "education",    label: "Educación"   },
   { id: "services",     label: "Servicios"   },
   { id: "stack",        label: "Stack"       },
   { id: "contact",      label: "Contacto"    },
@@ -36,33 +34,33 @@ const S = {
 
 /* ── Animation variants ─────────────────────────────── */
 const fadeUp = {
-  hidden:  { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+  hidden:  { opacity: 0, y: 44 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.78, ease: [0.22, 1, 0.36, 1] } },
 };
 
 const fadeIn = {
   hidden:  { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.45 } },
+  visible: { opacity: 1, transition: { duration: 0.5 } },
 };
 
 const slideFromLeft = {
-  hidden:  { opacity: 0, x: -44 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+  hidden:  { opacity: 0, x: -56 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] } },
 };
 
 const slideFromRight = {
-  hidden:  { opacity: 0, x: 44 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+  hidden:  { opacity: 0, x: 56 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] } },
 };
 
 const scaleIn = {
-  hidden:  { opacity: 0, scale: 0.92 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } },
+  hidden:  { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
 };
 
 const staggerContainer = {
   hidden:  {},
-  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+  visible: { transition: { staggerChildren: 0.11, delayChildren: 0.08 } },
 };
 
 const staggerPills = {
@@ -81,20 +79,6 @@ function useScrollReveal(margin = "-80px") {
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeId, setActiveId] = useState("home");
-
-  const [theme, setTheme] = useState(() => {
-    if (typeof localStorage !== "undefined") {
-      return localStorage.getItem("theme") || "dark";
-    }
-    return "dark";
-  });
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
 
   const links = {
     linkedin:  "https://www.linkedin.com/in/bernabe-bryan-sober%C3%B3n-quintana-195437307/",
@@ -128,7 +112,7 @@ export default function App() {
 
   return (
     <div
-      className="min-h-screen selection:bg-amber-400/30 selection:text-white"
+      className="min-h-screen selection:bg-cyan-400/30 selection:text-white"
       style={{ backgroundColor: "var(--bg)", color: "var(--text)" }}
     >
       <Header
@@ -136,8 +120,6 @@ export default function App() {
         setMenuOpen={setMenuOpen}
         activeId={activeId}
         onNav={scrollTo}
-        theme={theme}
-        toggleTheme={toggleTheme}
       />
 
       <main className="pt-14">
@@ -145,7 +127,7 @@ export default function App() {
         <Education />
         <Services />
         <Stack />
-        <Contact />
+        <Contact links={links} />
       </main>
 
       <Footer links={links} onNav={scrollTo} />
@@ -161,7 +143,7 @@ export default function App() {
 }
 
 /* ── HEADER ─────────────────────────────────────────── */
-function Header({ menuOpen, setMenuOpen, activeId, onNav, theme, toggleTheme }) {
+function Header({ menuOpen, setMenuOpen, activeId, onNav }) {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
@@ -173,99 +155,65 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav, theme, toggleTheme }) 
         style={{ scaleX, backgroundColor: "var(--accent)" }}
       />
 
-      <div className="mx-auto max-w-6xl px-4">
-        <div
-          className="mt-3 flex items-center justify-between rounded-2xl px-4 py-3 backdrop-blur-xl"
-          style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-navbar)" }}
-        >
+      {/* Full-width flat bar */}
+      <div
+        className="backdrop-blur-xl"
+        style={{ borderBottom: "1px solid var(--border)", backgroundColor: "var(--bg-navbar)" }}
+      >
+        <div className="mx-auto max-w-7xl px-6 h-14 flex items-center justify-between">
+
           {/* Logo */}
-          <button onClick={() => onNav("home")} className="group flex items-center gap-3 text-left" aria-label="Ir al inicio">
-            {/* Logo image */}
-            <motion.div
-              className="relative flex-shrink-0"
-              whileHover={{ scale: 1.08 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            >
+          <button onClick={() => onNav("home")} className="flex items-center gap-3 text-left shrink-0" aria-label="Ir al inicio">
+            <motion.div whileHover={{ scale: 1.08 }} transition={{ type: "spring", stiffness: 300, damping: 20 }}>
               <div
-                className="h-9 w-9 overflow-hidden rounded-xl"
-                style={{
-                  border: "1px solid var(--border-st)",
-                  boxShadow: "0 0 14px var(--glow-avatar)",
-                  padding: "2px",
-                  backgroundColor: "var(--bg-pill)",
-                }}
+                className="h-8 w-8 overflow-hidden rounded-lg"
+                style={{ border: "1px solid var(--border-st)", boxShadow: "0 0 12px var(--glow-avatar)", backgroundColor: "var(--bg-pill)" }}
               >
-                <img
-                  src="/LOGO%20BRYANDEV_001.png"
-                  alt="BryanDev logo"
-                  className="h-full w-full rounded-lg object-contain"
-                />
+                <img src="/LOGO%20BRYANDEV_001.png" alt="BryanDev logo" className="h-full w-full object-contain" />
               </div>
             </motion.div>
-
-            {/* Text */}
             <div className="flex flex-col leading-none">
-              <span className="text-base font-extrabold tracking-wide" style={{ color: "var(--text)" }}>
-                PORTAFOLIO <span className="text-glow" style={{ color: "var(--accent)" }}>BRYAN</span>
+              <span className="text-sm font-extrabold tracking-wide" style={{ color: "var(--text)" }}>
+                Bryan <span className="text-glow" style={{ color: "var(--accent)" }}>Soberón</span>
               </span>
-              <span
-                className="mt-[2px] hidden text-[10px] font-semibold tracking-widest uppercase sm:block"
-                style={{ color: "var(--accent)", opacity: 0.7 }}
-              >
-                BRYANDEV_333
+              <span className="hidden text-[9px] font-semibold tracking-[0.2em] uppercase sm:block" style={{ color: "var(--accent)", opacity: 0.6 }}>
+                Full-Stack Dev
               </span>
             </div>
           </button>
 
-          {/* Desktop nav */}
-          <nav className="hidden items-center gap-1 md:flex">
+          {/* Desktop nav – underline indicator */}
+          <nav className="hidden items-center gap-7 md:flex">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => onNav(item.id)}
-                className="rounded-full px-4 py-2 text-sm font-medium transition"
-                style={activeId === item.id ? S.activeBg : { backgroundColor: "transparent" }}
-                onMouseEnter={(e) => { if (activeId !== item.id) e.currentTarget.style.backgroundColor = "var(--bg-pill)"; }}
-                onMouseLeave={(e) => { if (activeId !== item.id) e.currentTarget.style.backgroundColor = "transparent"; }}
+                className="relative pb-0.5 text-sm font-medium transition-colors"
+                style={{ color: activeId === item.id ? "var(--accent)" : "var(--text-3)" }}
+                onMouseEnter={(e) => { if (activeId !== item.id) e.currentTarget.style.color = "var(--text)"; }}
+                onMouseLeave={(e) => { if (activeId !== item.id) e.currentTarget.style.color = "var(--text-3)"; }}
               >
-                <span style={activeId === item.id ? { color: "var(--accent)" } : { color: "var(--text-3)" }}>
-                  {item.label}
-                </span>
+                {item.label}
+                {activeId === item.id && (
+                  <motion.span
+                    layoutId="nav-underline"
+                    className="absolute -bottom-0.5 left-0 right-0 h-[2px] rounded-full"
+                    style={{ backgroundColor: "var(--accent)" }}
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
               </button>
             ))}
           </nav>
 
-          {/* Right side */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={toggleTheme}
-              aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full transition hover:scale-110"
-              style={{ border: "1px solid var(--border-md)", backgroundColor: "var(--bg-pill)", color: "var(--accent)" }}
-              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "var(--bg-pill-hover)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "var(--bg-pill)"; }}
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.span
-                  key={theme}
-                  initial={{ rotate: -90, opacity: 0, scale: 0.6 }}
-                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                  exit={{ rotate: 90, opacity: 0, scale: 0.6 }}
-                  transition={{ duration: 0.22 }}
-                  className="flex"
-                >
-                  {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-                </motion.span>
-              </AnimatePresence>
-            </button>
-
+          {/* Right */}
+          <div className="flex items-center gap-2 shrink-0">
             {/* Mobile hamburger */}
-            <button
-              className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition md:hidden"
-              style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-pill)", color: "var(--text-2)" }}
+            <motion.button
+              className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm md:hidden"
+              style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-pill)", color: "var(--text-3)" }}
               onClick={() => setMenuOpen((v) => !v)}
-              aria-label="Abrir menú"
-              aria-expanded={menuOpen}
+              whileTap={{ scale: 0.94 }}
             >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.span
@@ -273,49 +221,47 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav, theme, toggleTheme }) 
                   initial={{ rotate: -90, opacity: 0 }}
                   animate={{ rotate: 0, opacity: 1 }}
                   exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.18 }}
+                  transition={{ duration: 0.16 }}
                   className="flex"
                 >
-                  {menuOpen ? <X size={18} /> : <Menu size={18} />}
+                  {menuOpen ? <X size={16} /> : <Menu size={16} />}
                 </motion.span>
               </AnimatePresence>
-              <span>Menu</span>
-            </button>
+            </motion.button>
           </div>
         </div>
-
-        {/* Mobile menu with AnimatePresence */}
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0, y: -8 }}
-              animate={{ opacity: 1, height: "auto", y: 0 }}
-              exit={{ opacity: 0, height: 0, y: -8 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
-              className="mt-2 overflow-hidden rounded-2xl backdrop-blur-xl md:hidden"
-              style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-navbar)" }}
-            >
-              <div className="p-2">
-                {navItems.map((item, i) => (
-                  <motion.button
-                    key={item.id}
-                    initial={{ opacity: 0, x: -14 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.045, duration: 0.2 }}
-                    onClick={() => onNav(item.id)}
-                    className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-medium"
-                    style={{ backgroundColor: activeId === item.id ? "var(--bg-active)" : "transparent" }}
-                  >
-                    <span style={activeId === item.id ? { color: "var(--accent)" } : { color: "var(--text-3)" }}>
-                      {item.label}
-                    </span>
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="overflow-hidden backdrop-blur-xl md:hidden"
+            style={{ borderBottom: "1px solid var(--border)", backgroundColor: "var(--bg-navbar)" }}
+          >
+            <div className="mx-auto max-w-7xl px-6 py-3 flex flex-col gap-1">
+              {navItems.map((item, i) => (
+                <motion.button
+                  key={item.id}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.04, duration: 0.18 }}
+                  onClick={() => onNav(item.id)}
+                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium"
+                  style={{ backgroundColor: activeId === item.id ? "var(--bg-active)" : "transparent", color: activeId === item.id ? "var(--accent)" : "var(--text-3)" }}
+                >
+                  {activeId === item.id && <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ backgroundColor: "var(--accent)" }} />}
+                  {item.label}
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
@@ -323,12 +269,47 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav, theme, toggleTheme }) 
 /* ── HOME ────────────────────────────────────────────── */
 function Home({ links }) {
   return (
-    <section id="home" className="mx-auto max-w-6xl px-4 py-10 md:py-20">
-      <div className="grid items-center gap-8 md:grid-cols-2">
+    <section
+      id="home"
+      className="relative overflow-hidden"
+      style={{ minHeight: "calc(100dvh - 56px)" }}
+    >
+      {/* ── Mobile-only: photo as absolute bg ── */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 lg:hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.3, delay: 0.35 }}
+      >
+        <img
+          src="/BRYAN-HOME.png"
+          alt=""
+          className="absolute bottom-0 right-0 h-[78%] w-auto object-contain object-bottom"
+          style={{ opacity: 0.5 }}
+        />
+        {/* Gradient: keeps left side readable */}
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(100deg, var(--bg) 32%, rgba(4,13,24,0.82) 58%, rgba(4,13,24,0.25) 100%)" }}
+        />
+        {/* Bottom fade */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[28%]"
+          style={{ background: "linear-gradient(to top, var(--bg), transparent)" }}
+        />
+      </motion.div>
 
-        {/* Left col – stagger on mount */}
+      {/* ── Grid ── */}
+      <div
+        className="grid grid-cols-1 lg:grid-cols-2"
+        style={{ minHeight: "calc(100dvh - 56px)" }}
+      >
+        {/* LEFT – Content */}
         <motion.div
-          className="relative min-w-0 overflow-hidden"
+          className="relative z-10 flex flex-col justify-start lg:justify-center
+                     px-6 sm:px-10 lg:px-14 xl:px-20
+                     pt-10 pb-14 lg:py-0 min-w-0"
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
@@ -337,97 +318,124 @@ function Home({ links }) {
             <BadgeRow />
           </motion.div>
 
-          <motion.div
+          <motion.p
             variants={fadeUp}
-            className="mt-3 text-base sm:text-xl flex flex-wrap items-baseline gap-x-2 gap-y-1 overflow-hidden min-w-0"
-            style={{ color: "var(--text-2)" }}
+            className="mt-8 text-xs font-semibold tracking-[0.28em] uppercase"
+            style={{ color: "var(--text-4)" }}
           >
-            <span style={{ color: "var(--text-3)" }}>Soy</span>
-            <span className="typing" style={{ color: "var(--accent)" }} aria-label="Bachiller en Ingenieria de Sistemas">
+            Hola, soy
+          </motion.p>
+
+          <motion.h1
+            className="mt-1 font-extrabold tracking-tight leading-[1.02]"
+            style={{ color: "var(--text)", fontSize: "clamp(2.8rem, 7vw, 5.5rem)" }}
+          >
+            <motion.span className="block" variants={fadeUp}>Bryan</motion.span>
+            <motion.span
+              className="block text-glow"
+              style={{ color: "var(--accent)" }}
+              variants={{
+                hidden:  { opacity: 0, x: -30 },
+                visible: { opacity: 1, x: 0, transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.08 } },
+              }}
+            >
+              Soberón
+            </motion.span>
+          </motion.h1>
+
+          <motion.div variants={fadeUp} className="mt-3 overflow-hidden min-w-0">
+            <span className="typing text-base sm:text-lg font-medium" style={{ color: "var(--text-3)" }}>
               Bachiller en Ingenieria de Sistemas
             </span>
           </motion.div>
 
           <motion.p
             variants={fadeUp}
-            className="mt-5 max-w-xl text-sm leading-relaxed sm:text-base"
-            style={{ color: "var(--text-3)" }}
+            className="mt-5 max-w-[420px] text-sm leading-relaxed sm:text-[0.95rem]"
+            style={{ color: "var(--text-4)" }}
           >
-            Soy Bernabé Bryan Soberón Quintana. Me enfoco en desarrollo web (Front/Back),
-            analítica de datos y gestión de proyectos tecnológicos con enfoque ágil.
-            Me interesa construir soluciones escalables, limpias y medibles.
+            Desarrollo web (Front/Back), analítica de datos y gestión de proyectos con enfoque ágil.
           </motion.p>
 
-          <motion.div variants={fadeUp} className="mt-6 flex flex-wrap items-center gap-3">
+          {/* CTAs */}
+          <motion.div variants={fadeUp} className="mt-7 flex flex-wrap items-center gap-3">
             <motion.a
-              className="glow inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black"
+              className="glow inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-black"
               style={{ backgroundColor: "var(--accent)" }}
               href={links.cv}
               download="CV_Bryan_Soberon.pdf"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.06, boxShadow: "0 0 32px rgba(34,211,238,0.6)" }}
+              whileTap={{ scale: 0.96 }}
             >
-              <Download size={18} />
-              CV
+              <Download size={16} />
+              Descargar CV
             </motion.a>
             <motion.a
-              className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold"
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold"
               style={{ ...S.pill, color: "var(--text)" }}
               href="#contact"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
             >
-              <Send size={18} />
+              <Send size={16} />
               Contactar
             </motion.a>
           </motion.div>
 
-          <motion.div variants={fadeUp} className="mt-7 flex items-center gap-3">
-            <SocialIcon href={links.linkedin}  label="LinkedIn"  icon={<Linkedin  size={18} />} />
-            <SocialIcon href={links.github}    label="GitHub"    icon={<Github    size={18} />} />
-            <SocialIcon href={links.instagram} label="Instagram" icon={<Instagram size={18} />} />
-            <SocialIcon href={links.twitter}   label="Twitter"   icon={<Twitter   size={18} />} />
+          {/* Social */}
+          <motion.div variants={fadeUp} className="mt-6 flex items-center gap-3">
+            <SocialIcon href={links.linkedin}  label="LinkedIn"  icon={<Linkedin  size={17} />} />
+            <SocialIcon href={links.github}    label="GitHub"    icon={<Github    size={17} />} />
+            <SocialIcon href={links.instagram} label="Instagram" icon={<Instagram size={17} />} />
+            <SocialIcon href={links.twitter}   label="Twitter"   icon={<Twitter   size={17} />} />
           </motion.div>
 
+          {/* Stats */}
+          <motion.div variants={fadeUp} className="mt-9 flex items-center gap-5">
+            {[
+              { n: "10+", label: "Proyectos" },
+              { n: "4+",  label: "Stacks"    },
+            ].map(({ n, label }, i) => (
+              <React.Fragment key={label}>
+                {i > 0 && <div className="h-9 w-px rounded-full" style={{ backgroundColor: "var(--border-md)" }} />}
+                <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.18 }}>
+                  <div className="text-2xl font-extrabold leading-none" style={{ color: "var(--accent)" }}>{n}</div>
+                  <div className="mt-0.5 text-[11px] font-medium" style={{ color: "var(--text-4)" }}>{label}</div>
+                </motion.div>
+              </React.Fragment>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        {/* RIGHT – Desktop photo */}
+        <div className="hidden lg:block relative overflow-hidden">
           <motion.div
-            variants={staggerContainer}
-            className="mt-8 grid grid-cols-3 gap-2 w-full max-w-lg"
+            className="absolute inset-0"
+            initial={{ clipPath: "inset(0 100% 0 0)" }}
+            animate={{ clipPath: "inset(0 0% 0 0)" }}
+            transition={{ duration: 1.05, ease: [0.76, 0, 0.24, 1], delay: 0.32 }}
           >
-            <motion.div variants={fadeUp}><Stat label="Projects" value="10+" /></motion.div>
-            <motion.div variants={fadeUp}><Stat label="Stack"    value="Django • NextJS • Vue" /></motion.div>
-            <motion.div variants={fadeUp}><Stat label="Focus"    value="Web • Data • Dev" /></motion.div>
+            <motion.img
+              src="/BRYAN-HOME.png"
+              alt="Bryan Soberón"
+              className="w-full h-full object-contain object-bottom"
+              style={{ paddingTop: "2rem" }}
+              initial={{ scale: 1.06 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
+            />
+            {/* Blend left – extends -4px to cover any subpixel seam */}
+            <div
+              className="absolute inset-y-0 w-[44%]"
+              style={{ left: "-4px", background: "linear-gradient(to right, var(--bg) 0%, transparent 100%)" }}
+            />
+            {/* Blend bottom */}
+            <div
+              className="absolute bottom-0 left-0 right-0 h-[20%]"
+              style={{ background: "linear-gradient(to top, var(--bg) 0%, transparent 100%)" }}
+            />
           </motion.div>
-        </motion.div>
-
-        {/* Right col – Spline, slide in from right */}
-        <motion.div
-          initial={{ opacity: 0, x: 56, scale: 0.96 }}
-          animate={{ opacity: 1, x: 0, scale: 1 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
-          className="relative h-[280px] sm:h-[420px] md:h-[520px] overflow-hidden rounded-3xl"
-        >
-          <div className="pointer-events-none absolute inset-0 z-0">
-            <Spline scene="https://prod.spline.design/Pbg4uemZbXh3i3ec/scene.splinecode" />
-          </div>
-
-          <div
-            className="pointer-events-none absolute bottom-0 left-0 right-0 z-10"
-            style={{ height: "120px", background: "var(--spline-mask)" }}
-          />
-
-          <a
-            href={links.github}
-            target="_blank"
-            rel="noreferrer"
-            className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 rounded-full px-7 py-3 text-sm font-semibold text-black flex items-center gap-2 transition hover:scale-[1.03]"
-            style={{ background: "var(--github-btn)", boxShadow: "var(--github-glow)" }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 .5C5.7.5.5 5.8.5 12.3c0 5.2 3.4 9.6 8.1 11.2.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1.8-.8 1.5-1.1.3-.9 1-1.5 1.8-1.7-2.6-.3-5.3-1.3-5.3-5.9 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.9 1.2 1.9 1.2 3.2 0 4.6-2.7 5.6-5.3 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.7-1.6 8.1-6 8.1-11.2C23.5 5.8 18.3.5 12 .5z" />
-            </svg>
-            Ir a mi GitHub
-          </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -460,14 +468,6 @@ function SocialIcon({ href, label, icon }) {
   );
 }
 
-function Stat({ label, value }) {
-  return (
-    <div className="rounded-2xl p-3 sm:p-4" style={S.pill}>
-      <div className="text-sm sm:text-base font-bold break-words leading-snug" style={{ color: "var(--accent)" }}>{value}</div>
-      <div className="mt-1 text-xs" style={{ color: "var(--text-4)" }}>{label}</div>
-    </div>
-  );
-}
 
 /* ── EDUCATION ───────────────────────────────────────── */
 function Education() {
@@ -709,27 +709,8 @@ function StackCard({ cat, delay }) {
   );
 }
 
-function Stars() {
-  return (
-    <div className="mt-5 flex gap-1" aria-label="5 estrellas">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <motion.span
-          key={i}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.4 + i * 0.07, type: "spring", stiffness: 300, damping: 15 }}
-          className="text-lg"
-          style={{ color: "var(--accent)" }}
-        >
-          ★
-        </motion.span>
-      ))}
-    </div>
-  );
-}
-
 /* ── CONTACT ─────────────────────────────────────────── */
-function Contact() {
+function Contact({ links }) {
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
   const FORMSPREE = import.meta.env.VITE_FORMSPREE_URL;
   const [status,   setStatus]   = useState("idle");
@@ -781,31 +762,61 @@ function Contact() {
         </motion.h2>
 
         <div className="mt-10 grid gap-8 md:grid-cols-2">
-          {/* Info */}
+          {/* Left – Spline + contact info */}
           <motion.div
             initial={{ opacity: 0, x: -44 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.18 }}
-            className="rounded-3xl p-7 backdrop-blur-xl"
-            style={S.card}
+            className="flex flex-col gap-4"
           >
-            <div className="flex items-center gap-4">
-              <img
-                src="/LOGO BRYANDEV_001.png" alt="Bryan"
-                className="h-20 w-20 rounded-full object-cover"
-                style={{ border: "1px solid var(--border-st)", boxShadow: "0 0 30px var(--glow-avatar)" }}
-              />
-              <div>
-                <div className="text-lg font-bold" style={{ color: "var(--text)" }}>Bryan Soberón</div>
-                <div className="text-sm" style={{ color: "var(--accent)" }}>Systems Engineer • Full‑Stack</div>
+            
+
+            {/* Contact info */}
+            <div
+              className="rounded-3xl p-6"
+              style={S.card}
+            >
+              <div className="text-base font-bold" style={{ color: "var(--text)" }}>Bryan Soberón</div>
+              <div className="text-sm mb-4" style={{ color: "var(--accent)" }}>Systems Engineer • Full‑Stack</div>
+              <div className="space-y-3 text-sm" style={{ color: "var(--text-3)" }}>
+                <InfoRow icon={<Mail  size={15} />} text="bryansoberonq@gmail.com" />
+                <InfoRow icon={<Phone size={15} />} text="+51 933 698 031" />
+                <InfoRow icon={<MapPin size={15} />} text="Perú" />
               </div>
             </div>
-            <div className="mt-6 space-y-3 text-sm" style={{ color: "var(--text-3)" }}>
-              <InfoRow icon={<Mail  size={16} />} text="bryansoberonq@gmail.com" />
-              <InfoRow icon={<Phone size={16} />} text="+51 933 698 031" />
-              <InfoRow icon={<MapPin size={16} />} text="Perú" />
+            {/* Spline */}
+            <div
+              className="relative overflow-hidden rounded-3xl h-[320px] sm:h-[380px]"
+              style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-card)" }}
+            >
+              <div
+                className="pointer-events-none absolute z-0"
+                style={{
+                  inset: "-40px -20px -20px -20px", // expande el área visible hacia arriba
+                  transform: "translateY(-30px) scale(1.08)", // sube el muñeco y lo agranda ligeramente
+                  transformOrigin: "center top",
+                }}
+              >
+                <Spline scene="https://prod.spline.design/Pbg4uemZbXh3i3ec/scene.splinecode" />
+              </div>
+              <div
+                className="pointer-events-none absolute bottom-0 left-0 right-0 z-10"
+                style={{ height: "90px", background: "var(--spline-mask)" }}
+              />
+              <a href={links.github}
+                target="_blank"
+                rel="noreferrer"
+                className="absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full px-6 py-2.5 text-sm font-semibold text-black flex items-center gap-2 transition hover:scale-[1.03] whitespace-nowrap"
+                style={{ background: "var(--github-btn)", boxShadow: "var(--github-glow)" }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 .5C5.7.5.5 5.8.5 12.3c0 5.2 3.4 9.6 8.1 11.2.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1.8-.8 1.5-1.1.3-.9 1-1.5 1.8-1.7-2.6-.3-5.3-1.3-5.3-5.9 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.9 1.2 1.9 1.2 3.2 0 4.6-2.7 5.6-5.3 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.7-1.6 8.1-6 8.1-11.2C23.5 5.8 18.3.5 12 .5z" />
+                </svg>
+                Ir a mi GitHub
+              </a>
             </div>
           </motion.div>
+
 
           {/* Form */}
           <motion.form

@@ -14,95 +14,49 @@ body {
 /* ── DARK THEME (default) ─────────────────────────── */
 :root {
   /* Backgrounds */
-  --bg:            #07090f;
-  --bg-sec:        rgba(15, 21, 40, 0.60);
-  --bg-card:       rgba(7, 9, 15, 0.72);
-  --bg-input:      rgba(7, 9, 15, 0.60);
-  --bg-navbar:     rgba(7, 9, 15, 0.82);
-  --bg-pill:       rgba(201, 168, 76, 0.06);
-  --bg-pill-hover: rgba(201, 168, 76, 0.14);
-  --bg-active:     rgba(201, 168, 76, 0.12);
+  --bg:            #040d18;
+  --bg-sec:        rgba(4, 18, 38, 0.72);
+  --bg-card:       rgba(4, 14, 26, 0.85);
+  --bg-input:      rgba(4, 14, 26, 0.65);
+  --bg-navbar:     rgba(4, 10, 20, 0.88);
+  --bg-pill:       rgba(34, 211, 238, 0.06);
+  --bg-pill-hover: rgba(34, 211, 238, 0.13);
+  --bg-active:     rgba(34, 211, 238, 0.11);
 
   /* Text */
-  --text:   #f0ebe3;
-  --text-2: #e8e3dc;
-  --text-3: #c8c3bb;
-  --text-4: #9a9490;
-  --text-5: #6b6560;
+  --text:   #e8f4f8;
+  --text-2: #cce8f0;
+  --text-3: #8bbac8;
+  --text-4: #567888;
+  --text-5: #2e5060;
 
-  /* Accent (gold champagne) */
-  --accent: #c9a84c;
-
-  /* Borders */
-  --border:    rgba(201, 168, 76, 0.15);
-  --border-md: rgba(201, 168, 76, 0.20);
-  --border-st: rgba(201, 168, 76, 0.26);
-  --border-in: rgba(201, 168, 76, 0.34); /* inset nav active */
-  --divider:   rgba(201, 168, 76, 0.12);
-
-  /* Glows */
-  --glow-btn:    0 0 18px rgba(201, 168, 76, 0.50), 0 0 40px rgba(201, 168, 76, 0.28);
-  --glow-text:   rgba(201, 168, 76, 0.65);
-  --glow-ring:   rgba(201, 168, 76, 0.55);
-  --glow-avatar: rgba(201, 168, 76, 0.20);
-  --glow-card:   0 0 24px rgba(201, 168, 76, 0.14);
-
-  /* Spline overlay */
-  --spline-mask: linear-gradient(to top, #07090f 55%, rgba(7, 9, 15, 0.85) 75%, transparent 100%);
-  --github-btn:  linear-gradient(90deg, #c9a84c, #e8c878);
-  --github-glow: 0 0 30px rgba(201, 168, 76, 0.55);
-
-  /* Radial bg glow */
-  --radial-bg:
-    radial-gradient(900px 450px at 10% 10%, rgba(201, 168, 76, 0.10), transparent 60%),
-    radial-gradient(700px 350px at 90% 20%, rgba(201, 168, 76, 0.05), transparent 55%),
-    radial-gradient(900px 450px at 30% 95%, rgba(15, 21, 40, 0.80), transparent 60%);
-}
-
-/* ── LIGHT THEME ──────────────────────────────────── */
-[data-theme="light"] {
-  /* Backgrounds */
-  --bg:            #faf8f3;
-  --bg-sec:        rgba(242, 237, 226, 0.80);
-  --bg-card:       rgba(255, 253, 248, 0.92);
-  --bg-input:      rgba(255, 255, 255, 0.88);
-  --bg-navbar:     rgba(250, 248, 243, 0.90);
-  --bg-pill:       rgba(154, 111, 16, 0.06);
-  --bg-pill-hover: rgba(154, 111, 16, 0.14);
-  --bg-active:     rgba(154, 111, 16, 0.12);
-
-  /* Text */
-  --text:   #18140d;
-  --text-2: #2d2820;
-  --text-3: #5a5048;
-  --text-4: #8a8078;
-  --text-5: #a09890;
-
-  /* Accent (darker gold para contraste) */
-  --accent: #9a6f10;
+  /* Accent – cyan */
+  --accent: #22d3ee;
 
   /* Borders */
-  --border:    rgba(154, 111, 16, 0.20);
-  --border-md: rgba(154, 111, 16, 0.28);
-  --border-st: rgba(154, 111, 16, 0.38);
-  --border-in: rgba(154, 111, 16, 0.36);
-  --divider:   rgba(154, 111, 16, 0.15);
+  --border:    rgba(34, 211, 238, 0.14);
+  --border-md: rgba(34, 211, 238, 0.22);
+  --border-st: rgba(34, 211, 238, 0.30);
+  --border-in: rgba(34, 211, 238, 0.40);
+  --divider:   rgba(34, 211, 238, 0.10);
 
   /* Glows */
-  --glow-btn:    0 0 18px rgba(154, 111, 16, 0.38), 0 0 40px rgba(154, 111, 16, 0.20);
-  --glow-text:   rgba(154, 111, 16, 0.55);
-  --glow-ring:   rgba(154, 111, 16, 0.40);
-  --glow-avatar: rgba(154, 111, 16, 0.16);
-  --glow-card:   0 0 24px rgba(154, 111, 16, 0.10);
+  --glow-btn:    0 0 20px rgba(34, 211, 238, 0.50), 0 0 44px rgba(34, 211, 238, 0.24);
+  --glow-text:   rgba(34, 211, 238, 0.70);
+  --glow-ring:   rgba(34, 211, 238, 0.50);
+  --glow-avatar: rgba(34, 211, 238, 0.20);
+  --glow-card:   0 0 24px rgba(34, 211, 238, 0.12);
 
-  --spline-mask: linear-gradient(to top, #faf8f3 55%, rgba(250, 248, 243, 0.85) 75%, transparent 100%);
-  --github-btn:  linear-gradient(90deg, #9a6f10, #c49020);
-  --github-glow: 0 0 30px rgba(154, 111, 16, 0.45);
+  /* Masks & buttons */
+  --spline-mask: linear-gradient(to top, #040d18 55%, rgba(4, 13, 24, 0.85) 75%, transparent 100%);
+  --github-btn:  linear-gradient(90deg, #22d3ee, #06b6d4);
+  --github-glow: 0 0 30px rgba(34, 211, 238, 0.55);
 
+  /* Radial bg */
   --radial-bg:
-    radial-gradient(900px 450px at 10% 10%, rgba(154, 111, 16, 0.08), transparent 60%),
-    radial-gradient(700px 350px at 90% 20%, rgba(154, 111, 16, 0.04), transparent 55%),
-    radial-gradient(900px 450px at 30% 95%, rgba(242, 237, 226, 0.70), transparent 60%);
+    radial-gradient(900px 500px at 15% 20%, rgba(34, 211, 238, 0.07), transparent 60%),
+    radial-gradient(700px 400px at 85% 15%, rgba(6, 182, 212, 0.04), transparent 55%),
+    radial-gradient(800px 600px at 50% 100%, rgba(4, 18, 38, 0.90), transparent 65%);
 }
 
 /* ── Keyframes ────────────────────────────────────── */
@@ -127,10 +81,10 @@ body {
 }
 
 .text-glow {
-  text-shadow: 0 0 18px var(--glow-text);
+  text-shadow: 0 0 22px var(--glow-text);
 }
 
-/* === TYPING SIN SALTO === */
+/* === TYPING === */
 .typing-wrap {
   display: inline-block;
   max-width: 100%;
@@ -159,7 +113,3 @@ body {
   animation: caret .75s step-end infinite;
 }
 
-/* ── Theme transition ─────────────────────────────── */
-*, *::before, *::after {
-  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
-}
