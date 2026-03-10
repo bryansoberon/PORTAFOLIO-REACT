@@ -318,7 +318,7 @@ function Home({ links }) {
           >
             <span style={{ color: "var(--text-3)" }}>Soy</span>
             <span className="typing" style={{ color: "var(--accent)" }} aria-label="Full-Stack Developer">
-              Full-Stack Developer
+              Bachiller en Ingenieria de Sistemas
             </span>
           </motion.div>
 
@@ -342,7 +342,7 @@ function Home({ links }) {
               whileTap={{ scale: 0.97 }}
             >
               <Download size={18} />
-              Descargar CV
+              CV
             </motion.a>
             <motion.a
               className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold"
@@ -446,8 +446,8 @@ function Stat({ label, value }) {
 /* ── EDUCATION ───────────────────────────────────────── */
 function Education() {
   const items = [
-    { year: "2017 – 2019",     title: "Colegio",                   desc: "Secundaria 3ero a 5to - IEP Sagrado Divino Maestro" },
-    { year: "2021 – 2025",     title: "Universidad",                desc: "Universidad Señor de Sipán - Ingeniería de Sistemas. Enfoque en desarrollo de software, arquitectura, analítica y gestión de proyectos." },
+    { year: "2017 – 2019", title: "Colegio Secundario", desc: "IEP Sagrado Divino Maestro - Secundaria 3ro a 5to" },
+    { year: "2021 – 2025", title: "Universidad", desc: "Universidad Señor de Sipán - Ingeniería de Sistemas. Enfoque en desarrollo de software, arquitectura, analítica y gestión de proyectos." },
     { year: "2025 – Sep a Dic", title: "Prácticas preprofesionales", desc: "Implementación de soluciones web, automatización y mejoras en procesos de negocio en Carlos Gabriel Transportes S.A.C." },
   ];
 
@@ -469,9 +469,14 @@ function Education() {
 
         <div className="relative mx-auto mt-12 max-w-4xl">
           <div className="absolute left-5 top-0 h-full w-[2px] sm:left-1/2 sm:-ml-[1px]" style={S.divider} />
-          <div className="space-y-7">
+          <div>
             {items.map((it, idx) => (
-              <TimelineItem key={it.year} item={it} side={idx % 2 === 0 ? "left" : "right"} />
+              <TimelineItem
+                key={it.year}
+                item={it}
+                side={idx % 2 === 0 ? "left" : "right"}
+                mt={idx === 0 ? "" : idx === 2 ? "mt-3" : "mt-7"}
+              />
             ))}
           </div>
         </div>
@@ -480,7 +485,7 @@ function Education() {
   );
 }
 
-function TimelineItem({ item, side }) {
+function TimelineItem({ item, side, mt = "" }) {
   const [ref, inView] = useScrollReveal("-40px");
   const isLeft = side === "left";
 
@@ -490,7 +495,7 @@ function TimelineItem({ item, side }) {
       variants={isLeft ? slideFromLeft : slideFromRight}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
-      className="relative flex items-start gap-4 sm:gap-0"
+      className={`relative flex items-start gap-4 sm:gap-0 ${mt}`}
     >
       <div
         className="relative z-10 mt-1 flex h-10 w-10 items-center justify-center rounded-full sm:absolute sm:left-1/2 sm:-ml-5"
