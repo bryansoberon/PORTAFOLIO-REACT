@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Spline from "@splinetool/react-spline";
-import { motion, AnimatePresence, useInView, useScroll, useSpring } from "framer-motion";
+import { motion, AnimatePresence, useInView, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   Github,
   Linkedin,
@@ -66,6 +66,17 @@ const staggerContainer = {
 const staggerPills = {
   hidden:  {},
   visible: { transition: { staggerChildren: 0.04, delayChildren: 0.2 } },
+};
+
+const blurUp = {
+  hidden:  { opacity: 0, y: 38, filter: "blur(10px)" },
+  visible: { opacity: 1, y: 0,  filter: "blur(0px)",
+             transition: { duration: 0.72, ease: [0.22, 1, 0.36, 1] } },
+};
+
+const staggerPost = {
+  hidden:  {},
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.82 } },
 };
 
 /* ── Hook scroll reveal ─────────────────────────────── */
@@ -268,8 +279,37 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav }) {
 
 /* ── HOME ────────────────────────────────────────────── */
 function Home({ links }) {
+  const sectionRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  const textY    = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const imageY   = useTransform(scrollYProgress, [0, 1], [0, 55]);
+  const fadeOut  = useTransform(scrollYProgress, [0, 0.5],  [1, 0]);
+
+  // Each icon has a unique Y + X drift → visible depth effect on scroll
+  const icon1Y   = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const icon1X   = useTransform(scrollYProgress, [0, 1], [0,  -35]);
+  const icon2Y   = useTransform(scrollYProgress, [0, 1], [0, -270]);
+  const icon2X   = useTransform(scrollYProgress, [0, 1], [0,   48]);
+  const icon3Y   = useTransform(scrollYProgress, [0, 1], [0, -145]);
+  const icon3X   = useTransform(scrollYProgress, [0, 1], [0,  -55]);
+  const icon4Y   = useTransform(scrollYProgress, [0, 1], [0, -230]);
+  const icon4X   = useTransform(scrollYProgress, [0, 1], [0,   40]);
+
+  const socialLinks = [
+    { href: links.linkedin,  label: "LinkedIn",  icon: <Linkedin  size={17} /> },
+    { href: links.github,    label: "GitHub",    icon: <Github    size={17} /> },
+    { href: links.instagram, label: "Instagram", icon: <Instagram size={17} /> },
+    { href: links.twitter,   label: "Twitter",   icon: <Twitter   size={17} /> },
+  ];
+
   return (
     <section
+      ref={sectionRef}
       id="home"
       className="relative overflow-hidden"
       style={{ minHeight: "calc(100dvh - 56px)" }}
@@ -286,158 +326,256 @@ function Home({ links }) {
           src="/BRYAN-HOME.png"
           alt=""
           className="absolute bottom-0 right-0 h-[78%] w-auto object-contain object-bottom"
-          style={{ opacity: 0.5 }}
+          style={{ opacity: 0.45 }}
         />
-        {/* Gradient: keeps left side readable */}
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(100deg, var(--bg) 32%, rgba(4,13,24,0.82) 58%, rgba(4,13,24,0.25) 100%)" }}
-        />
-        {/* Bottom fade */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-[28%]"
-          style={{ background: "linear-gradient(to top, var(--bg), transparent)" }}
-        />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(100deg, var(--bg) 32%, rgba(4,13,24,0.82) 58%, rgba(4,13,24,0.25) 100%)" }} />
+        <div className="absolute bottom-0 left-0 right-0 h-[28%]" style={{ background: "linear-gradient(to top, var(--bg), transparent)" }} />
       </motion.div>
 
       {/* ── Grid ── */}
-      <div
-        className="grid grid-cols-1 lg:grid-cols-2"
-        style={{ minHeight: "calc(100dvh - 56px)" }}
-      >
-        {/* LEFT – Content */}
-        <motion.div
-          className="relative z-10 flex flex-col justify-start lg:justify-center
-                     px-6 sm:px-10 lg:px-14 xl:px-20
-                     pt-10 pb-14 lg:py-0 min-w-0"
-          variants={staggerContainer}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.div variants={fadeUp}>
-            <BadgeRow />
-          </motion.div>
+      <div className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: "calc(100dvh - 56px)" }}>
 
-          <motion.p
-            variants={fadeUp}
-            className="mt-8 text-xs font-semibold tracking-[0.28em] uppercase"
-            style={{ color: "var(--text-4)" }}
-          >
-            Hola, soy
-          </motion.p>
+        {/* LEFT – Content with parallax */}
+        <div className="relative z-10 flex flex-col justify-start lg:justify-center
+                        px-6 sm:px-10 lg:px-14 xl:px-20
+                        pt-10 pb-14 lg:py-0 min-w-0">
+          <motion.div style={{ y: textY, opacity: fadeOut }} className="flex flex-col">
 
-          <motion.h1
-            className="mt-1 font-extrabold tracking-tight leading-[1.02]"
-            style={{ color: "var(--text)", fontSize: "clamp(2.8rem, 7vw, 5.5rem)" }}
-          >
-            <motion.span className="block" variants={fadeUp}>Bryan</motion.span>
-            <motion.span
-              className="block text-glow"
-              style={{ color: "var(--accent)" }}
-              variants={{
-                hidden:  { opacity: 0, x: -30 },
-                visible: { opacity: 1, x: 0, transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.08 } },
-              }}
+            {/* Pre-heading group */}
+            <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="flex flex-col">
+              <motion.div variants={blurUp}>
+                <BadgeRow />
+              </motion.div>
+              <motion.p
+                variants={blurUp}
+                className="mt-8 text-xs font-semibold tracking-[0.28em] uppercase"
+                style={{ color: "var(--text-4)" }}
+              >
+                Hola, soy
+              </motion.p>
+            </motion.div>
+
+            {/* Heading – letter by letter */}
+            <h1
+              className="mt-1 font-extrabold tracking-tight leading-[1.02]"
+              style={{ fontSize: "clamp(2.8rem, 7vw, 5.5rem)", perspective: "600px" }}
             >
-              Soberón
-            </motion.span>
-          </motion.h1>
+              <LetterReveal word="Bryan" color="var(--text)"   delay={0.42} />
+              <LetterReveal word="Soberón" color="var(--accent)" delay={0.64} glow />
+            </h1>
 
-          <motion.div variants={fadeUp} className="mt-3 overflow-hidden min-w-0">
-            <span className="typing text-base sm:text-lg font-medium" style={{ color: "var(--text-3)" }}>
-              Bachiller en Ingenieria de Sistemas
-            </span>
+            {/* Post-heading group */}
+            <motion.div variants={staggerPost} initial="hidden" animate="visible" className="flex flex-col">
+
+              <motion.div variants={blurUp} className="mt-3 overflow-hidden min-w-0">
+                <span className="typing text-base sm:text-lg font-medium" style={{ color: "var(--text-3)" }}>
+                  Bachiller en Ingenieria de Sistemas
+                </span>
+              </motion.div>
+
+              <motion.p
+                variants={blurUp}
+                className="mt-5 max-w-[420px] text-sm leading-relaxed sm:text-[0.95rem]"
+                style={{ color: "var(--text-4)" }}
+              >
+                Desarrollo web (Front/Back), analítica de datos y gestión de proyectos con enfoque ágil.
+              </motion.p>
+
+              {/* CTAs */}
+              <motion.div variants={blurUp} className="mt-7 flex flex-wrap items-center gap-3">
+                <motion.a
+                  className="glow inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-black"
+                  style={{ backgroundColor: "var(--accent)" }}
+                  href={links.cv}
+                  download="CV_Bryan_Soberon.pdf"
+                  whileHover={{ scale: 1.06, boxShadow: "0 0 32px rgba(34,211,238,0.6)" }}
+                  whileTap={{ scale: 0.96 }}
+                >
+                  <Download size={16} />
+                  Descargar CV
+                </motion.a>
+                <motion.a
+                  className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold"
+                  style={{ ...S.pill, color: "var(--text)" }}
+                  href="#contact"
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.96 }}
+                >
+                  <Send size={16} />
+                  Contactar
+                </motion.a>
+              </motion.div>
+
+              {/* Mobile social row */}
+              <motion.div variants={blurUp} className="mt-6 flex items-center gap-3 lg:hidden">
+                {socialLinks.map(({ href, label, icon }) => (
+                  <SocialIcon key={label} href={href} label={label} icon={icon} />
+                ))}
+              </motion.div>
+
+              {/* Stats */}
+              <motion.div variants={blurUp} className="mt-9 flex items-center gap-5">
+                {[
+                  { n: "10+", label: "Proyectos" },
+                  { n: "4+",  label: "Stacks"    },
+                ].map(({ n, label }, i) => (
+                  <React.Fragment key={label}>
+                    {i > 0 && <div className="h-9 w-px rounded-full" style={{ backgroundColor: "var(--border-md)" }} />}
+                    <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.18 }}>
+                      <div className="text-2xl font-extrabold leading-none" style={{ color: "var(--accent)" }}>{n}</div>
+                      <div className="mt-0.5 text-[11px] font-medium" style={{ color: "var(--text-4)" }}>{label}</div>
+                    </motion.div>
+                  </React.Fragment>
+                ))}
+              </motion.div>
+
+            </motion.div>
           </motion.div>
+        </div>
 
-          <motion.p
-            variants={fadeUp}
-            className="mt-5 max-w-[420px] text-sm leading-relaxed sm:text-[0.95rem]"
-            style={{ color: "var(--text-4)" }}
-          >
-            Desarrollo web (Front/Back), analítica de datos y gestión de proyectos con enfoque ágil.
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div variants={fadeUp} className="mt-7 flex flex-wrap items-center gap-3">
-            <motion.a
-              className="glow inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-black"
-              style={{ backgroundColor: "var(--accent)" }}
-              href={links.cv}
-              download="CV_Bryan_Soberon.pdf"
-              whileHover={{ scale: 1.06, boxShadow: "0 0 32px rgba(34,211,238,0.6)" }}
-              whileTap={{ scale: 0.96 }}
-            >
-              <Download size={16} />
-              Descargar CV
-            </motion.a>
-            <motion.a
-              className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold"
-              style={{ ...S.pill, color: "var(--text)" }}
-              href="#contact"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.96 }}
-            >
-              <Send size={16} />
-              Contactar
-            </motion.a>
-          </motion.div>
-
-          {/* Social */}
-          <motion.div variants={fadeUp} className="mt-6 flex items-center gap-3">
-            <SocialIcon href={links.linkedin}  label="LinkedIn"  icon={<Linkedin  size={17} />} />
-            <SocialIcon href={links.github}    label="GitHub"    icon={<Github    size={17} />} />
-            <SocialIcon href={links.instagram} label="Instagram" icon={<Instagram size={17} />} />
-            <SocialIcon href={links.twitter}   label="Twitter"   icon={<Twitter   size={17} />} />
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div variants={fadeUp} className="mt-9 flex items-center gap-5">
-            {[
-              { n: "10+", label: "Proyectos" },
-              { n: "4+",  label: "Stacks"    },
-            ].map(({ n, label }, i) => (
-              <React.Fragment key={label}>
-                {i > 0 && <div className="h-9 w-px rounded-full" style={{ backgroundColor: "var(--border-md)" }} />}
-                <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.18 }}>
-                  <div className="text-2xl font-extrabold leading-none" style={{ color: "var(--accent)" }}>{n}</div>
-                  <div className="mt-0.5 text-[11px] font-medium" style={{ color: "var(--text-4)" }}>{label}</div>
-                </motion.div>
-              </React.Fragment>
-            ))}
-          </motion.div>
-        </motion.div>
-
-        {/* RIGHT – Desktop photo */}
-        <div className="hidden lg:block relative overflow-hidden">
+        {/* RIGHT – Desktop photo + floating icons */}
+        <div className="hidden lg:block relative">
+          {/* Image reveal */}
           <motion.div
-            className="absolute inset-0"
+            className="absolute inset-0 overflow-hidden"
             initial={{ clipPath: "inset(0 100% 0 0)" }}
             animate={{ clipPath: "inset(0 0% 0 0)" }}
             transition={{ duration: 1.05, ease: [0.76, 0, 0.24, 1], delay: 0.32 }}
           >
-            <motion.img
-              src="/BRYAN-HOME.png"
-              alt="Bryan Soberón"
-              className="w-full h-full object-contain object-bottom"
-              style={{ paddingTop: "2rem" }}
-              initial={{ scale: 1.06 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
-            />
-            {/* Blend left – extends -4px to cover any subpixel seam */}
-            <div
-              className="absolute inset-y-0 w-[44%]"
-              style={{ left: "-4px", background: "linear-gradient(to right, var(--bg) 0%, transparent 100%)" }}
-            />
-            {/* Blend bottom */}
-            <div
-              className="absolute bottom-0 left-0 right-0 h-[20%]"
-              style={{ background: "linear-gradient(to top, var(--bg) 0%, transparent 100%)" }}
-            />
+            <motion.div className="absolute inset-0" style={{ y: imageY }}>
+              <motion.img
+                src="/BRYAN-HOME.png"
+                alt="Bryan Soberón"
+                className="w-full h-full object-contain object-bottom"
+                style={{ paddingTop: "2rem" }}
+                initial={{ scale: 1.06 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
+              />
+              <div
+                className="absolute inset-y-0 w-[44%]"
+                style={{ left: "-4px", background: "linear-gradient(to right, var(--bg) 0%, transparent 100%)" }}
+              />
+              <div
+                className="absolute bottom-0 left-0 right-0 h-[20%]"
+                style={{ background: "linear-gradient(to top, var(--bg) 0%, transparent 100%)" }}
+              />
+            </motion.div>
+          </motion.div>
+
+          {/* ── Floating social icons around head ── */}
+          {/* LinkedIn – upper left */}
+          <motion.div
+            className="absolute z-20"
+            style={{ top: "12%", left: "10%", y: icon1Y, x: icon1X }}
+            initial={{ opacity: 0, scale: 0.3, rotate: -20 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ delay: 1.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <motion.a
+              href={links.linkedin} aria-label="LinkedIn" target="_blank" rel="noreferrer"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full backdrop-blur-md"
+              style={{ border: "1px solid var(--border-st)", backgroundColor: "var(--bg-pill)", color: "var(--text-2)" }}
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut", delay: 0 }}
+              whileHover={{ scale: 1.3, boxShadow: "0 0 26px rgba(34,211,238,0.55)", color: "var(--accent)", borderColor: "var(--accent)" }}
+              whileTap={{ scale: 0.88 }}
+            >
+              <Linkedin size={18} />
+            </motion.a>
+          </motion.div>
+
+          {/* GitHub – upper right */}
+          <motion.div
+            className="absolute z-20"
+            style={{ top: "8%", right: "12%", y: icon2Y, x: icon2X }}
+            initial={{ opacity: 0, scale: 0.3, rotate: 20 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ delay: 1.25, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <motion.a
+              href={links.github} aria-label="GitHub" target="_blank" rel="noreferrer"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full backdrop-blur-md"
+              style={{ border: "1px solid var(--border-st)", backgroundColor: "var(--bg-pill)", color: "var(--text-2)" }}
+              animate={{ y: [0, -13, 0] }}
+              transition={{ duration: 4.0, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+              whileHover={{ scale: 1.3, boxShadow: "0 0 26px rgba(34,211,238,0.55)", color: "var(--accent)", borderColor: "var(--accent)" }}
+              whileTap={{ scale: 0.88 }}
+            >
+              <Github size={18} />
+            </motion.a>
+          </motion.div>
+
+          {/* Instagram – left side */}
+          <motion.div
+            className="absolute z-20"
+            style={{ top: "38%", left: "5%", y: icon3Y, x: icon3X }}
+            initial={{ opacity: 0, scale: 0.3, rotate: -12 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ delay: 1.4, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <motion.a
+              href={links.instagram} aria-label="Instagram" target="_blank" rel="noreferrer"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full backdrop-blur-md"
+              style={{ border: "1px solid var(--border-st)", backgroundColor: "var(--bg-pill)", color: "var(--text-2)" }}
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 3.0, repeat: Infinity, ease: "easeInOut", delay: 1.0 }}
+              whileHover={{ scale: 1.3, boxShadow: "0 0 26px rgba(34,211,238,0.55)", color: "var(--accent)", borderColor: "var(--accent)" }}
+              whileTap={{ scale: 0.88 }}
+            >
+              <Instagram size={18} />
+            </motion.a>
+          </motion.div>
+
+          {/* Twitter – right side */}
+          <motion.div
+            className="absolute z-20"
+            style={{ top: "34%", right: "8%", y: icon4Y, x: icon4X }}
+            initial={{ opacity: 0, scale: 0.3, rotate: 12 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ delay: 1.55, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <motion.a
+              href={links.twitter} aria-label="Twitter" target="_blank" rel="noreferrer"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full backdrop-blur-md"
+              style={{ border: "1px solid var(--border-st)", backgroundColor: "var(--bg-pill)", color: "var(--text-2)" }}
+              animate={{ y: [0, -11, 0] }}
+              transition={{ duration: 3.7, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+              whileHover={{ scale: 1.3, boxShadow: "0 0 26px rgba(34,211,238,0.55)", color: "var(--accent)", borderColor: "var(--accent)" }}
+              whileTap={{ scale: 0.88 }}
+            >
+              <Twitter size={18} />
+            </motion.a>
           </motion.div>
         </div>
       </div>
     </section>
+  );
+}
+
+/* ── LETTER REVEAL ───────────────────────────────────── */
+function LetterReveal({ word, color, delay = 0, stagger = 0.048, glow = false }) {
+  return (
+    <span
+      className={`block${glow ? " text-glow" : ""}`}
+      style={{ color, display: "block", overflow: "hidden" }}
+    >
+      {word.split("").map((char, i) => (
+        <motion.span
+          key={i}
+          style={{ display: "inline-block", whiteSpace: "pre" }}
+          initial={{ opacity: 0, y: "0.75em", rotateX: -90, filter: "blur(6px)" }}
+          animate={{ opacity: 1, y: "0em",    rotateX: 0,    filter: "blur(0px)" }}
+          transition={{
+            duration: 0.52,
+            ease: [0.22, 1, 0.36, 1],
+            delay: delay + i * stagger,
+          }}
+        >
+          {char}
+        </motion.span>
+      ))}
+    </span>
   );
 }
 
@@ -458,9 +596,9 @@ function SocialIcon({ href, label, icon }) {
       aria-label={label}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex h-11 w-11 items-center justify-center rounded-full"
-      style={{ ...S.pill, color: "var(--text-2)" }}
-      whileHover={{ scale: 1.15, backgroundColor: "var(--bg-pill-hover)" }}
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full"
+      style={{ border: "1px solid var(--border-md)", backgroundColor: "var(--bg-pill)", color: "var(--text-3)" }}
+      whileHover={{ scale: 1.18, color: "var(--accent)", borderColor: "var(--accent)", backgroundColor: "var(--bg-active)" }}
       whileTap={{ scale: 0.92 }}
     >
       {icon}
