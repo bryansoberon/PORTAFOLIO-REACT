@@ -190,6 +190,7 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav }) {
               <span className="hidden text-[9px] font-semibold tracking-[0.2em] uppercase sm:block" style={{ color: "var(--accent)", opacity: 0.6 }}>
                 Full-Stack Dev
               </span>
+          
             </div>
           </button>
 
@@ -333,7 +334,7 @@ function Home({ links }) {
       </motion.div>
 
       {/* ── Grid ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: "calc(100dvh - 56px)" }}>
+      <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr]" style={{ minHeight: "calc(100dvh - 56px)" }}>
 
         {/* LEFT – Content with parallax */}
         <div className="relative z-10 flex flex-col justify-start lg:justify-center
@@ -380,6 +381,18 @@ function Home({ links }) {
               >
                 Desarrollo web (Front/Back), analítica de datos y gestión de proyectos con enfoque ágil.
               </motion.p>
+
+
+            {/* Heading Secundario – Estilizado */}
+            <h2
+              className="mt-6 flex items-center gap-1 sm:gap-3 font-extrabold tracking-tight leading-[1.1] uppercase whitespace-nowrap"
+              style={{ fontSize: "clamp(0.68rem, 3.6vw, 2.2rem)", perspective: "600px" }}
+            >
+              <span className="text-xs sm:text-2xl flex-shrink-0">🕷️ ☕️</span>
+              <LetterReveal word="SOPHISTICATED" color="var(--accent)" delay={0.8} glow />
+              <LetterReveal word="ENVIRONMENT" color="var(--accent)" delay={1.0} glow />
+              <span className="text-xs sm:text-2xl flex-shrink-0">🍃</span>
+            </h2>
 
               {/* CTAs */}
               <motion.div variants={blurUp} className="mt-7 flex flex-wrap items-center gap-3">
