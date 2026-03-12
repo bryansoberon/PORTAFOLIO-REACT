@@ -2,10 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import Spline from "@splinetool/react-spline";
 import { motion, AnimatePresence, useInView, useScroll, useSpring, useTransform } from "framer-motion";
 import {
-  SiVuedotjs, SiAngular, SiTypescript, SiJavascript, SiHtml5, SiCss3,
+  SiVuedotjs, SiAngular, SiTypescript, SiJavascript, SiHtml5, SiCss,
   SiTailwindcss, SiBootstrap, SiDjango, SiNextdotjs, SiLaravel, SiPhp,
-  SiCplusplus, SiMysql, SiPostgresql, SiMongodb, SiMicrosoftsqlserver,
-  SiSqlite, SiGit, SiGithub, SiVisualstudiocode, SiDocker, SiInsomnia,
+  SiCplusplus, SiMysql, SiPostgresql, SiMongodb,
+  SiSqlite, SiGit, SiGithub, SiDocker, SiInsomnia,
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa";
 import { RefreshCw } from "lucide-react";
@@ -21,6 +21,8 @@ import {
   Mail,
   Phone,
   MapPin,
+  Code2,
+  Database,
 } from "lucide-react";
 
 const navItems = [
@@ -779,7 +781,7 @@ const techIcons = {
   "TypeScript":   { Icon: SiTypescript,        color: "#3178C6" },
   "JavaScript":   { Icon: SiJavascript,        color: "#F7DF1E" },
   "HTML":         { Icon: SiHtml5,             color: "#E34F26" },
-  "CSS":          { Icon: SiCss3,              color: "#1572B6" },
+  "CSS":          { Icon: SiCss,               color: "#1572B6" },
   "Tailwind CSS": { Icon: SiTailwindcss,       color: "#06B6D4" },
   "Bootstrap":    { Icon: SiBootstrap,         color: "#7952B3" },
   "Django":       { Icon: SiDjango,            color: "#0C4B33" },
@@ -791,11 +793,11 @@ const techIcons = {
   "MySQL":        { Icon: SiMysql,             color: "#4479A1" },
   "PostgreSQL":   { Icon: SiPostgresql,        color: "#4169E1" },
   "MongoDB":      { Icon: SiMongodb,           color: "#47A248" },
-  "SQL Server":   { Icon: SiMicrosoftsqlserver,color: "#CC2927" },
+  "SQL Server":   { Icon: Database,            color: "#CC2927" },
   "SQLite":       { Icon: SiSqlite,            color: "#44AADD" },
   "Git":          { Icon: SiGit,               color: "#F05032" },
   "GitHub":       { Icon: SiGithub,            color: "var(--text)" },
-  "VS Code":      { Icon: SiVisualstudiocode,  color: "#007ACC" },
+  "VS Code":      { Icon: Code2,               color: "#007ACC" },
   "Docker":       { Icon: SiDocker,            color: "#2496ED" },
   "Insomnia":     { Icon: SiInsomnia,          color: "#4000BF" },
   "Scrum":        { Icon: RefreshCw,           color: "var(--accent)" },
