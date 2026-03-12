@@ -2,6 +2,14 @@ import React, { useEffect, useState, useRef } from "react";
 import Spline from "@splinetool/react-spline";
 import { motion, AnimatePresence, useInView, useScroll, useSpring, useTransform } from "framer-motion";
 import {
+  SiVuedotjs, SiAngular, SiTypescript, SiJavascript, SiHtml5, SiCss3,
+  SiTailwindcss, SiBootstrap, SiDjango, SiNextdotjs, SiLaravel, SiPhp,
+  SiCplusplus, SiMysql, SiPostgresql, SiMongodb, SiMicrosoftsqlserver,
+  SiSqlite, SiGit, SiGithub, SiVisualstudiocode, SiDocker, SiInsomnia,
+} from "react-icons/si";
+import { FaJava } from "react-icons/fa";
+import { RefreshCw } from "lucide-react";
+import {
   Github,
   Linkedin,
   Instagram,
@@ -765,6 +773,34 @@ function ServiceCard({ title, desc }) {
 }
 
 /* ── STACK ───────────────────────────────────────────── */
+const techIcons = {
+  "Vue.js":       { Icon: SiVuedotjs,          color: "#4FC08D" },
+  "Angular":      { Icon: SiAngular,           color: "#DD0031" },
+  "TypeScript":   { Icon: SiTypescript,        color: "#3178C6" },
+  "JavaScript":   { Icon: SiJavascript,        color: "#F7DF1E" },
+  "HTML":         { Icon: SiHtml5,             color: "#E34F26" },
+  "CSS":          { Icon: SiCss3,              color: "#1572B6" },
+  "Tailwind CSS": { Icon: SiTailwindcss,       color: "#06B6D4" },
+  "Bootstrap":    { Icon: SiBootstrap,         color: "#7952B3" },
+  "Django":       { Icon: SiDjango,            color: "#0C4B33" },
+  "Next.js":      { Icon: SiNextdotjs,         color: "var(--text)" },
+  "Laravel":      { Icon: SiLaravel,           color: "#FF2D20" },
+  "PHP":          { Icon: SiPhp,               color: "#777BB4" },
+  "Java":         { Icon: FaJava,              color: "#007396" },
+  "C++":          { Icon: SiCplusplus,         color: "#00599C" },
+  "MySQL":        { Icon: SiMysql,             color: "#4479A1" },
+  "PostgreSQL":   { Icon: SiPostgresql,        color: "#4169E1" },
+  "MongoDB":      { Icon: SiMongodb,           color: "#47A248" },
+  "SQL Server":   { Icon: SiMicrosoftsqlserver,color: "#CC2927" },
+  "SQLite":       { Icon: SiSqlite,            color: "#44AADD" },
+  "Git":          { Icon: SiGit,               color: "#F05032" },
+  "GitHub":       { Icon: SiGithub,            color: "var(--text)" },
+  "VS Code":      { Icon: SiVisualstudiocode,  color: "#007ACC" },
+  "Docker":       { Icon: SiDocker,            color: "#2496ED" },
+  "Insomnia":     { Icon: SiInsomnia,          color: "#4000BF" },
+  "Scrum":        { Icon: RefreshCw,           color: "var(--accent)" },
+};
+
 const stackCategories = [
   { title: "Frontend",      techs: ["Vue.js", "Angular", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind CSS", "Bootstrap"] },
   { title: "Backend",       techs: ["Django", "Next.js", "Laravel", "PHP", "Java", "C++"] },
@@ -839,22 +875,35 @@ function StackCard({ cat, delay }) {
       </div>
 
       <motion.div
-        className="flex flex-wrap gap-2"
+        className="flex flex-wrap gap-3"
         variants={staggerPills}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
       >
-        {cat.techs.map((tech) => (
-          <motion.span
-            key={tech}
-            variants={fadeIn}
-            whileHover={{ scale: 1.1, transition: { duration: 0.14 } }}
-            className="rounded-full px-3 py-1 text-xs font-medium cursor-default"
-            style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-pill)", color: "var(--text-2)" }}
-          >
-            {tech}
-          </motion.span>
-        ))}
+        {cat.techs.map((tech) => {
+          const entry = techIcons[tech];
+          const IconComp = entry?.Icon;
+          const iconColor = entry?.color ?? "var(--accent)";
+          return (
+            <motion.div
+              key={tech}
+              variants={fadeIn}
+              whileHover={{ scale: 1.15, y: -3, transition: { duration: 0.14 } }}
+              className="flex flex-col items-center gap-1.5 cursor-default"
+              title={tech}
+            >
+              <div
+                className="flex items-center justify-center rounded-2xl p-3"
+                style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-pill)" }}
+              >
+                {IconComp && <IconComp size={28} style={{ color: iconColor }} />}
+              </div>
+              <span className="text-[10px] font-medium text-center leading-tight" style={{ color: "var(--text-3)" }}>
+                {tech}
+              </span>
+            </motion.div>
+          );
+        })}
       </motion.div>
     </motion.div>
   );
