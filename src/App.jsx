@@ -16,11 +16,11 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { id: "home",         label: "Inicio"      },
-  { id: "education",    label: "Educación"   },
-  { id: "services",     label: "Servicios"   },
+  { id: "home",         label: "Home"        },
+  { id: "education",    label: "Education"   },
+  { id: "services",     label: "Services"    },
   { id: "stack",        label: "Stack"       },
-  { id: "contact",      label: "Contacto"    },
+  { id: "contact",      label: "Contact"     },
 ];
 
 /* ── Helpers de estilo (usan CSS vars) ─────────────── */
@@ -174,7 +174,7 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav }) {
         <div className="mx-auto max-w-7xl px-6 h-14 flex items-center justify-between">
 
           {/* Logo */}
-          <button onClick={() => onNav("home")} className="flex items-center gap-3 text-left shrink-0" aria-label="Ir al inicio">
+          <button onClick={() => onNav("home")} className="flex items-center gap-3 text-left shrink-0" aria-label="Go to home">
             <motion.div whileHover={{ scale: 1.08 }} transition={{ type: "spring", stiffness: 300, damping: 20 }}>
               <div
                 className="h-8 w-8 overflow-hidden rounded-lg"
@@ -352,7 +352,7 @@ function Home({ links }) {
                 className="mt-8 text-xs font-semibold tracking-[0.28em] uppercase"
                 style={{ color: "var(--text-4)" }}
               >
-                Hola, soy
+                Hi, I'm
               </motion.p>
             </motion.div>
 
@@ -370,7 +370,7 @@ function Home({ links }) {
 
               <motion.div variants={blurUp} className="mt-3 overflow-hidden min-w-0">
                 <span className="typing text-base sm:text-lg font-medium" style={{ color: "var(--text-3)" }}>
-                  Bachiller en Ingenieria de Sistemas
+                  Bachelor's degree in Systems Engineering
                 </span>
               </motion.div>
 
@@ -379,7 +379,7 @@ function Home({ links }) {
                 className="mt-5 max-w-[420px] text-sm leading-relaxed sm:text-[0.95rem]"
                 style={{ color: "var(--text-4)" }}
               >
-                Desarrollo web (Front/Back), analítica de datos y gestión de proyectos con enfoque ágil.
+                Web development (Front/Back), data analysis and project management with an agile approach.
               </motion.p>
 
 
@@ -405,7 +405,7 @@ function Home({ links }) {
                   whileTap={{ scale: 0.96 }}
                 >
                   <Download size={16} />
-                  Descargar CV
+                  Download CV
                 </motion.a>
                 <motion.a
                   className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold"
@@ -415,7 +415,7 @@ function Home({ links }) {
                   whileTap={{ scale: 0.96 }}
                 >
                   <Send size={16} />
-                  Contactar
+                  Contact
                 </motion.a>
               </motion.div>
 
@@ -429,8 +429,8 @@ function Home({ links }) {
               {/* Stats */}
               <motion.div variants={blurUp} className="mt-9 flex items-center gap-5">
                 {[
-                  { n: "10+", label: "Proyectos" },
-                  { n: "4+",  label: "Stacks"    },
+                  { n: "10+", label: "Projects" },
+                  { n: "4+",  label: "Stacks"   },
                 ].map(({ n, label }, i) => (
                   <React.Fragment key={label}>
                     {i > 0 && <div className="h-9 w-px rounded-full" style={{ backgroundColor: "var(--border-md)" }} />}
@@ -623,9 +623,9 @@ function SocialIcon({ href, label, icon }) {
 /* ── EDUCATION ───────────────────────────────────────── */
 function Education() {
   const items = [
-    { year: "2017 – 2019", title: "Colegio Secundario", desc: "IEP Sagrado Divino Maestro - Secundaria 3ro a 5to" },
-    { year: "2021 – 2025", title: "Universidad", desc: "Universidad Señor de Sipán - Ingeniería de Sistemas. Enfoque en desarrollo de software, arquitectura, analítica y gestión de proyectos." },
-    { year: "2025 – Sep a Dic", title: "Prácticas preprofesionales", desc: "Implementación de soluciones web, automatización y mejoras en procesos de negocio en Carlos Gabriel Transportes S.A.C." },
+    { year: "2017 – 2019", title: "High School", desc: "IEP Sagrado Divino Maestro - Secondary 3rd to 5th grade" },
+    { year: "2021 – 2025", title: "University", desc: "Universidad Señor de Sipán - Systems Engineering. Focus on software development, architecture, analytics and project management." },
+    { year: "2025 – Sep to Dec", title: "Pre-professional Internship", desc: "Implementation of web solutions, automation and business process improvements at Carlos Gabriel Transportes S.A.C." },
   ];
 
   const [titleRef, titleInView] = useScrollReveal("-60px");
@@ -641,7 +641,7 @@ function Education() {
           className="text-center text-4xl font-extrabold sm:text-5xl"
           style={{ color: "var(--text)" }}
         >
-          Educación <span className="ml-1 text-glow" style={{ color: "var(--accent)" }}>Timeline</span>
+          Education <span className="ml-1 text-glow" style={{ color: "var(--accent)" }}>Timeline</span>
         </motion.h2>
 
         <div className="relative mx-auto mt-12 max-w-4xl">
@@ -701,10 +701,10 @@ function TimelineItem({ item, side, mt = "" }) {
 /* ── SERVICES ────────────────────────────────────────── */
 function Services() {
   const services = [
-    { title: "Web Designer",       desc: "Diseño de interfaces responsivas y consistentes. Prioridad en legibilidad, jerarquía visual y UX." },
-    { title: "Frontend Developer", desc: "Vue + Arquitectura de componentes reutilizables, gestión de estado escalable y optimización de Web Vitals." },
-    { title: "Backend Developer",  desc: "APIs limpias y seguras. Integraciones, validación, control de errores, y bases de datos bien modeladas." },
-    { title: "Testing",            desc: "Pruebas y verificación: casos críticos, regresión, y automatización básica para reducir fallos en producción." },
+    { title: "Web Designer",       desc: "Responsive and consistent interface design. Priority on readability, visual hierarchy and UX." },
+    { title: "Frontend Developer", desc: "Vue + reusable component architecture, scalable state management and Web Vitals optimization." },
+    { title: "Backend Developer",  desc: "Clean and secure APIs. Integrations, validation, error handling, and well-modeled databases." },
+    { title: "Testing",            desc: "Testing and verification: critical cases, regression, and basic automation to reduce production failures." },
   ];
 
   const [ref, inView] = useScrollReveal();
@@ -718,9 +718,9 @@ function Services() {
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
         >
-          <h2 className="text-center text-4xl font-extrabold sm:text-5xl" style={{ color: "var(--text)" }}>Servicios</h2>
+          <h2 className="text-center text-4xl font-extrabold sm:text-5xl" style={{ color: "var(--text)" }}>Services</h2>
           <p className="mx-auto mt-3 max-w-2xl text-center text-sm sm:text-base" style={{ color: "var(--text-3)" }}>
-            Lo que puedo construir para ti: interfaz, lógica y entrega con enfoque profesional.
+            What I can build for you: interface, logic and delivery with a professional approach.
           </p>
         </motion.div>
 
@@ -758,7 +758,7 @@ function ServiceCard({ title, desc }) {
       <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{desc}</p>
       <div className="mt-6 h-[1px] w-full" style={S.divider} />
       <div className="mt-4 text-xs" style={{ color: "var(--text-4)" }}>
-        Entregables: UI • Componentes • API • Deploy
+        Deliverables: UI • Components • API • Deploy
       </div>
     </motion.div>
   );
@@ -768,8 +768,8 @@ function ServiceCard({ title, desc }) {
 const stackCategories = [
   { title: "Frontend",      techs: ["Vue.js", "Angular", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind CSS", "Bootstrap"] },
   { title: "Backend",       techs: ["Django", "Next.js", "Laravel", "PHP", "Java", "C++"] },
-  { title: "Base de datos", techs: ["MySQL", "PostgreSQL", "MongoDB", "SQL Server", "SQLite"] },
-  { title: "Herramientas",  techs: ["Git", "GitHub", "VS Code", "Docker", "Insomnia", "Scrum"] },
+  { title: "Databases",     techs: ["MySQL", "PostgreSQL", "MongoDB", "SQL Server", "SQLite"] },
+  { title: "Tools",         techs: ["Git", "GitHub", "VS Code", "Docker", "Insomnia", "Scrum"] },
 ];
 
 function Stack() {
@@ -798,14 +798,14 @@ function Stack() {
             className="text-center text-4xl font-extrabold sm:text-5xl"
             style={{ color: "var(--text)" }}
           >
-            Tecnologías que utilizo
+            Technologies I Use
           </motion.h2>
           <motion.p
             variants={fadeUp}
             className="max-w-xl text-center text-sm sm:text-base"
             style={{ color: "var(--text-3)" }}
           >
-            Herramientas y tecnologías con las que desarrollo aplicaciones web modernas, escalables y bien estructuradas.
+            Tools and technologies I use to develop modern, scalable and well-structured web applications.
           </motion.p>
         </motion.div>
 
@@ -875,10 +875,10 @@ function Contact({ links }) {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
-      setStatus("error"); setErrorMsg("Completa: nombre, correo y mensaje."); return;
+      setStatus("error"); setErrorMsg("Please fill in: name, email, and message."); return;
     }
     if (!emailRegex.test(form.email)) {
-      setStatus("error"); setErrorMsg("Ingresa un correo válido."); return;
+      setStatus("error"); setErrorMsg("Enter a valid email address."); return;
     }
 
     try {
@@ -892,7 +892,7 @@ function Contact({ links }) {
       setForm({ name: "", email: "", phone: "", subject: "", message: "" });
     } catch {
       setStatus("error");
-      setErrorMsg("No se pudo enviar. Intenta de nuevo en 1 minuto.");
+      setErrorMsg("Could not send. Please try again in 1 minute.");
     }
   }
 
@@ -909,7 +909,7 @@ function Contact({ links }) {
           className="text-center text-4xl font-extrabold sm:text-5xl"
           style={{ color: "var(--text)" }}
         >
-          Contactame <span style={{ color: "var(--accent)" }}>Ahora</span>
+          Contact Me <span style={{ color: "var(--accent)" }}>Now</span>
         </motion.h2>
 
         <div className="mt-10 grid gap-8 md:grid-cols-2">
@@ -963,7 +963,7 @@ function Contact({ links }) {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 .5C5.7.5.5 5.8.5 12.3c0 5.2 3.4 9.6 8.1 11.2.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1.8-.8 1.5-1.1.3-.9 1-1.5 1.8-1.7-2.6-.3-5.3-1.3-5.3-5.9 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.9 1.2 1.9 1.2 3.2 0 4.6-2.7 5.6-5.3 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.7-1.6 8.1-6 8.1-11.2C23.5 5.8 18.3.5 12 .5z" />
                 </svg>
-                Ir a mi GitHub
+                Go to my GitHub
               </a>
             </div>
           </motion.div>
@@ -979,19 +979,19 @@ function Contact({ links }) {
             onSubmit={handleSubmit}
           >
             <div className="grid gap-4 sm:grid-cols-2">
-              <Input label="Nombre completo"    name="name"    value={form.name}    onChange={onChange} />
-              <Input label="Correo electrónico" name="email"   type="email" value={form.email}   onChange={onChange} />
-              <Input label="Teléfono"           name="phone"   type="tel"   value={form.phone}   onChange={onChange} />
-              <Input label="Asunto"             name="subject" value={form.subject} onChange={onChange} />
+              <Input label="Full name"      name="name"    value={form.name}    onChange={onChange} />
+              <Input label="Email address"  name="email"   type="email" value={form.email}   onChange={onChange} />
+              <Input label="Phone"          name="phone"   type="tel"   value={form.phone}   onChange={onChange} />
+              <Input label="Subject"        name="subject" value={form.subject} onChange={onChange} />
             </div>
 
             <div className="mt-4">
-              <label htmlFor="message" className="text-xs font-semibold" style={{ color: "var(--text-2)" }}>Mensaje</label>
+              <label htmlFor="message" className="text-xs font-semibold" style={{ color: "var(--text-2)" }}>Message</label>
               <textarea
                 id="message" name="message" value={form.message} onChange={onChange} rows={7}
                 className="mt-2 w-full resize-none rounded-2xl px-4 py-3 text-sm outline-none ring-0"
                 style={{ ...S.input, color: "var(--text)", caretColor: "var(--accent)" }}
-                placeholder="Cuéntame qué necesitas..."
+                placeholder="Tell me what you need..."
               />
             </div>
 
@@ -1004,12 +1004,12 @@ function Contact({ links }) {
               whileTap={{ scale: 0.98 }}
             >
               <Send size={18} />
-              {status === "sending" ? "Enviando..." : status === "sent" ? "Enviado ✅" : "Enviar"}
+              {status === "sending" ? "Sending..." : status === "sent" ? "Sent ✅" : "Send"}
             </motion.button>
 
             <div aria-live="polite">
               {status === "error" && <p className="mt-3 text-sm text-red-400">{errorMsg}</p>}
-              {status === "sent"  && <p className="mt-3 text-sm text-emerald-400">Se envió tu mensaje correctamente ✅</p>}
+              {status === "sent"  && <p className="mt-3 text-sm text-emerald-400">Your message was sent successfully ✅</p>}
             </div>
           </motion.form>
         </div>
