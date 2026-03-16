@@ -1,14 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import Spline from "@splinetool/react-spline";
 import { motion, AnimatePresence, useInView, useScroll, useSpring, useTransform } from "framer-motion";
+
+// Icons: react-icons (Corregido: Sin SiPgadmin que no existe)
 import {
   SiVuedotjs, SiAngular, SiTypescript, SiJavascript, SiHtml5, SiCss,
   SiTailwindcss, SiBootstrap, SiDjango, SiNextdotjs, SiLaravel, SiPhp,
-  SiCplusplus, SiMysql, SiPostgresql, SiMongodb,
-  SiSqlite, SiGit, SiGithub, SiDocker, SiInsomnia,
+  SiSpringboot, SiCplusplus, SiMysql, SiPostgresql, SiMongodb,
+  SiSqlite, SiGit, SiGithub, SiDocker, SiInsomnia
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa";
-import { RefreshCw } from "lucide-react";
+
+// Icons: lucide-react (Corregido: Un solo bloque sin duplicados)
 import {
   Github,
   Linkedin,
@@ -23,10 +26,13 @@ import {
   MapPin,
   Code2,
   Database,
+  RefreshCw,
 } from "lucide-react";
+import { data } from "autoprefixer";
 
 const navItems = [
   { id: "home",         label: "Home"        },
+  { id: "projects",     label: "Projects"    },
   { id: "education",    label: "Education"   },
   { id: "services",     label: "Services"    },
   { id: "stack",        label: "Stack"       },
@@ -145,6 +151,7 @@ export default function App() {
 
       <main className="pt-14">
         <Home links={links} />
+        <Projects />
         <Education />
         <Services />
         <Stack />
@@ -605,7 +612,7 @@ function LetterReveal({ word, color, delay = 0, stagger = 0.048, glow = false })
 function BadgeRow() {
   return (
     <div className="inline-flex flex-wrap items-center gap-2 rounded-2xl px-3 py-2 text-xs" style={{ ...S.pill, color: "var(--text-2)" }}>
-      {["Vue", "Django", "Data", "Scrum"].map((tag) => (
+      {["Next.js", , "Prisma", "Vue", "Django", "Data", "Scrum"].map((tag) => (
         <span key={tag} className="rounded-full px-2 py-1" style={{ backgroundColor: "var(--bg-active)" }}>{tag}</span>
       ))}
     </div>
@@ -628,6 +635,98 @@ function SocialIcon({ href, label, icon }) {
     </motion.a>
   );
 }
+
+/* ── PROJECTS ────────────────────────────────────────── */
+function Projects() {
+  const projects = [
+    {
+      title: "Mailof Peluches - E-commerce",
+      tags: ["Next.js", "React", "Vue 3", "Prisma", "PostgreSQL", "Vercel", "neon"],
+      desc: "Hybrid Full-Stack ecosystem. High-performance store in Next.js with a separate Admin Panel in Vue 3 for dynamic inventory management.",
+      link: "https://mailofcix.shop/catalogo",
+      type: "Full-Stack Project"
+    },
+    {
+      title: "ERP Logístico - Fleet & Dashboards",
+      tags: ["Laravel 12", "Livewire Volt", "DDD", "MySQL", "PHP 8.2"],
+      desc: "Development of the core fleet and driver management under DDD architecture. Creation of reactive dashboards for real-time operational control.",
+      link: "https://github.com/bryansoberon", // O el link que gustes
+      type: "Backend & Architecture"
+    }
+    // Aquí puedes añadir más proyectos luego
+  ];
+
+  const [ref, inView] = useScrollReveal();
+
+  return (
+    <section id="projects" className="py-16" style={{ backgroundColor: "var(--bg-sec)" }}>
+      <div className="mx-auto max-w-6xl px-4">
+        <motion.div
+          ref={ref}
+          variants={fadeUp}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="mb-12"
+        >
+          <h2 className="text-center text-4xl font-extrabold sm:text-5xl" style={{ color: "var(--text)" }}>
+            Featured <span className="text-glow" style={{ color: "var(--accent)" }}>Projects</span>
+          </h2>
+        </motion.div>
+
+        <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
+          {projects.map((p, i) => (
+            <ProjectCard key={p.title} {...p} delay={i * 0.1} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
+function ProjectCard({ title, tags, desc, link, type, delay }) {
+  const [ref, inView] = useScrollReveal("-50px");
+
+  return (
+    <motion.div
+      ref={ref}
+      variants={fadeUp}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      whileHover={{ y: -8 }}
+      className="group relative overflow-hidden rounded-3xl p-1"
+      style={{ backgroundColor: "var(--border-md)" }}
+    >
+      <div className="h-full w-full rounded-[22px] p-6 lg:p-8" style={{ backgroundColor: "var(--bg-card)" }}>
+        <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--accent)" }}>{type}</span>
+        <h3 className="mt-2 text-2xl font-bold" style={{ color: "var(--text)" }}>{title}</h3>
+        
+        <div className="mt-4 flex flex-wrap gap-2">
+          {tags.map(t => (
+            <span key={t} className="rounded-full px-3 py-1 text-[11px] font-medium" style={S.pill}>{t}</span>
+          ))}
+        </div>
+
+        <p className="mt-5 text-sm leading-relaxed" style={{ color: "var(--text-3)" }}>{desc}</p>
+        
+        <div className="mt-8 flex items-center justify-between">
+          <a 
+            href={link} 
+            target="_blank" 
+            className="flex items-center gap-2 text-sm font-bold transition-all hover:gap-3" 
+            style={{ color: "var(--accent)" }}
+          >
+            View Live Project <Send size={14} />
+          </a>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+
+
 
 
 /* ── EDUCATION ───────────────────────────────────────── */
@@ -775,39 +874,42 @@ function ServiceCard({ title, desc }) {
 }
 
 /* ── STACK ───────────────────────────────────────────── */
+/* ── STACK ───────────────────────────────────────────── */
 const techIcons = {
-  "Vue.js":       { Icon: SiVuedotjs,          color: "#4FC08D" },
-  "Angular":      { Icon: SiAngular,           color: "#DD0031" },
-  "TypeScript":   { Icon: SiTypescript,        color: "#3178C6" },
-  "JavaScript":   { Icon: SiJavascript,        color: "#F7DF1E" },
-  "HTML":         { Icon: SiHtml5,             color: "#E34F26" },
-  "CSS":          { Icon: SiCss,               color: "#1572B6" },
-  "Tailwind CSS": { Icon: SiTailwindcss,       color: "#06B6D4" },
-  "Bootstrap":    { Icon: SiBootstrap,         color: "#7952B3" },
-  "Django":       { Icon: SiDjango,            color: "#0C4B33" },
-  "Next.js":      { Icon: SiNextdotjs,         color: "var(--text)" },
-  "Laravel":      { Icon: SiLaravel,           color: "#FF2D20" },
-  "PHP":          { Icon: SiPhp,               color: "#777BB4" },
-  "Java":         { Icon: FaJava,              color: "#007396" },
-  "C++":          { Icon: SiCplusplus,         color: "#00599C" },
-  "MySQL":        { Icon: SiMysql,             color: "#4479A1" },
-  "PostgreSQL":   { Icon: SiPostgresql,        color: "#4169E1" },
-  "MongoDB":      { Icon: SiMongodb,           color: "#47A248" },
-  "SQL Server":   { Icon: Database,            color: "#CC2927" },
-  "SQLite":       { Icon: SiSqlite,            color: "#44AADD" },
-  "Git":          { Icon: SiGit,               color: "#F05032" },
-  "GitHub":       { Icon: SiGithub,            color: "var(--text)" },
-  "VS Code":      { Icon: Code2,               color: "#007ACC" },
-  "Docker":       { Icon: SiDocker,            color: "#2496ED" },
-  "Insomnia":     { Icon: SiInsomnia,          color: "#4000BF" },
-  "Scrum":        { Icon: RefreshCw,           color: "var(--accent)" },
+  "Vue.js":       { Icon: SiVuedotjs,    color: "#4FC08D" },
+  "Angular":      { Icon: SiAngular,     color: "#DD0031" },
+  "TypeScript":   { Icon: SiTypescript,  color: "#3178C6" },
+  "JavaScript":   { Icon: SiJavascript,  color: "#F7DF1E" },
+  "HTML":         { Icon: SiHtml5,       color: "#E34F26" },
+  "CSS":          { Icon: SiCss,         color: "#1572B6" },
+  "Tailwind CSS": { Icon: SiTailwindcss, color: "#06B6D4" },
+  "Bootstrap":    { Icon: SiBootstrap,    color: "#7952B3" },
+  "Django":       { Icon: SiDjango,      color: "#0C4B33" },
+  "Next.js":      { Icon: SiNextdotjs,   color: "var(--text)" },
+  "Laravel":      { Icon: SiLaravel,     color: "#FF2D20" },
+  "Spring Boot":  { Icon: SiSpringboot,  color: "#6DB33F" },
+  "PHP":          { Icon: SiPhp,         color: "#777BB4" },
+  "Java":         { Icon: FaJava,        color: "#007396" },
+  "C++":          { Icon: SiCplusplus,   color: "#00599C" },
+  "MySQL":        { Icon: SiMysql,       color: "#4479A1" },
+  "PostgreSQL":   { Icon: SiPostgresql,  color: "#4169E1" },
+  "PgAdmin":      { Icon: Database,      color: "#336791" }, 
+  "MongoDB":      { Icon: SiMongodb,     color: "#47A248" },
+  "SQL Server":   { Icon: Database,      color: "#CC2927" }, 
+  "SQLite":       { Icon: SiSqlite,      color: "#44AADD" },
+  "Git":          { Icon: SiGit,         color: "#F05032" },
+  "GitHub":       { Icon: SiGithub,      color: "var(--text)" },
+  "VS Code":      { Icon: Code2,         color: "#007ACC" },
+  "Docker":       { Icon: SiDocker,      color: "#2496ED" },
+  "Insomnia":     { Icon: SiInsomnia,    color: "#4000BF" },
+  "Scrum":        { Icon: RefreshCw,     color: "var(--accent)" },
 };
 
 const stackCategories = [
-  { title: "Frontend",      techs: ["Vue.js", "Angular", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind CSS", "Bootstrap"] },
-  { title: "Backend",       techs: ["Django", "Next.js", "Laravel", "PHP", "Java", "C++"] },
-  { title: "Databases",     techs: ["MySQL", "PostgreSQL", "MongoDB", "SQL Server", "SQLite"] },
-  { title: "Tools",         techs: ["Git", "GitHub", "VS Code", "Docker", "Insomnia", "Scrum"] },
+  { title: "Frontend",  techs: ["Vue.js", "Angular", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind CSS", "Bootstrap"] },
+  { title: "Backend",   techs: ["Django", "Next.js", "Laravel", "Spring Boot"] },
+  { title: "Databases", techs: ["PostgreSQL", "MySQL", "PgAdmin", "MongoDB", "SQL Server", "SQLite"] },
+  { title: "Tools",     techs: ["Git", "GitHub", "VS Code", "Docker", "Insomnia", "Scrum"] },
 ];
 
 function Stack() {
