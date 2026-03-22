@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import Spline from "@splinetool/react-spline";
 import { motion, AnimatePresence, useInView, useScroll, useSpring, useTransform } from "framer-motion";
 
-// Icons: react-icons (Corregido: Sin SiPgadmin que no existe)
 import {
   SiVuedotjs, SiAngular, SiTypescript, SiJavascript, SiHtml5, SiCss,
   SiTailwindcss, SiBootstrap, SiDjango, SiNextdotjs, SiLaravel, SiPhp,
@@ -11,7 +10,6 @@ import {
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa";
 
-// Icons: lucide-react (Corregido: Un solo bloque sin duplicados)
 import {
   Github,
   Linkedin,
@@ -28,7 +26,6 @@ import {
   Database,
   RefreshCw,
 } from "lucide-react";
-import { data } from "autoprefixer";
 
 const navItems = [
   { id: "home",         label: "Home"        },
@@ -295,6 +292,135 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav }) {
   );
 }
 
+/* ── COMPONENTE TERMINAL AVANZADA (SUPERIOR AL EJEMPLO) ── */
+function TerminalConsole() {
+  const [typedText, setTypedText] = useState("");
+
+  // 1. Definimos la secuencia de comandos y outputs
+  const terminalSession = [
+    { type: 'prompt', text: 'user@bryandev:~$ ' },
+    { type: 'command', text: 'pnpm install skills --global' },
+    { type: 'output', text: '\n⠋ fetching packages...\n⠙ resoluting dependencies...\n✔ installed 150 packages in 2.1s\n\n' },
+    { type: 'prompt', text: 'user@bryandev:~$ ' },
+    { type: 'command', text: 'cat profile.json' },
+    { type: 'jsonOutput', text: `\n{
+  "role": "Full-Stack Engineer",
+  "stack": ["Angular", "Vue", "Next.js", "Django"],
+  "status": "Available",
+  "location": "Chiclayo, PE"
+}` }
+  ];
+
+  // 2. Lógica de animación compleja
+  useEffect(() => {
+    let currentPart = 0;
+    let currentChar = 0;
+    let currentTyped = "";
+
+    const typeAnimation = () => {
+      if (currentPart >= terminalSession.length) return; // Fin de la sesión
+
+      const part = terminalSession[currentPart];
+
+      // Si es prompt o output, los mostramos de golpe y pasamos al siguiente
+      if (part.type === 'prompt' || part.type === 'output' || part.type === 'jsonOutput') {
+        setTypedText(prev => prev + part.text);
+        currentPart++;
+        currentChar = 0;
+        // Pequeña pausa antes del siguiente comando para que sea natural
+        setTimeout(typeAnimation, part.type === 'prompt' ? 100 : 500); 
+      } 
+      // Si es un comando, lo animamos letra por letra
+      else if (part.type === 'command') {
+        if (currentChar < part.text.length) {
+          setTypedText(prev => prev + part.text.charAt(currentChar));
+          currentChar++;
+          setTimeout(typeAnimation, 50); // Velocidad de escritura
+        } else {
+          // Comando terminado, pasamos a la siguiente parte
+          currentPart++;
+          currentChar = 0;
+          setTimeout(typeAnimation, 200); // Pausa antes del output
+        }
+      }
+    };
+
+    // Iniciamos la animación con un pequeño delay
+    const startTimeout = setTimeout(typeAnimation, 1000);
+
+    // Cleanup
+    return () => clearTimeout(startTimeout);
+  }, []);
+
+  // 3. Helper para renderizar texto con colores de terminal/sintaxis
+  const renderTerminalText = (text) => {
+    // Expresión regular para JSON simple (llaves, claves, strings, booleanos)
+    const jsonRegex = /(\{|\[|\}|\]|:|",?)|("(?:[^"\\]|\\.)*")|(\b(?:true|false|null)\b)|(\b\d+\b)/g;
+    
+    // Primero, dividimos el texto basado en los prompts para colorearlos
+    const parts = text.split(/(user@bryandev:~\$ )/g);
+
+    return parts.map((part, index) => {
+      // Si es el prompt, verde brillante
+      if (part === 'user@bryandev:~$ ') {
+        return <span key={index} className="text-emerald-400 font-bold">{part}</span>;
+      }
+      
+      // Si el texto parece JSON, aplicamos coloreado sintáctico
+      if (part.includes('{') && part.includes('}')) {
+        // Un tokenizado muy básico para el JSON
+        const jsonParts = part.split(jsonRegex).filter(Boolean);
+        return <span key={index} className="text-slate-300">
+          {jsonParts.map((token, j) => {
+            if (token.startsWith('"') && token.endsWith('"') && !jsonParts[j+1]?.includes(':')) {
+               return <span key={j} className="text-cyan-300">{token}</span>; // Valores string: Cyan
+            }
+            if (token.startsWith('"') && token.endsWith('"') && jsonParts[j+1]?.includes(':')) {
+               return <span key={j} className="text-slate-200">{token}</span>; // Claves: Blanco mate
+            }
+            if (token === ':' || token === ',' || token === '{' || token === '}' || token === '[' || token === ']') {
+              return <span key={j} className="text-slate-500">{token}</span>; // Puntuación: Gris
+            }
+            if (token === 'true' || token === 'false') {
+              return <span key={j} className="text-yellow-400">{token}</span>; // Booleanos: Amarillo
+            }
+            return token;
+          })}
+        </span>;
+      }
+
+      // Por defecto, texto de terminal normal
+      return <span key={index} className="text-slate-300">{part}</span>;
+    });
+  };
+
+  return (
+    <div className="w-full max-w-2xl overflow-hidden rounded-3xl border border-white/5 bg-[#0d1117]/90 p-0 font-mono text-[13px] shadow-2xl backdrop-blur-md">
+      {/* Barra superior estilo MacOS/VSCode */}
+      <div className="flex items-center gap-2 bg-white/5 px-5 py-3.5 border-b border-white/5">
+        <div className="flex gap-2">
+          <div className="h-3.5 w-3.5 rounded-full bg-red-500/80" />
+          <div className="h-3.5 w-3.5 rounded-full bg-yellow-500/80" />
+          <div className="h-3.5 w-3.5 rounded-full bg-green-500/80" />
+        </div>
+        <span className="text-[11px] text-slate-500 uppercase tracking-widest ml-3 font-semibold">bryan-portfolio ~ zsh</span>
+      </div>
+      
+      {/* Contenido de la Terminal */}
+      <div className="p-7 min-h-[280px] leading-relaxed">
+        <pre className="whitespace-pre-wrap text-slate-300">
+          {renderTerminalText(typedText)}
+          <motion.span 
+            animate={{ opacity: [1, 0] }} 
+            transition={{ repeat: Infinity, duration: 0.8 }} 
+            className="inline-block w-2.5 h-4.5 bg-cyan-400 ml-1.5 align-middle" 
+          />
+        </pre>
+      </div>
+    </div>
+  );
+}
+
 /* ── HOME ────────────────────────────────────────────── */
 function Home({ links }) {
   const sectionRef = useRef(null);
@@ -306,7 +432,6 @@ function Home({ links }) {
 
   const textY    = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const imageY   = useTransform(scrollYProgress, [0, 1], [0, 55]);
-  const fadeOut  = useTransform(scrollYProgress, [0, 0.5],  [1, 0]);
 
   // Each icon has a unique Y + X drift → visible depth effect on scroll
   const icon1Y   = useTransform(scrollYProgress, [0, 1], [0, -200]);
@@ -332,23 +457,6 @@ function Home({ links }) {
       className="relative overflow-hidden"
       style={{ minHeight: "calc(100dvh - 56px)" }}
     >
-      {/* ── Mobile-only: photo as absolute bg ── */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 lg:hidden"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.3, delay: 0.35 }}
-      >
-        <img
-          src="/BRYAN-HOME.png"
-          alt=""
-          className="absolute bottom-0 right-0 h-[78%] w-auto object-contain object-bottom"
-          style={{ opacity: 0.45 }}
-        />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(100deg, var(--bg) 32%, rgba(4,13,24,0.82) 58%, rgba(4,13,24,0.25) 100%)" }} />
-        <div className="absolute bottom-0 left-0 right-0 h-[28%]" style={{ background: "linear-gradient(to top, var(--bg), transparent)" }} />
-      </motion.div>
 
       {/* ── Grid ── */}
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr]" style={{ minHeight: "calc(100dvh - 56px)" }}>
@@ -357,7 +465,7 @@ function Home({ links }) {
         <div className="relative z-10 flex flex-col justify-start lg:justify-center
                         px-6 sm:px-10 lg:px-14 xl:px-20
                         pt-10 pb-14 lg:py-0 min-w-0">
-          <motion.div style={{ y: textY, opacity: fadeOut }} className="flex flex-col">
+          <motion.div style={{ y: textY }} className="flex flex-col">
 
             {/* Pre-heading group */}
             <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="flex flex-col">
@@ -459,41 +567,30 @@ function Home({ links }) {
                 ))}
               </motion.div>
 
+              {/* Terminal – mobile only */}
+              <motion.div variants={blurUp} className="mt-8 w-full lg:hidden">
+                <TerminalConsole />
+              </motion.div>
+
             </motion.div>
           </motion.div>
         </div>
 
         {/* RIGHT – Desktop photo + floating icons */}
-        <div className="hidden lg:block relative">
-          {/* Image reveal */}
-          <motion.div
-            className="absolute inset-0 overflow-hidden"
-            initial={{ clipPath: "inset(0 100% 0 0)" }}
-            animate={{ clipPath: "inset(0 0% 0 0)" }}
-            transition={{ duration: 1.05, ease: [0.76, 0, 0.24, 1], delay: 0.32 }}
+        <div className="hidden lg:flex relative items-center justify-center">
+          
+          {/* LA TERMINAL (Reemplaza a la imagen) */}
+          <motion.div 
+            className="z-10"
+            style={{ y: imageY }}
+            initial={{ opacity: 0, scale: 0.9, x: 20 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <motion.div className="absolute inset-0" style={{ y: imageY }}>
-              <motion.img
-                src="/BRYAN-HOME.png"
-                alt="Bryan Soberón"
-                className="w-full h-full object-contain object-bottom"
-                style={{ paddingTop: "2rem" }}
-                initial={{ scale: 1.06 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
-              />
-              <div
-                className="absolute inset-y-0 w-[44%]"
-                style={{ left: "-4px", background: "linear-gradient(to right, var(--bg) 0%, transparent 100%)" }}
-              />
-              <div
-                className="absolute bottom-0 left-0 right-0 h-[20%]"
-                style={{ background: "linear-gradient(to top, var(--bg) 0%, transparent 100%)" }}
-              />
-            </motion.div>
+            <TerminalConsole />
           </motion.div>
 
-          {/* ── Floating social icons around head ── */}
+        {/* ── Floating social icons around head ── */}
           {/* LinkedIn – upper left */}
           <motion.div
             className="absolute z-20"
@@ -612,7 +709,7 @@ function LetterReveal({ word, color, delay = 0, stagger = 0.048, glow = false })
 function BadgeRow() {
   return (
     <div className="inline-flex flex-wrap items-center gap-2 rounded-2xl px-3 py-2 text-xs" style={{ ...S.pill, color: "var(--text-2)" }}>
-      {["Next.js", , "Prisma", "Vue", "Django", "Data", "Scrum"].map((tag) => (
+      {["Angular",  "Vue",  "Next.js", "Django", "Scrum"].map((tag) => (
         <span key={tag} className="rounded-full px-2 py-1" style={{ backgroundColor: "var(--bg-active)" }}>{tag}</span>
       ))}
     </div>
@@ -650,10 +747,9 @@ function Projects() {
       title: "ERP Logístico - Fleet & Dashboards",
       tags: ["Laravel 12", "Livewire Volt", "DDD", "MySQL", "PHP 8.2"],
       desc: "Development of the core fleet and driver management under DDD architecture. Creation of reactive dashboards for real-time operational control.",
-      link: "https://github.com/bryansoberon", // O el link que gustes
+      link: "https://github.com/bryansoberon",
       type: "Backend & Architecture"
     }
-    // Aquí puedes añadir más proyectos luego
   ];
 
   const [ref, inView] = useScrollReveal();
