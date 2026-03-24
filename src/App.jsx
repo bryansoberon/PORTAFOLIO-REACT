@@ -513,10 +513,20 @@ function Home({ links }) {
               className="mt-6 flex items-center gap-1 sm:gap-3 font-extrabold tracking-tight leading-[1.1] uppercase whitespace-nowrap"
               style={{ fontSize: "clamp(0.68rem, 3.6vw, 2.2rem)", perspective: "600px" }}
             >
-              <span className="text-xs sm:text-2xl flex-shrink-0">🕷️ ☕️</span>
+              <motion.span
+                className="text-xs sm:text-2xl flex-shrink-0"
+                initial={{ opacity: 0, filter: "blur(6px)" }}
+                animate={{ opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1], delay: 0.8 }}
+              >🕷️ ☕️</motion.span>
               <LetterReveal word="SOPHISTICATED" color="var(--accent)" delay={0.8} glow />
               <LetterReveal word="ENVIRONMENT" color="var(--accent)" delay={1.0} glow />
-              <span className="text-xs sm:text-2xl flex-shrink-0">🍃</span>
+              <motion.span
+                className="text-xs sm:text-2xl flex-shrink-0"
+                initial={{ opacity: 0, filter: "blur(6px)" }}
+                animate={{ opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1], delay: 1.0 }}
+              >🍃</motion.span>
             </h2>
 
               {/* CTAs */}
