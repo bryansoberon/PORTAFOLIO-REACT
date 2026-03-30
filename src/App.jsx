@@ -180,52 +180,46 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav }) {
         style={{ scaleX, backgroundColor: "var(--accent)" }}
       />
 
-      {/* Full-width flat bar */}
+      {/* Bar */}
       <div
-        className="backdrop-blur-xl"
+        className="backdrop-blur-md"
         style={{ borderBottom: "1px solid var(--border)", backgroundColor: "var(--bg-navbar)" }}
       >
-        <div className="mx-auto max-w-7xl px-6 h-14 flex items-center justify-between">
+        <div className="mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
 
           {/* Logo */}
           <button onClick={() => onNav("home")} className="flex items-center gap-3 text-left shrink-0" aria-label="Go to home">
-            <motion.div whileHover={{ scale: 1.08 }} transition={{ type: "spring", stiffness: 300, damping: 20 }}>
-              <div
-                className="h-8 w-8 overflow-hidden rounded-lg"
-                style={{ border: "1px solid var(--border-st)", boxShadow: "0 0 12px var(--glow-avatar)", backgroundColor: "var(--bg-pill)" }}
-              >
-                <img src="/LOGO%20BRYANDEV_001.png" alt="BryanDev logo" className="h-full w-full object-contain" />
-              </div>
-            </motion.div>
+            <div className="h-7 w-7 overflow-hidden rounded-lg shrink-0" style={{ border: "1px solid var(--border-st)" }}>
+              <img src="/favicon.png" alt="BryanDev" className="h-full w-full object-contain" />
+            </div>
             <div className="flex flex-col leading-none">
-              <span className="text-sm font-extrabold tracking-wide" style={{ color: "var(--text)" }}>
-                Bryan <span className="text-glow" style={{ color: "var(--accent)" }}>Soberón</span>
+              <span className="text-sm font-semibold" style={{ color: "var(--text)" }}>
+                Bryan <span style={{ color: "var(--accent)" }}>Soberón</span>
               </span>
-              <span className="hidden text-[9px] font-semibold tracking-[0.2em] uppercase sm:block" style={{ color: "var(--accent)", opacity: 0.6 }}>
+              <span className="hidden text-[9px] tracking-[0.22em] uppercase sm:block mt-0.5" style={{ color: "var(--text-4)" }}>
                 Full-Stack Dev
               </span>
-          
             </div>
           </button>
 
-          {/* Desktop nav – underline indicator */}
-          <nav className="hidden items-center gap-7 md:flex">
+          {/* Desktop nav */}
+          <nav className="hidden items-center gap-6 md:flex">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => onNav(item.id)}
-                className="relative pb-0.5 text-sm font-medium transition-colors"
-                style={{ color: activeId === item.id ? "var(--accent)" : "var(--text-3)" }}
-                onMouseEnter={(e) => { if (activeId !== item.id) e.currentTarget.style.color = "var(--text)"; }}
+                className="relative text-sm transition-colors duration-150"
+                style={{ color: activeId === item.id ? "var(--text)" : "var(--text-3)" }}
+                onMouseEnter={(e) => { if (activeId !== item.id) e.currentTarget.style.color = "var(--text-2)"; }}
                 onMouseLeave={(e) => { if (activeId !== item.id) e.currentTarget.style.color = "var(--text-3)"; }}
               >
                 {item.label}
                 {activeId === item.id && (
                   <motion.span
-                    layoutId="nav-underline"
-                    className="absolute -bottom-0.5 left-0 right-0 h-[2px] rounded-full"
+                    layoutId="nav-dot"
+                    className="absolute -bottom-[18px] left-1/2 -translate-x-1/2 h-[2px] w-4 rounded-full"
                     style={{ backgroundColor: "var(--accent)" }}
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
                   />
                 )}
               </button>
@@ -233,13 +227,17 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav }) {
           </nav>
 
           {/* Right */}
-          <div className="flex items-center gap-2 shrink-0">
-            {/* Mobile hamburger */}
+          <div className="flex items-center gap-3 shrink-0">
+            <span className="hidden md:flex items-center gap-1.5 text-xs" style={{ color: "var(--text-4)" }}>
+              <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: "#22c55e" }} />
+              Available
+            </span>
+
             <motion.button
-              className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm md:hidden"
-              style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-pill)", color: "var(--text-3)" }}
+              className="inline-flex items-center justify-center rounded-lg h-8 w-8 md:hidden"
+              style={{ border: "1px solid var(--border)", color: "var(--text-3)" }}
               onClick={() => setMenuOpen((v) => !v)}
-              whileTap={{ scale: 0.94 }}
+              whileTap={{ scale: 0.92 }}
             >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.span
@@ -247,10 +245,10 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav }) {
                   initial={{ rotate: -90, opacity: 0 }}
                   animate={{ rotate: 0, opacity: 1 }}
                   exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.16 }}
+                  transition={{ duration: 0.15 }}
                   className="flex"
                 >
-                  {menuOpen ? <X size={16} /> : <Menu size={16} />}
+                  {menuOpen ? <X size={15} /> : <Menu size={15} />}
                 </motion.span>
               </AnimatePresence>
             </motion.button>
@@ -262,26 +260,31 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav }) {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -6 }}
+            initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="overflow-hidden backdrop-blur-xl md:hidden"
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="backdrop-blur-md md:hidden"
             style={{ borderBottom: "1px solid var(--border)", backgroundColor: "var(--bg-navbar)" }}
           >
-            <div className="mx-auto max-w-7xl px-6 py-3 flex flex-col gap-1">
+            <div className="mx-auto max-w-6xl px-6 py-2 flex flex-col">
               {navItems.map((item, i) => (
                 <motion.button
                   key={item.id}
-                  initial={{ opacity: 0, x: -12 }}
+                  initial={{ opacity: 0, x: -6 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.04, duration: 0.18 }}
+                  transition={{ delay: i * 0.03, duration: 0.15 }}
                   onClick={() => onNav(item.id)}
-                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium"
-                  style={{ backgroundColor: activeId === item.id ? "var(--bg-active)" : "transparent", color: activeId === item.id ? "var(--accent)" : "var(--text-3)" }}
+                  className="flex items-center justify-between py-3 text-sm text-left w-full"
+                  style={{
+                    color: activeId === item.id ? "var(--accent)" : "var(--text-3)",
+                    borderBottom: i < navItems.length - 1 ? "1px solid var(--border)" : "none",
+                  }}
                 >
-                  {activeId === item.id && <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ backgroundColor: "var(--accent)" }} />}
                   {item.label}
+                  {activeId === item.id && (
+                    <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ backgroundColor: "var(--accent)" }} />
+                  )}
                 </motion.button>
               ))}
             </div>
