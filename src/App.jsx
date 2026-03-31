@@ -753,7 +753,7 @@ function Projects() {
       title: "Mailof Peluches - E-commerce",
       tags: ["Next.js", "React", "Vue 3", "Prisma", "PostgreSQL", "Vercel", "neon"],
       desc: "Hybrid Full-Stack ecosystem. High-performance store in Next.js with a separate Admin Panel in Vue 3 for dynamic inventory management.",
-      link: "https://mailofcix.shop/catalogo",
+      link: "https://mailofcix.shop/",
       type: "Full-Stack Project"
     },
     {
