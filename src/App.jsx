@@ -109,7 +109,7 @@ export default function App() {
     github:    "https://github.com/bryansoberon",
     instagram: "https://www.instagram.com/bryansoberon/",
     twitter:   "https://x.com/bryandev333",
-    cv:        `${import.meta.env.BASE_URL}Bernabe_Bryan_Soberon_Quintana_CV_PRACTICAS.pdf`,
+    cv:        `${import.meta.env.BASE_URL}CV_BRYAN_SOBERON.pdf`,
   };
 
   // ── ScrollSpy ──
