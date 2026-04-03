@@ -446,6 +446,8 @@ function Home({ links }) {
   const icon3X   = useTransform(scrollYProgress, [0, 1], [0,  -55]);
   const icon4Y   = useTransform(scrollYProgress, [0, 1], [0, -230]);
   const icon4X   = useTransform(scrollYProgress, [0, 1], [0,   40]);
+  const icon5Y   = useTransform(scrollYProgress, [0, 1], [0, -190]);
+  const icon5X   = useTransform(scrollYProgress, [0, 1], [0,   30]);
 
   const socialLinks = [
     { href: links.linkedin,  label: "LinkedIn",  icon: <Linkedin  size={17} /> },
