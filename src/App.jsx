@@ -110,6 +110,7 @@ export default function App() {
     instagram: "https://www.instagram.com/bryansoberon/",
     twitter:   "https://x.com/bryandev333",
     cv:        `${import.meta.env.BASE_URL}CV_BRYAN_SOBERON.pdf`,
+    facebook:  "https://www.facebook.com/bernabesoberon",
   };
 
   // ── ScrollSpy ──
@@ -451,6 +452,7 @@ function Home({ links }) {
     { href: links.github,    label: "GitHub",    icon: <Github    size={17} /> },
     { href: links.instagram, label: "Instagram", icon: <Instagram size={17} /> },
     { href: links.twitter,   label: "Twitter",   icon: <Twitter   size={17} /> },
+    { href: links.facebook,  label: "Facebook",  icon: <Facebook  size={17} /> },
   ];
 
   return (
@@ -687,6 +689,28 @@ function Home({ links }) {
               <Twitter size={18} />
             </motion.a>
           </motion.div>
+          
+          {/* Facebook – bottom right */}
+          <motion.div
+            className="absolute z-20"
+            style={{ bottom: "5%", right: "8%", y: icon5Y, x: icon5X }}
+            initial={{ opacity: 0, scale: 0.3, rotate: 12 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ delay: 1.55, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <motion.a
+              href={links.facebook} aria-label="Facebook" target="_blank" rel="noreferrer"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full backdrop-blur-md"
+              style={{ border: "1px solid var(--border-st)", backgroundColor: "var(--bg-pill)", color: "var(--text-2)" }}
+              animate={{ y: [0, -11, 0] }}
+              transition={{ duration: 3.7, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+              whileHover={{ scale: 1.3, boxShadow: "0 0 26px rgba(34,211,238,0.55)", color: "var(--accent)", borderColor: "var(--accent)" }}
+              whileTap={{ scale: 0.88 }}
+            >
+              <Facebook size={18} />
+            </motion.a>
+          </motion.div>
+          
         </div>
       </div>
     </section>
@@ -1336,6 +1360,8 @@ function Footer({ links, onNav }) {
             {[
               { href: links.linkedin, label: "LinkedIn", icon: <Linkedin size={18} /> },
               { href: links.github,   label: "GitHub",   icon: <Github   size={18} /> },
+              { href: links.twitter,  label: "Twitter",  icon: <Twitter  size={18} /> },
+              { href: links.facebook, label: "Facebook", icon: <Facebook size={18} /> },
             ].map(({ href, label, icon }) => (
               <a
                 key={label}
