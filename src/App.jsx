@@ -8,7 +8,7 @@ import {
   SiSpringboot, SiCplusplus, SiMysql, SiPostgresql, SiMongodb,
   SiSqlite, SiGit, SiGithub, SiDocker, SiInsomnia
 } from "react-icons/si";
-import { FaJava } from "react-icons/fa";
+import { FaJava, FaFacebook as Facebook } from "react-icons/fa";
 
 import {
   Github,
