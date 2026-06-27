@@ -25,15 +25,17 @@ import {
   Code2,
   Database,
   RefreshCw,
+  Award,
+  ExternalLink,
 } from "lucide-react";
 
 const navItems = [
-  { id: "home",         label: "Home"        },
-  { id: "projects",     label: "Projects"    },
-  { id: "education",    label: "Education"   },
-  { id: "services",     label: "Services"    },
-  { id: "stack",        label: "Stack"       },
-  { id: "contact",      label: "Contact"     },
+  { id: "home",            label: "Home"           },
+  { id: "projects",        label: "Projects"       },
+  { id: "education",       label: "Education"      },
+  { id: "certifications",  label: "Certifications" },
+  { id: "stack",           label: "Stack"          },
+  { id: "contact",         label: "Contact"        },
 ];
 
 /* ── Helpers de estilo (usan CSS vars) ─────────────── */
@@ -151,7 +153,7 @@ export default function App() {
         <Home links={links} />
         <Projects />
         <Education />
-        <Services />
+        <Certifications />
         <Stack />
         <Contact links={links} />
       </main>
@@ -942,19 +944,60 @@ function TimelineItem({ item, side, mt = "" }) {
   );
 }
 
-/* ── SERVICES ────────────────────────────────────────── */
-function Services() {
-  const services = [
-    { title: "Web Designer",       desc: "Responsive and consistent interface design. Priority on readability, visual hierarchy and UX." },
-    { title: "Frontend Developer", desc: "Vue + reusable component architecture, scalable state management and Web Vitals optimization." },
-    { title: "Backend Developer",  desc: "Clean and secure APIs. Integrations, validation, error handling, and well-modeled databases." },
-    { title: "Testing",            desc: "Testing and verification: critical cases, regression, and basic automation to reduce production failures." },
+/* ── LICENSES & CERTIFICATIONS ───────────────────────── */
+function Certifications() {
+  const certifications = [
+    {
+      title: "English – Intermediate Level",
+      issuer: "USS – Universidad Señor de Sipán",
+      issued: "Jun 2026",
+      credentialId: null,
+      skills: ["English"],
+      desc: "Certificate issued by the Language Center of Universidad Señor de Sipán, certifying successful completion of the Intermediate English Level (312 academic hours).",
+      pdf: "Certificado_Ingles_USS.pdf",
+      downloadName: "Bryan-Soberon-Certificado-Ingles-Intermedio-USS.pdf",
+      verifyUrl: null,
+    },
+    {
+      title: "Project Management Fundamentals under the Scrum Approach + AI",
+      issuer: "Universidad Nacional de Ingeniería (UNI)",
+      issued: "Jan 2026",
+      expires: "Feb 2026",
+      credentialId: "018 - 0007110",
+      skills: ["Scrum", "Agile Methodologies"],
+      desc: "Certificate issued by the IT Office of Universidad Nacional de Ingeniería (UNI). 18-hour course on the practical application of agile methodologies and the integration of AI tools in Scrum project management.",
+      pdf: "Fundamentos de Gestión de Proyectos con Scrum e IA-UNI.pdf",
+      downloadName: "Bryan-Soberon-Certificado-Scrum-IA-UNI.pdf",
+      verifyUrl: null,
+    },
+    {
+      title: "Project Management with Jira",
+      issuer: "LinkedIn Learning",
+      issued: "Jun 2026",
+      credentialId: "172b884866a90e8d96652fe6301e55a5ccdc2ac42da8f4a33323d0a8aaebf9f1",
+      skills: ["JIRA", "Project Management"],
+      desc: "PMI-endorsed certification on agile project administration with Jira — from project setup to custom Kanban boards and real-time monitoring dashboards.",
+      pdf: "CertificadoDeFinalizacion_Gestion de proyectos con Jira.pdf",
+      downloadName: "Bryan-Soberon-Certificado-Jira-LinkedIn.pdf",
+      verifyUrl: "https://lnkd.in/d--4q_2j",
+    },
+    {
+      title: "Azure: Introduction to the Microsoft Cloud",
+      issuer: "LinkedIn Learning",
+      issued: "Jun 2026",
+      credentialId: "b8289c4d1f473b60185712ff16d50a9c8ca289e12d20844e57fa2a9c3cf797a1",
+      skills: ["Microsoft Azure", "Cloud Computing (IaaS)"],
+      desc: "Course covering Microsoft Azure cloud computing fundamentals: infrastructure, storage, serverless services and artificial intelligence.",
+      pdf: "CertificadoDeFinalizacion_Azure Introduccion a la nube de Microsoft.pdf",
+      downloadName: "Bryan-Soberon-Certificado-Azure-LinkedIn.pdf",
+      verifyUrl: "https://lnkd.in/dywjfd8d",
+    },
   ];
 
   const [ref, inView] = useScrollReveal();
 
   return (
-    <section id="services" className="py-16">
+    <section id="certifications" className="py-16">
       <div className="mx-auto max-w-6xl px-4">
         <motion.div
           ref={ref}
@@ -962,9 +1005,11 @@ function Services() {
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
         >
-          <h2 className="text-center text-4xl font-extrabold sm:text-5xl" style={{ color: "var(--text)" }}>Services</h2>
+          <h2 className="text-center text-4xl font-extrabold sm:text-5xl" style={{ color: "var(--text)" }}>
+            Licenses &amp; <span className="text-glow" style={{ color: "var(--accent)" }}>Certifications</span>
+          </h2>
           <p className="mx-auto mt-3 max-w-2xl text-center text-sm sm:text-base" style={{ color: "var(--text-3)" }}>
-            What I can build for you: interface, logic and delivery with a professional approach.
+            Courses and credentials completed on LinkedIn Learning and partner institutions — verifiable and downloadable as PDF.
           </p>
         </motion.div>
 
@@ -974,8 +1019,8 @@ function Services() {
           animate={inView ? "visible" : "hidden"}
           className="mt-10 grid gap-5 sm:grid-cols-2"
         >
-          {services.map((s) => (
-            <ServiceCard key={s.title} {...s} />
+          {certifications.map((c) => (
+            <CertificationCard key={c.title} {...c} />
           ))}
         </motion.div>
       </div>
@@ -983,26 +1028,74 @@ function Services() {
   );
 }
 
-function ServiceCard({ title, desc }) {
+function CertificationCard({ title, issuer, issued, expires, credentialId, skills, desc, pdf, downloadName, verifyUrl }) {
   return (
     <motion.div
       variants={fadeUp}
       whileHover={{ y: -6, transition: { duration: 0.2 } }}
-      className="rounded-3xl p-7"
+      className="flex flex-col rounded-3xl p-7"
       style={S.pill}
       onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "var(--bg-pill-hover)"; }}
       onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "var(--bg-pill)"; }}
     >
-      <div
-        className="inline-flex items-center rounded-2xl px-3 py-2 text-xs font-semibold"
-        style={{ border: "1px solid var(--border-md)", backgroundColor: "var(--bg-card)", color: "var(--accent)" }}
-      >
-        {title}
+      <div className="flex items-start justify-between gap-3">
+        <div
+          className="inline-flex items-center gap-2 rounded-2xl px-3 py-2 text-xs font-semibold"
+          style={{ border: "1px solid var(--border-md)", backgroundColor: "var(--bg-card)", color: "var(--accent)" }}
+        >
+          <Award size={14} />
+          {issuer}
+        </div>
+        <span className="whitespace-nowrap text-[11px]" style={{ color: "var(--text-4)" }}>
+          {issued}{expires ? ` · Exp. ${expires}` : ""}
+        </span>
       </div>
-      <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{desc}</p>
+
+      <h3 className="mt-4 text-lg font-bold leading-snug" style={{ color: "var(--text)" }}>{title}</h3>
+
+      {credentialId && (
+        <div className="mt-1 break-all text-[11px]" style={{ color: "var(--text-4)" }}>
+          ID: {credentialId}
+        </div>
+      )}
+
+      <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{desc}</p>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        {skills.map((s) => (
+          <span
+            key={s}
+            className="rounded-full px-3 py-1 text-[11px] font-medium"
+            style={{ border: "1px solid var(--border-md)", backgroundColor: "var(--bg-card)", color: "var(--text-3)" }}
+          >
+            {s}
+          </span>
+        ))}
+      </div>
+
       <div className="mt-6 h-[1px] w-full" style={S.divider} />
-      <div className="mt-4 text-xs" style={{ color: "var(--text-4)" }}>
-        Deliverables: UI • Components • API • Deploy
+
+      <div className="mt-4 flex flex-wrap items-center gap-4">
+        <a
+          href={`${import.meta.env.BASE_URL}${encodeURIComponent(pdf)}`}
+          download={downloadName}
+          className="flex items-center gap-2 text-sm font-bold transition-all hover:gap-3"
+          style={{ color: "var(--accent)" }}
+        >
+          <Download size={14} /> Download PDF
+        </a>
+
+        {verifyUrl && (
+          <a
+            href={verifyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-sm font-semibold transition-all hover:gap-3"
+            style={{ color: "var(--text-3)" }}
+          >
+            <ExternalLink size={14} /> Verify credential
+          </a>
+        )}
       </div>
     </motion.div>
   );
