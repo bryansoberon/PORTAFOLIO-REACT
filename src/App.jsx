@@ -27,16 +27,223 @@ import {
   RefreshCw,
   Award,
   ExternalLink,
+  Languages,
 } from "lucide-react";
 
-const navItems = [
-  { id: "home",            label: "Home"           },
-  { id: "projects",        label: "Projects"       },
-  { id: "education",       label: "Education"      },
-  { id: "certifications",  label: "Certifications" },
-  { id: "stack",           label: "Stack"          },
-  { id: "contact",         label: "Contact"        },
-];
+const navIds = ["home", "projects", "education", "certifications", "stack", "contact"];
+
+const translations = {
+  en: {
+    nav: {
+      home: "Home", projects: "Projects", education: "Education",
+      certifications: "Certifications", stack: "Stack", contact: "Contact",
+    },
+    header: { available: "Available", role: "Full-Stack Dev" },
+    home: {
+      greeting: "Hi, I'm",
+      subtitle: "Bachelor's degree in Systems Engineering",
+      paragraph: "Web development (Front/Back), data analysis and project management with an agile approach.",
+      tagline: ["SOPHISTICATED", "ENVIRONMENT"],
+      downloadCv: "Download CV",
+      contact: "Contact",
+      stats: { projects: "Projects", stacks: "Stacks" },
+    },
+    projects: {
+      headingPrefix: "Featured",
+      headingAccent: "Projects",
+      viewProject: "View Live Project",
+      items: [
+        {
+          title: "Mailof Peluches - E-commerce",
+          desc: "Hybrid Full-Stack ecosystem. High-performance store in Next.js with a separate Admin Panel in Vue 3 for dynamic inventory management.",
+          type: "Full-Stack Project",
+        },
+        {
+          title: "ERP Logístico - Fleet & Dashboards",
+          desc: "Development of the core fleet and driver management under DDD architecture. Creation of reactive dashboards for real-time operational control.",
+          type: "Backend & Architecture",
+        },
+      ],
+    },
+    education: {
+      headingPrefix: "Education",
+      headingAccent: "Timeline",
+      items: [
+        { year: "2017 – 2019", title: "High School", desc: "IEP Sagrado Divino Maestro - Secondary 3rd to 5th grade" },
+        { year: "2021 – 2025", title: "University", desc: "Universidad Señor de Sipán - Systems Engineering. Focus on software development, architecture, analytics and project management." },
+        { year: "2025 – Sep to Dec", title: "Pre-professional Internship", desc: "Implementation of web solutions, automation and business process improvements at Carlos Gabriel Transportes S.A.C." },
+      ],
+    },
+    certifications: {
+      headingPrefix: "Licenses &",
+      headingAccent: "Certifications",
+      subtitle: "Courses and credentials completed on LinkedIn Learning and partner institutions — verifiable and downloadable as PDF.",
+      downloadPdf: "Download PDF",
+      verify: "Verify credential",
+      expLabel: "Exp.",
+      items: [
+        {
+          title: "English – Intermediate Level",
+          issued: "Jun 2026",
+          skills: ["English"],
+          desc: "Certificate issued by the Language Center of Universidad Señor de Sipán, certifying successful completion of the Intermediate English Level (312 academic hours).",
+        },
+        {
+          title: "Project Management Fundamentals under the Scrum Approach + AI",
+          issued: "Jan 2026",
+          expires: "Feb 2026",
+          skills: ["Scrum", "Agile Methodologies"],
+          desc: "Certificate issued by the IT Office of Universidad Nacional de Ingeniería (UNI). 18-hour course on the practical application of agile methodologies and the integration of AI tools in Scrum project management.",
+        },
+        {
+          title: "Project Management with Jira",
+          issued: "Jun 2026",
+          skills: ["JIRA", "Project Management"],
+          desc: "PMI-endorsed certification on agile project administration with Jira — from project setup to custom Kanban boards and real-time monitoring dashboards.",
+        },
+        {
+          title: "Azure: Introduction to the Microsoft Cloud",
+          issued: "Jun 2026",
+          skills: ["Microsoft Azure", "Cloud Computing (IaaS)"],
+          desc: "Course covering Microsoft Azure cloud computing fundamentals: infrastructure, storage, serverless services and artificial intelligence.",
+        },
+      ],
+    },
+    stack: {
+      badge: "Stack",
+      heading: "Technologies I Use",
+      subtitle: "Tools and technologies I use to develop modern, scalable and well-structured web applications.",
+      categories: ["Frontend", "Backend", "Databases", "Tools"],
+    },
+    contact: {
+      headingPrefix: "Contact Me",
+      headingAccent: "Now",
+      role: "Systems Engineer • Full-Stack",
+      githubBtn: "Go to my GitHub",
+      form: {
+        name: "Full name",
+        email: "Email address",
+        phone: "Phone",
+        subject: "Subject",
+        message: "Message",
+        placeholder: "Tell me what you need...",
+        send: "Send",
+        sending: "Sending...",
+        sent: "Sent ✅",
+        sentMsg: "Your message was sent successfully ✅",
+        errFill: "Please fill in: name, email, and message.",
+        errEmail: "Enter a valid email address.",
+        errSend: "Could not send. Please try again in 1 minute.",
+      },
+    },
+    footer: { rights: "All rights reserved." },
+  },
+  es: {
+    nav: {
+      home: "Inicio", projects: "Proyectos", education: "Educación",
+      certifications: "Certificaciones", stack: "Stack", contact: "Contacto",
+    },
+    header: { available: "Disponible", role: "Desarrollador Full-Stack" },
+    home: {
+      greeting: "Hola, soy",
+      subtitle: "Bachiller en Ingeniería de Sistemas",
+      paragraph: "Desarrollo web (Front/Back), análisis de datos y gestión de proyectos con un enfoque ágil.",
+      tagline: ["ENTORNO", "SOFISTICADO"],
+      downloadCv: "Descargar CV",
+      contact: "Contacto",
+      stats: { projects: "Proyectos", stacks: "Stacks" },
+    },
+    projects: {
+      headingPrefix: "Proyectos",
+      headingAccent: "Destacados",
+      viewProject: "Ver Proyecto en Vivo",
+      items: [
+        {
+          title: "Mailof Peluches - E-commerce",
+          desc: "Ecosistema Full-Stack híbrido. Tienda de alto rendimiento en Next.js con un Panel de Administración independiente en Vue 3 para la gestión dinámica de inventario.",
+          type: "Proyecto Full-Stack",
+        },
+        {
+          title: "ERP Logístico - Fleet & Dashboards",
+          desc: "Desarrollo del núcleo de gestión de flota y choferes bajo arquitectura DDD. Creación de dashboards reactivos para el control operativo en tiempo real.",
+          type: "Backend y Arquitectura",
+        },
+      ],
+    },
+    education: {
+      headingPrefix: "Educación",
+      headingAccent: "Cronología",
+      items: [
+        { year: "2017 – 2019", title: "Secundaria", desc: "IEP Sagrado Divino Maestro - Secundaria, de 3.º a 5.º grado" },
+        { year: "2021 – 2025", title: "Universidad", desc: "Universidad Señor de Sipán - Ingeniería de Sistemas. Enfoque en desarrollo de software, arquitectura, analítica y gestión de proyectos." },
+        { year: "2025 – Set. a Dic.", title: "Práctica Pre-profesional", desc: "Implementación de soluciones web, automatización y mejora de procesos de negocio en Carlos Gabriel Transportes S.A.C." },
+      ],
+    },
+    certifications: {
+      headingPrefix: "Licencias y",
+      headingAccent: "Certificaciones",
+      subtitle: "Cursos y credenciales completados en LinkedIn Learning e instituciones asociadas — verificables y descargables en PDF.",
+      downloadPdf: "Descargar PDF",
+      verify: "Ver credencial",
+      expLabel: "Venc.",
+      items: [
+        {
+          title: "Inglés – Nivel Intermedio",
+          issued: "jun. 2026",
+          skills: ["Inglés"],
+          desc: "Certificado emitido por el Centro de Idiomas de la Universidad Señor de Sipán que acredita la culminación satisfactoria del Nivel Intermedio del idioma inglés, sumando un total de 312 horas académicas.",
+        },
+        {
+          title: "Fundamentos de Gestión de Proyectos bajo el enfoque Scrum + IA",
+          issued: "ene. 2026",
+          expires: "feb. 2026",
+          skills: ["Scrum", "Metodologías ágiles"],
+          desc: "Certificado emitido por la Oficina de Tecnologías de la Información de la Universidad Nacional de Ingeniería (UNI). El curso de 18 horas abarcó la aplicación práctica de metodologías ágiles y la integración de herramientas de Inteligencia Artificial en la gestión de proyectos con Scrum.",
+        },
+        {
+          title: "Gestión de proyectos con Jira",
+          issued: "jun. 2026",
+          skills: ["JIRA", "Gestión de proyectos"],
+          desc: "Certificación avalada por el PMI sobre la administración ágil de proyectos con Jira. Abarca desde la configuración de proyectos hasta la creación de tableros Kanban personalizados y cuadros de mando para el monitoreo en tiempo real.",
+        },
+        {
+          title: "Azure: Introducción a la nube de Microsoft",
+          issued: "jun. 2026",
+          skills: ["Microsoft Azure", "Cloud Computing (IaaS)"],
+          desc: "Curso completado en LinkedIn Learning sobre los fundamentos de la computación en la nube con Microsoft Azure, abarcando infraestructura, almacenamiento, servicios serverless e inteligencia artificial.",
+        },
+      ],
+    },
+    stack: {
+      badge: "Stack",
+      heading: "Tecnologías que Uso",
+      subtitle: "Herramientas y tecnologías que uso para desarrollar aplicaciones web modernas, escalables y bien estructuradas.",
+      categories: ["Frontend", "Backend", "Bases de Datos", "Herramientas"],
+    },
+    contact: {
+      headingPrefix: "Contáctame",
+      headingAccent: "Ahora",
+      role: "Ingeniero de Sistemas • Full-Stack",
+      githubBtn: "Ir a mi GitHub",
+      form: {
+        name: "Nombre completo",
+        email: "Correo electrónico",
+        phone: "Teléfono",
+        subject: "Asunto",
+        message: "Mensaje",
+        placeholder: "Cuéntame qué necesitas...",
+        send: "Enviar",
+        sending: "Enviando...",
+        sent: "Enviado ✅",
+        sentMsg: "Tu mensaje fue enviado con éxito ✅",
+        errFill: "Por favor completa: nombre, correo y mensaje.",
+        errEmail: "Ingresa un correo electrónico válido.",
+        errSend: "No se pudo enviar. Intenta de nuevo en 1 minuto.",
+      },
+    },
+    footer: { rights: "Todos los derechos reservados." },
+  },
+};
 
 /* ── Helpers de estilo (usan CSS vars) ─────────────── */
 const S = {
@@ -105,6 +312,13 @@ function useScrollReveal(margin = "-80px") {
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeId, setActiveId] = useState("home");
+  const [lang, setLang] = useState(() => localStorage.getItem("portfolio-lang") || "en");
+  const t = translations[lang];
+
+  useEffect(() => {
+    localStorage.setItem("portfolio-lang", lang);
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   const links = {
     linkedin:  "https://www.linkedin.com/in/bernabe-bryan-sober%C3%B3n-quintana-195437307/",
@@ -117,7 +331,7 @@ export default function App() {
 
   // ── ScrollSpy ──
   useEffect(() => {
-    const els = navItems.map((x) => document.getElementById(x.id)).filter(Boolean);
+    const els = navIds.map((id) => document.getElementById(id)).filter(Boolean);
     const obs = new IntersectionObserver(
       (entries) => {
         const visible = entries
@@ -147,18 +361,21 @@ export default function App() {
         setMenuOpen={setMenuOpen}
         activeId={activeId}
         onNav={scrollTo}
+        t={t}
       />
 
       <main className="pt-14">
-        <Home links={links} />
-        <Projects />
-        <Education />
-        <Certifications />
-        <Stack />
-        <Contact links={links} />
+        <Home links={links} t={t} />
+        <Projects t={t} />
+        <Education t={t} />
+        <Certifications t={t} />
+        <Stack t={t} />
+        <Contact links={links} t={t} />
       </main>
 
-      <Footer links={links} onNav={scrollTo} />
+      <Footer links={links} onNav={scrollTo} t={t} />
+
+      <LanguageToggle lang={lang} onToggle={() => setLang((l) => (l === "en" ? "es" : "en"))} />
 
       {/* Radial bg */}
       <div
@@ -170,10 +387,29 @@ export default function App() {
   );
 }
 
+/* ── LANGUAGE TOGGLE ─────────────────────────────────── */
+function LanguageToggle({ lang, onToggle }) {
+  return (
+    <motion.button
+      onClick={onToggle}
+      className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full px-4 py-3 text-sm font-bold backdrop-blur-md"
+      style={{ border: "1px solid var(--border-md)", backgroundColor: "var(--bg-pill)", color: "var(--text)" }}
+      whileHover={{ scale: 1.06, backgroundColor: "var(--bg-pill-hover)" }}
+      whileTap={{ scale: 0.94 }}
+      aria-label={lang === "en" ? "Switch to Spanish" : "Switch to English"}
+      title={lang === "en" ? "Switch to Spanish" : "Switch to English"}
+    >
+      <Languages size={16} style={{ color: "var(--accent)" }} />
+      {lang === "en" ? "ES" : "EN"}
+    </motion.button>
+  );
+}
+
 /* ── HEADER ─────────────────────────────────────────── */
-function Header({ menuOpen, setMenuOpen, activeId, onNav }) {
+function Header({ menuOpen, setMenuOpen, activeId, onNav, t }) {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+  const navItems = navIds.map((id) => ({ id, label: t.nav[id] }));
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
@@ -200,7 +436,7 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav }) {
                 Bryan <span style={{ color: "var(--accent)" }}>Soberón</span>
               </span>
               <span className="hidden text-[9px] tracking-[0.22em] uppercase sm:block mt-0.5" style={{ color: "var(--text-4)" }}>
-                Full-Stack Dev
+                {t.header.role}
               </span>
             </div>
           </button>
@@ -233,7 +469,7 @@ function Header({ menuOpen, setMenuOpen, activeId, onNav }) {
           <div className="flex items-center gap-3 shrink-0">
             <span className="hidden md:flex items-center gap-1.5 text-xs" style={{ color: "var(--text-4)" }}>
               <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: "#22c55e" }} />
-              Available
+              {t.header.available}
             </span>
 
             <motion.button
@@ -428,7 +664,7 @@ function TerminalConsole() {
 }
 
 /* ── HOME ────────────────────────────────────────────── */
-function Home({ links }) {
+function Home({ links, t }) {
   const sectionRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -486,7 +722,7 @@ function Home({ links }) {
                 className="mt-8 text-xs font-semibold tracking-[0.28em] uppercase"
                 style={{ color: "var(--text-4)" }}
               >
-                Hi, I'm
+                {t.home.greeting}
               </motion.p>
             </motion.div>
 
@@ -504,7 +740,7 @@ function Home({ links }) {
 
               <motion.div variants={blurUp} className="mt-3 overflow-hidden min-w-0">
                 <span className="typing text-base sm:text-lg font-medium" style={{ color: "var(--text-3)" }}>
-                  Bachelor's degree in Systems Engineering
+                  {t.home.subtitle}
                 </span>
               </motion.div>
 
@@ -513,7 +749,7 @@ function Home({ links }) {
                 className="mt-5 max-w-[420px] text-sm leading-relaxed sm:text-[0.95rem]"
                 style={{ color: "var(--text-4)" }}
               >
-                Web development (Front/Back), data analysis and project management with an agile approach.
+                {t.home.paragraph}
               </motion.p>
 
 
@@ -528,8 +764,8 @@ function Home({ links }) {
                 animate={{ opacity: 1, filter: "blur(0px)" }}
                 transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1], delay: 0.8 }}
               >🕷️ ☕️</motion.span>
-              <LetterReveal word="SOPHISTICATED" color="var(--accent)" delay={0.8} glow />
-              <LetterReveal word="ENVIRONMENT" color="var(--accent)" delay={1.0} glow />
+              <LetterReveal word={t.home.tagline[0]} color="var(--accent)" delay={0.8} glow />
+              <LetterReveal word={t.home.tagline[1]} color="var(--accent)" delay={1.0} glow />
               <motion.span
                 className="text-xs sm:text-2xl flex-shrink-0"
                 initial={{ opacity: 0, filter: "blur(6px)" }}
@@ -549,7 +785,7 @@ function Home({ links }) {
                   whileTap={{ scale: 0.96 }}
                 >
                   <Download size={16} />
-                  Download CV
+                  {t.home.downloadCv}
                 </motion.a>
                 <motion.a
                   className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold"
@@ -559,7 +795,7 @@ function Home({ links }) {
                   whileTap={{ scale: 0.96 }}
                 >
                   <Send size={16} />
-                  Contact
+                  {t.home.contact}
                 </motion.a>
               </motion.div>
 
@@ -573,8 +809,8 @@ function Home({ links }) {
               {/* Stats */}
               <motion.div variants={blurUp} className="mt-9 flex items-center gap-5">
                 {[
-                  { n: "10+", label: "Projects" },
-                  { n: "4+",  label: "Stacks"   },
+                  { n: "10+", label: t.home.stats.projects },
+                  { n: "4+",  label: t.home.stats.stacks   },
                 ].map(({ n, label }, i) => (
                   <React.Fragment key={label}>
                     {i > 0 && <div className="h-9 w-px rounded-full" style={{ backgroundColor: "var(--border-md)" }} />}
@@ -775,24 +1011,13 @@ function SocialIcon({ href, label, icon }) {
 }
 
 /* ── PROJECTS ────────────────────────────────────────── */
-function Projects() {
-  const projects = [
-    {
-      title: "Mailof Peluches - E-commerce",
-      tags: ["Next.js", "React", "Vue 3", "Prisma", "PostgreSQL", "Vercel", "neon"],
-      desc: "Hybrid Full-Stack ecosystem. High-performance store in Next.js with a separate Admin Panel in Vue 3 for dynamic inventory management.",
-      link: "https://mailofcix.shop/",
-      type: "Full-Stack Project"
-    },
-    {
-      title: "ERP Logístico - Fleet & Dashboards",
-      tags: ["Laravel 12", "Livewire Volt", "DDD", "MySQL", "PHP 8.2"],
-      desc: "Development of the core fleet and driver management under DDD architecture. Creation of reactive dashboards for real-time operational control.",
-      link: "https://github.com/bryansoberon",
-      type: "Backend & Architecture"
-    }
-  ];
+const projectsBase = [
+  { tags: ["Next.js", "React", "Vue 3", "Prisma", "PostgreSQL", "Vercel", "neon"], link: "https://mailofcix.shop/" },
+  { tags: ["Laravel 12", "Livewire Volt", "DDD", "MySQL", "PHP 8.2"], link: "https://github.com/bryansoberon" },
+];
 
+function Projects({ t }) {
+  const projects = projectsBase.map((p, i) => ({ ...p, ...t.projects.items[i] }));
   const [ref, inView] = useScrollReveal();
 
   return (
@@ -806,13 +1031,13 @@ function Projects() {
           className="mb-12"
         >
           <h2 className="text-center text-4xl font-extrabold sm:text-5xl" style={{ color: "var(--text)" }}>
-            Featured <span className="text-glow" style={{ color: "var(--accent)" }}>Projects</span>
+            {t.projects.headingPrefix} <span className="text-glow" style={{ color: "var(--accent)" }}>{t.projects.headingAccent}</span>
           </h2>
         </motion.div>
 
         <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
           {projects.map((p, i) => (
-            <ProjectCard key={p.title} {...p} delay={i * 0.1} />
+            <ProjectCard key={p.title} {...p} viewProjectLabel={t.projects.viewProject} delay={i * 0.1} />
           ))}
         </div>
       </div>
@@ -822,7 +1047,7 @@ function Projects() {
 
 
 
-function ProjectCard({ title, tags, desc, link, type, delay }) {
+function ProjectCard({ title, tags, desc, link, type, viewProjectLabel, delay }) {
   const [ref, inView] = useScrollReveal("-50px");
 
   return (
@@ -854,7 +1079,7 @@ function ProjectCard({ title, tags, desc, link, type, delay }) {
             className="flex items-center gap-2 text-sm font-bold transition-all hover:gap-3" 
             style={{ color: "var(--accent)" }}
           >
-            View Live Project <Send size={14} />
+            {viewProjectLabel} <Send size={14} />
           </a>
         </div>
       </div>
@@ -867,12 +1092,8 @@ function ProjectCard({ title, tags, desc, link, type, delay }) {
 
 
 /* ── EDUCATION ───────────────────────────────────────── */
-function Education() {
-  const items = [
-    { year: "2017 – 2019", title: "High School", desc: "IEP Sagrado Divino Maestro - Secondary 3rd to 5th grade" },
-    { year: "2021 – 2025", title: "University", desc: "Universidad Señor de Sipán - Systems Engineering. Focus on software development, architecture, analytics and project management." },
-    { year: "2025 – Sep to Dec", title: "Pre-professional Internship", desc: "Implementation of web solutions, automation and business process improvements at Carlos Gabriel Transportes S.A.C." },
-  ];
+function Education({ t }) {
+  const items = t.education.items;
 
   const [titleRef, titleInView] = useScrollReveal("-60px");
 
@@ -887,7 +1108,7 @@ function Education() {
           className="text-center text-4xl font-extrabold sm:text-5xl"
           style={{ color: "var(--text)" }}
         >
-          Education <span className="ml-1 text-glow" style={{ color: "var(--accent)" }}>Timeline</span>
+          {t.education.headingPrefix} <span className="ml-1 text-glow" style={{ color: "var(--accent)" }}>{t.education.headingAccent}</span>
         </motion.h2>
 
         <div className="relative mx-auto mt-12 max-w-4xl">
@@ -945,55 +1166,39 @@ function TimelineItem({ item, side, mt = "" }) {
 }
 
 /* ── LICENSES & CERTIFICATIONS ───────────────────────── */
-function Certifications() {
-  const certifications = [
-    {
-      title: "English – Intermediate Level",
-      issuer: "USS – Universidad Señor de Sipán",
-      issued: "Jun 2026",
-      credentialId: null,
-      skills: ["English"],
-      desc: "Certificate issued by the Language Center of Universidad Señor de Sipán, certifying successful completion of the Intermediate English Level (312 academic hours).",
-      pdf: "Certificado_Ingles_USS.pdf",
-      downloadName: "Bryan-Soberon-Certificado-Ingles-Intermedio-USS.pdf",
-      verifyUrl: null,
-    },
-    {
-      title: "Project Management Fundamentals under the Scrum Approach + AI",
-      issuer: "Universidad Nacional de Ingeniería (UNI)",
-      issued: "Jan 2026",
-      expires: "Feb 2026",
-      credentialId: "018 - 0007110",
-      skills: ["Scrum", "Agile Methodologies"],
-      desc: "Certificate issued by the IT Office of Universidad Nacional de Ingeniería (UNI). 18-hour course on the practical application of agile methodologies and the integration of AI tools in Scrum project management.",
-      pdf: "Fundamentos de Gestión de Proyectos con Scrum e IA-UNI.pdf",
-      downloadName: "Bryan-Soberon-Certificado-Scrum-IA-UNI.pdf",
-      verifyUrl: null,
-    },
-    {
-      title: "Project Management with Jira",
-      issuer: "LinkedIn Learning",
-      issued: "Jun 2026",
-      credentialId: "172b884866a90e8d96652fe6301e55a5ccdc2ac42da8f4a33323d0a8aaebf9f1",
-      skills: ["JIRA", "Project Management"],
-      desc: "PMI-endorsed certification on agile project administration with Jira — from project setup to custom Kanban boards and real-time monitoring dashboards.",
-      pdf: "CertificadoDeFinalizacion_Gestion de proyectos con Jira.pdf",
-      downloadName: "Bryan-Soberon-Certificado-Jira-LinkedIn.pdf",
-      verifyUrl: "https://lnkd.in/d--4q_2j",
-    },
-    {
-      title: "Azure: Introduction to the Microsoft Cloud",
-      issuer: "LinkedIn Learning",
-      issued: "Jun 2026",
-      credentialId: "b8289c4d1f473b60185712ff16d50a9c8ca289e12d20844e57fa2a9c3cf797a1",
-      skills: ["Microsoft Azure", "Cloud Computing (IaaS)"],
-      desc: "Course covering Microsoft Azure cloud computing fundamentals: infrastructure, storage, serverless services and artificial intelligence.",
-      pdf: "CertificadoDeFinalizacion_Azure Introduccion a la nube de Microsoft.pdf",
-      downloadName: "Bryan-Soberon-Certificado-Azure-LinkedIn.pdf",
-      verifyUrl: "https://lnkd.in/dywjfd8d",
-    },
-  ];
+const certificationsBase = [
+  {
+    issuer: "USS – Universidad Señor de Sipán",
+    credentialId: null,
+    pdf: "Certificado_Ingles_USS.pdf",
+    downloadName: "Bryan-Soberon-Certificado-Ingles-Intermedio-USS.pdf",
+    verifyUrl: null,
+  },
+  {
+    issuer: "Universidad Nacional de Ingeniería (UNI)",
+    credentialId: "018 - 0007110",
+    pdf: "Fundamentos de Gestión de Proyectos con Scrum e IA-UNI.pdf",
+    downloadName: "Bryan-Soberon-Certificado-Scrum-IA-UNI.pdf",
+    verifyUrl: null,
+  },
+  {
+    issuer: "LinkedIn Learning",
+    credentialId: "172b884866a90e8d96652fe6301e55a5ccdc2ac42da8f4a33323d0a8aaebf9f1",
+    pdf: "CertificadoDeFinalizacion_Gestion de proyectos con Jira.pdf",
+    downloadName: "Bryan-Soberon-Certificado-Jira-LinkedIn.pdf",
+    verifyUrl: "https://lnkd.in/d--4q_2j",
+  },
+  {
+    issuer: "LinkedIn Learning",
+    credentialId: "b8289c4d1f473b60185712ff16d50a9c8ca289e12d20844e57fa2a9c3cf797a1",
+    pdf: "CertificadoDeFinalizacion_Azure Introduccion a la nube de Microsoft.pdf",
+    downloadName: "Bryan-Soberon-Certificado-Azure-LinkedIn.pdf",
+    verifyUrl: "https://lnkd.in/dywjfd8d",
+  },
+];
 
+function Certifications({ t }) {
+  const certifications = certificationsBase.map((c, i) => ({ ...c, ...t.certifications.items[i] }));
   const [ref, inView] = useScrollReveal();
 
   return (
@@ -1006,10 +1211,10 @@ function Certifications() {
           animate={inView ? "visible" : "hidden"}
         >
           <h2 className="text-center text-4xl font-extrabold sm:text-5xl" style={{ color: "var(--text)" }}>
-            Licenses &amp; <span className="text-glow" style={{ color: "var(--accent)" }}>Certifications</span>
+            {t.certifications.headingPrefix} <span className="text-glow" style={{ color: "var(--accent)" }}>{t.certifications.headingAccent}</span>
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-center text-sm sm:text-base" style={{ color: "var(--text-3)" }}>
-            Courses and credentials completed on LinkedIn Learning and partner institutions — verifiable and downloadable as PDF.
+            {t.certifications.subtitle}
           </p>
         </motion.div>
 
@@ -1020,7 +1225,7 @@ function Certifications() {
           className="mt-10 grid gap-5 sm:grid-cols-2"
         >
           {certifications.map((c) => (
-            <CertificationCard key={c.title} {...c} />
+            <CertificationCard key={c.title} {...c} downloadPdfLabel={t.certifications.downloadPdf} verifyLabel={t.certifications.verify} expLabel={t.certifications.expLabel} />
           ))}
         </motion.div>
       </div>
@@ -1028,7 +1233,7 @@ function Certifications() {
   );
 }
 
-function CertificationCard({ title, issuer, issued, expires, credentialId, skills, desc, pdf, downloadName, verifyUrl }) {
+function CertificationCard({ title, issuer, issued, expires, credentialId, skills, desc, pdf, downloadName, verifyUrl, downloadPdfLabel, verifyLabel, expLabel }) {
   return (
     <motion.div
       variants={fadeUp}
@@ -1047,7 +1252,7 @@ function CertificationCard({ title, issuer, issued, expires, credentialId, skill
           {issuer}
         </div>
         <span className="whitespace-nowrap text-[11px]" style={{ color: "var(--text-4)" }}>
-          {issued}{expires ? ` · Exp. ${expires}` : ""}
+          {issued}{expires ? ` · ${expLabel} ${expires}` : ""}
         </span>
       </div>
 
@@ -1082,7 +1287,7 @@ function CertificationCard({ title, issuer, issued, expires, credentialId, skill
           className="flex items-center gap-2 text-sm font-bold transition-all hover:gap-3"
           style={{ color: "var(--accent)" }}
         >
-          <Download size={14} /> Download PDF
+          <Download size={14} /> {downloadPdfLabel}
         </a>
 
         {verifyUrl && (
@@ -1093,7 +1298,7 @@ function CertificationCard({ title, issuer, issued, expires, credentialId, skill
             className="flex items-center gap-2 text-sm font-semibold transition-all hover:gap-3"
             style={{ color: "var(--text-3)" }}
           >
-            <ExternalLink size={14} /> Verify credential
+            <ExternalLink size={14} /> {verifyLabel}
           </a>
         )}
       </div>
@@ -1133,14 +1338,15 @@ const techIcons = {
   "Scrum":        { Icon: RefreshCw,     color: "var(--accent)" },
 };
 
-const stackCategories = [
-  { title: "Frontend",  techs: ["Vue.js", "Angular", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind CSS", "Bootstrap"] },
-  { title: "Backend",   techs: ["Django", "Next.js", "Laravel", "Spring Boot"] },
-  { title: "Databases", techs: ["PostgreSQL", "MySQL", "PgAdmin", "MongoDB", "SQL Server", "SQLite"] },
-  { title: "Tools",     techs: ["Git", "GitHub", "VS Code", "Docker", "Insomnia", "Scrum"] },
+const stackCategoriesBase = [
+  { techs: ["Vue.js", "Angular", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind CSS", "Bootstrap"] },
+  { techs: ["Django", "Next.js", "Laravel", "Spring Boot"] },
+  { techs: ["PostgreSQL", "MySQL", "PgAdmin", "MongoDB", "SQL Server", "SQLite"] },
+  { techs: ["Git", "GitHub", "VS Code", "Docker", "Insomnia", "Scrum"] },
 ];
 
-function Stack() {
+function Stack({ t }) {
+  const stackCategories = stackCategoriesBase.map((c, i) => ({ ...c, title: t.stack.categories[i] }));
   const [headerRef, headerInView] = useScrollReveal();
 
   return (
@@ -1159,21 +1365,21 @@ function Stack() {
             className="rounded-full px-3 py-1 text-xs font-semibold tracking-widest uppercase"
             style={{ border: "1px solid var(--border-md)", backgroundColor: "var(--bg-pill)", color: "var(--accent)" }}
           >
-            Stack
+            {t.stack.badge}
           </motion.span>
           <motion.h2
             variants={fadeUp}
             className="text-center text-4xl font-extrabold sm:text-5xl"
             style={{ color: "var(--text)" }}
           >
-            Technologies I Use
+            {t.stack.heading}
           </motion.h2>
           <motion.p
             variants={fadeUp}
             className="max-w-xl text-center text-sm sm:text-base"
             style={{ color: "var(--text-3)" }}
           >
-            Tools and technologies I use to develop modern, scalable and well-structured web applications.
+            {t.stack.subtitle}
           </motion.p>
         </motion.div>
 
@@ -1242,12 +1448,13 @@ function StackCard({ cat, delay }) {
 }
 
 /* ── CONTACT ─────────────────────────────────────────── */
-function Contact({ links }) {
+function Contact({ links, t }) {
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
   const FORMSPREE = import.meta.env.VITE_FORMSPREE_URL;
   const [status,   setStatus]   = useState("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [ref, inView] = useScrollReveal();
+  const f = t.contact.form;
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -1256,10 +1463,10 @@ function Contact({ links }) {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
-      setStatus("error"); setErrorMsg("Please fill in: name, email, and message."); return;
+      setStatus("error"); setErrorMsg(f.errFill); return;
     }
     if (!emailRegex.test(form.email)) {
-      setStatus("error"); setErrorMsg("Enter a valid email address."); return;
+      setStatus("error"); setErrorMsg(f.errEmail); return;
     }
 
     try {
@@ -1273,7 +1480,7 @@ function Contact({ links }) {
       setForm({ name: "", email: "", phone: "", subject: "", message: "" });
     } catch {
       setStatus("error");
-      setErrorMsg("Could not send. Please try again in 1 minute.");
+      setErrorMsg(f.errSend);
     }
   }
 
@@ -1290,7 +1497,7 @@ function Contact({ links }) {
           className="text-center text-4xl font-extrabold sm:text-5xl"
           style={{ color: "var(--text)" }}
         >
-          Contact Me <span style={{ color: "var(--accent)" }}>Now</span>
+          {t.contact.headingPrefix} <span style={{ color: "var(--accent)" }}>{t.contact.headingAccent}</span>
         </motion.h2>
 
         <div className="mt-10 grid gap-8 md:grid-cols-2">
@@ -1309,7 +1516,7 @@ function Contact({ links }) {
               style={S.card}
             >
               <div className="text-base font-bold" style={{ color: "var(--text)" }}>Bryan Soberón</div>
-              <div className="text-sm mb-4" style={{ color: "var(--accent)" }}>Systems Engineer • Full‑Stack</div>
+              <div className="text-sm mb-4" style={{ color: "var(--accent)" }}>{t.contact.role}</div>
               <div className="space-y-3 text-sm" style={{ color: "var(--text-3)" }}>
                 <InfoRow icon={<Mail  size={15} />} text="bryansoberonq@gmail.com" />
                 <InfoRow icon={<Phone size={15} />} text="+51 933 698 031" />
@@ -1344,7 +1551,7 @@ function Contact({ links }) {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 .5C5.7.5.5 5.8.5 12.3c0 5.2 3.4 9.6 8.1 11.2.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1.8-.8 1.5-1.1.3-.9 1-1.5 1.8-1.7-2.6-.3-5.3-1.3-5.3-5.9 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.9 1.2 1.9 1.2 3.2 0 4.6-2.7 5.6-5.3 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.7-1.6 8.1-6 8.1-11.2C23.5 5.8 18.3.5 12 .5z" />
                 </svg>
-                Go to my GitHub
+                {t.contact.githubBtn}
               </a>
             </div>
           </motion.div>
@@ -1360,19 +1567,19 @@ function Contact({ links }) {
             onSubmit={handleSubmit}
           >
             <div className="grid gap-4 sm:grid-cols-2">
-              <Input label="Full name"      name="name"    value={form.name}    onChange={onChange} />
-              <Input label="Email address"  name="email"   type="email" value={form.email}   onChange={onChange} />
-              <Input label="Phone"          name="phone"   type="tel"   value={form.phone}   onChange={onChange} />
-              <Input label="Subject"        name="subject" value={form.subject} onChange={onChange} />
+              <Input label={f.name}    name="name"    value={form.name}    onChange={onChange} />
+              <Input label={f.email}   name="email"   type="email" value={form.email}   onChange={onChange} />
+              <Input label={f.phone}   name="phone"   type="tel"   value={form.phone}   onChange={onChange} />
+              <Input label={f.subject} name="subject" value={form.subject} onChange={onChange} />
             </div>
 
             <div className="mt-4">
-              <label htmlFor="message" className="text-xs font-semibold" style={{ color: "var(--text-2)" }}>Message</label>
+              <label htmlFor="message" className="text-xs font-semibold" style={{ color: "var(--text-2)" }}>{f.message}</label>
               <textarea
                 id="message" name="message" value={form.message} onChange={onChange} rows={7}
                 className="mt-2 w-full resize-none rounded-2xl px-4 py-3 text-sm outline-none ring-0"
                 style={{ ...S.input, color: "var(--text)", caretColor: "var(--accent)" }}
-                placeholder="Tell me what you need..."
+                placeholder={f.placeholder}
               />
             </div>
 
@@ -1385,12 +1592,12 @@ function Contact({ links }) {
               whileTap={{ scale: 0.98 }}
             >
               <Send size={18} />
-              {status === "sending" ? "Sending..." : status === "sent" ? "Sent ✅" : "Send"}
+              {status === "sending" ? f.sending : status === "sent" ? f.sent : f.send}
             </motion.button>
 
             <div aria-live="polite">
               {status === "error" && <p className="mt-3 text-sm text-red-400">{errorMsg}</p>}
-              {status === "sent"  && <p className="mt-3 text-sm text-emerald-400">Your message was sent successfully ✅</p>}
+              {status === "sent"  && <p className="mt-3 text-sm text-emerald-400">{f.sentMsg}</p>}
             </div>
           </motion.form>
         </div>
@@ -1427,13 +1634,15 @@ function InfoRow({ icon, text }) {
 }
 
 /* ── FOOTER ──────────────────────────────────────────── */
-function Footer({ links, onNav }) {
+function Footer({ links, onNav, t }) {
+  const navItems = navIds.map((id) => ({ id, label: t.nav[id] }));
+
   return (
     <footer className="py-12" style={{ borderTop: "1px solid var(--border)", backgroundColor: "var(--bg)" }}>
       <div className="mx-auto max-w-6xl px-4">
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
           <div className="text-sm" style={{ color: "var(--text-4)" }}>
-            © {new Date().getFullYear()} Bryan. All rights reserved.
+            © {new Date().getFullYear()} Bryan. {t.footer.rights}
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-2">
