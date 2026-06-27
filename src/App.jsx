@@ -6,7 +6,7 @@ import {
   SiVuedotjs, SiAngular, SiTypescript, SiJavascript, SiHtml5, SiCss,
   SiTailwindcss, SiBootstrap, SiDjango, SiNextdotjs, SiLaravel, SiPhp,
   SiSpringboot, SiCplusplus, SiMysql, SiPostgresql, SiMongodb,
-  SiSqlite, SiGit, SiGithub, SiDocker, SiInsomnia
+  SiSqlite, SiGit, SiGithub, SiDocker, SiInsomnia, SiJira
 } from "react-icons/si";
 import { FaJava, FaFacebook as Facebook } from "react-icons/fa";
 
@@ -28,6 +28,7 @@ import {
   Award,
   ExternalLink,
   Languages,
+  Cloud,
 } from "lucide-react";
 
 const navIds = ["home", "projects", "education", "certifications", "stack", "contact"];
@@ -1336,13 +1337,15 @@ const techIcons = {
   "Docker":       { Icon: SiDocker,      color: "#2496ED" },
   "Insomnia":     { Icon: SiInsomnia,    color: "#4000BF" },
   "Scrum":        { Icon: RefreshCw,     color: "var(--accent)" },
+  "Jira":         { Icon: SiJira,        color: "#0052CC" },
+  "Microsoft Azure": { Icon: Cloud,      color: "#0078D4" },
 };
 
 const stackCategoriesBase = [
   { techs: ["Vue.js", "Angular", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind CSS", "Bootstrap"] },
   { techs: ["Django", "Next.js", "Laravel", "Spring Boot"] },
   { techs: ["PostgreSQL", "MySQL", "PgAdmin", "MongoDB", "SQL Server", "SQLite"] },
-  { techs: ["Git", "GitHub", "VS Code", "Docker", "Insomnia", "Scrum"] },
+  { techs: ["Git", "GitHub", "VS Code", "Docker", "Insomnia", "Scrum", "Jira", "Microsoft Azure"] },
 ];
 
 function Stack({ t }) {
