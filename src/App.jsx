@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
-import Spline from "@splinetool/react-spline";
+import React, { useEffect, useState, useRef, lazy, Suspense } from "react";
 import { motion, AnimatePresence, useInView, useScroll, useSpring, useTransform } from "framer-motion";
+
+const Spline = lazy(() => import("@splinetool/react-spline"));
 
 import {
   SiVuedotjs, SiAngular, SiTypescript, SiJavascript, SiHtml5, SiCss,
@@ -1539,7 +1540,11 @@ function Contact({ links, t }) {
                   transformOrigin: "center top",
                 }}
               >
-                <Spline scene="https://prod.spline.design/Pbg4uemZbXh3i3ec/scene.splinecode" />
+                {inView && (
+                  <Suspense fallback={null}>
+                    <Spline scene="https://prod.spline.design/Pbg4uemZbXh3i3ec/scene.splinecode" />
+                  </Suspense>
+                )}
               </div>
               <div
                 className="pointer-events-none absolute bottom-0 left-0 right-0 z-10"
