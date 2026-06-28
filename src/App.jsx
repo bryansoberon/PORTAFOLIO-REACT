@@ -32,12 +32,12 @@ import {
   Cloud,
 } from "lucide-react";
 
-const navIds = ["home", "projects", "education", "certifications", "stack", "contact"];
+const navIds = ["home", "projects", "experience", "education", "certifications", "stack", "contact"];
 
 const translations = {
   en: {
     nav: {
-      home: "Home", projects: "Projects", education: "Education",
+      home: "Home", projects: "Projects", experience: "Experience", education: "Education",
       certifications: "Certifications", stack: "Stack", contact: "Contact",
     },
     header: { available: "Available", role: "Full-Stack Dev" },
@@ -73,7 +73,22 @@ const translations = {
       items: [
         { year: "2017 – 2019", title: "High School", desc: "IEP Sagrado Divino Maestro - Secondary 3rd to 5th grade" },
         { year: "2021 – 2025", title: "University", desc: "Universidad Señor de Sipán - Systems Engineering. Focus on software development, architecture, analytics and project management." },
-        { year: "2025 – Sep to Dec", title: "Pre-professional Internship", desc: "Implementation of web solutions, automation and business process improvements at Carlos Gabriel Transportes S.A.C." },
+      ],
+    },
+    experience: {
+      headingPrefix: "Work",
+      headingAccent: "Experience",
+      items: [
+        {
+          year: "Sep 2025 – Dec 2025",
+          title: "Pre-professional Intern · Carlos Gabriel Transportes",
+          desc: "Implementation of web solutions, automation and business process improvements for fleet management.",
+        },
+        {
+          year: "Jun 2026 – Present",
+          title: "Professional Intern · Epsel",
+          desc: "Professional internship at Epsel's South Zonal Commercial Office: management and validation of data in administrative systems, digitization and case-file entry, and handling of financial records and current accounts. Support in tracking and documenting commercial workflows.",
+        },
       ],
     },
     certifications: {
@@ -142,7 +157,7 @@ const translations = {
   },
   es: {
     nav: {
-      home: "Inicio", projects: "Proyectos", education: "Educación",
+      home: "Inicio", projects: "Proyectos", experience: "Experiencia", education: "Educación",
       certifications: "Certificaciones", stack: "Stack", contact: "Contacto",
     },
     header: { available: "Disponible", role: "Desarrollador Full-Stack" },
@@ -178,7 +193,22 @@ const translations = {
       items: [
         { year: "2017 – 2019", title: "Secundaria", desc: "IEP Sagrado Divino Maestro - Secundaria, de 3.º a 5.º grado" },
         { year: "2021 – 2025", title: "Universidad", desc: "Universidad Señor de Sipán - Ingeniería de Sistemas. Enfoque en desarrollo de software, arquitectura, analítica y gestión de proyectos." },
-        { year: "2025 – Set. a Dic.", title: "Práctica Pre-profesional", desc: "Implementación de soluciones web, automatización y mejora de procesos de negocio en Carlos Gabriel Transportes S.A.C." },
+      ],
+    },
+    experience: {
+      headingPrefix: "Experiencia",
+      headingAccent: "Laboral",
+      items: [
+        {
+          year: "Set. 2025 – Dic. 2025",
+          title: "Practicante Pre-profesional · Carlos Gabriel Transportes",
+          desc: "Implementación de soluciones web, automatización y mejora de procesos de negocio para la gestión de flota.",
+        },
+        {
+          year: "Jun. 2026 – Actualidad",
+          title: "Practicante Profesional · Epsel",
+          desc: "Práctica profesional en la Oficina Comercial Zonal Sur de Epsel: gestión y validación de datos en sistemas administrativos, digitalización e ingreso de expedientes, y manejo de registros financieros y cuentas corrientes. Apoyo en el seguimiento y documentación de flujos de trabajo comerciales.",
+        },
       ],
     },
     certifications: {
@@ -369,6 +399,7 @@ export default function App() {
       <main className="pt-14">
         <Home links={links} t={t} />
         <Projects t={t} />
+        <Experience t={t} />
         <Education t={t} />
         <Certifications t={t} />
         <Stack t={t} />
@@ -1092,6 +1123,44 @@ function ProjectCard({ title, tags, desc, link, type, viewProjectLabel, delay })
 
 
 
+
+/* ── EXPERIENCE ──────────────────────────────────────── */
+function Experience({ t }) {
+  const items = t.experience.items;
+
+  const [titleRef, titleInView] = useScrollReveal("-60px");
+
+  return (
+    <section id="experience" className="py-16">
+      <div className="mx-auto max-w-6xl px-4">
+        <motion.h2
+          ref={titleRef}
+          variants={fadeUp}
+          initial="hidden"
+          animate={titleInView ? "visible" : "hidden"}
+          className="text-center text-4xl font-extrabold sm:text-5xl"
+          style={{ color: "var(--text)" }}
+        >
+          {t.experience.headingPrefix} <span className="ml-1 text-glow" style={{ color: "var(--accent)" }}>{t.experience.headingAccent}</span>
+        </motion.h2>
+
+        <div className="relative mx-auto mt-12 max-w-4xl">
+          <div className="absolute left-5 top-0 h-full w-[2px] sm:left-1/2 sm:-ml-[1px]" style={S.divider} />
+          <div>
+            {items.map((it, idx) => (
+              <TimelineItem
+                key={it.year}
+                item={it}
+                side={idx % 2 === 0 ? "left" : "right"}
+                mt={idx === 0 ? "" : "mt-12"}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 /* ── EDUCATION ───────────────────────────────────────── */
 function Education({ t }) {
