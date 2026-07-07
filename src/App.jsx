@@ -100,6 +100,12 @@ const translations = {
       expLabel: "Exp.",
       items: [
         {
+          title: "Python for Data Science, AI & Development",
+          issued: "Jul 2026",
+          skills: ["Python", "Data Science", "Artificial Intelligence", "IBM"],
+          desc: "Certificate issued by IBM and authorized through Coursera, covering Python programming fundamentals applied to data science, artificial intelligence, and development.",
+        },
+        {
           title: "English – Intermediate Level",
           issued: "Jun 2026",
           skills: ["English"],
@@ -219,6 +225,12 @@ const translations = {
       verify: "Ver credencial",
       expLabel: "Venc.",
       items: [
+        {
+          title: "Python for Data Science, AI & Development",
+          issued: "jul. 2026",
+          skills: ["Python", "Data Science", "Inteligencia Artificial", "IBM"],
+          desc: "Certificado emitido por IBM y autorizado a través de Coursera, que cubre los fundamentos de la programación en Python aplicados a la ciencia de datos, inteligencia artificial y desarrollo.",
+        },
         {
           title: "Inglés – Nivel Intermedio",
           issued: "jun. 2026",
@@ -1238,6 +1250,13 @@ function TimelineItem({ item, side, mt = "" }) {
 
 /* ── LICENSES & CERTIFICATIONS ───────────────────────── */
 const certificationsBase = [
+  {
+    issuer: "IBM (Coursera)",
+    credentialId: "TV4D2T7L7BPJ",
+    pdf: "Coursera TV4D2T7L7BPJ.pdf",
+    downloadName: "Bryan-Soberon-Certificado-Python-Data-Science-AI-IBM-Coursera.pdf",
+    verifyUrl: "https://coursera.org/verify/TV4D2T7L7BPJ",
+  },
   {
     issuer: "USS – Universidad Señor de Sipán",
     credentialId: null,
