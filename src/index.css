@@ -1,115 +1,205 @@
 @import "tailwindcss";
 
-html {
-  scroll-behavior: smooth;
-  overflow-x: hidden;
+/* ══════════════════════════════════════════════════════
+   Sistema de diseño — claro, geométrico, redondeado.
+   Blanco + grises + un solo naranja. Sin glows.
+   ══════════════════════════════════════════════════════ */
+
+:root {
+  /* Superficies */
+  --paper:    #ffffff;
+  --panel:    #f2f2f0;
+  --panel-2:  #e9e9e6;
+  --panel-3:  #dedede;
+  --ink:      #131313;
+
+  /* Texto */
+  --fg:       #131313;
+  --fg-2:     #4a4a48;
+  --fg-3:     #8b8b87;
+  --fg-4:     #b6b6b1;
+  --on-ink:   #f4f4f2;
+  --on-ink-2: #9a9a96;
+
+  /* Acentos */
+  --accent:   #f58634;
+  --accent-2: #e0701c;
+  --live:     #2fa84f;
+
+  /* Líneas */
+  --rule:      #e2e2de;
+  --rule-soft: #eeeeeb;
+  --rule-ink:  rgba(244, 244, 242, 0.16);
+
+  /* Tipografía */
+  --font-sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Radios — la geometría define el estilo */
+  --r-pill: 999px;
+  --r-lg:   28px;
+  --r-md:   20px;
+  --r-sm:   14px;
+
+  --gutter: clamp(1.25rem, 3.5vw, 3rem);
 }
+
+html {
+  /* el scroll suave lo maneja Lenis; scroll-behavior nativo lo pelearía */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* `clip` y no `hidden`: hidden convierte el elemento en contenedor de
+   scroll y rompe todos los `position: sticky` de dentro. */
+html, body { overflow-x: clip; }
 
 body {
-  overflow-x: hidden;
-  width: 100%;
   max-width: 100%;
+  background-color: var(--paper);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  letter-spacing: -0.011em;
 }
 
-/* ── DARK THEME (default) ─────────────────────────── */
-:root {
-  /* Backgrounds */
-  --bg:            #040d18;
-  --bg-sec:        rgba(4, 18, 38, 0.72);
-  --bg-card:       rgba(4, 14, 26, 0.85);
-  --bg-input:      rgba(4, 14, 26, 0.65);
-  --bg-navbar:     rgba(4, 10, 20, 0.88);
-  --bg-pill:       rgba(34, 211, 238, 0.06);
-  --bg-pill-hover: rgba(34, 211, 238, 0.13);
-  --bg-active:     rgba(34, 211, 238, 0.11);
+::selection { background: var(--accent); color: #fff; }
 
-  /* Text */
-  --text:   #e8f4f8;
-  --text-2: #cce8f0;
-  --text-3: #8bbac8;
-  --text-4: #567888;
-  --text-5: #2e5060;
-
-  /* Accent – cyan */
-  --accent: #22d3ee;
-
-  /* Borders */
-  --border:    rgba(34, 211, 238, 0.14);
-  --border-md: rgba(34, 211, 238, 0.22);
-  --border-st: rgba(34, 211, 238, 0.30);
-  --border-in: rgba(34, 211, 238, 0.40);
-  --divider:   rgba(34, 211, 238, 0.10);
-
-  /* Glows */
-  --glow-btn:    0 0 20px rgba(34, 211, 238, 0.50), 0 0 44px rgba(34, 211, 238, 0.24);
-  --glow-text:   rgba(34, 211, 238, 0.70);
-  --glow-ring:   rgba(34, 211, 238, 0.50);
-  --glow-avatar: rgba(34, 211, 238, 0.20);
-  --glow-card:   0 0 24px rgba(34, 211, 238, 0.12);
-
-  /* Masks & buttons */
-  --spline-mask: linear-gradient(to top, #040d18 55%, rgba(4, 13, 24, 0.85) 75%, transparent 100%);
-  --github-btn:  linear-gradient(90deg, #22d3ee, #06b6d4);
-  --github-glow: 0 0 30px rgba(34, 211, 238, 0.55);
-
-  /* Radial bg */
-  --radial-bg:
-    radial-gradient(900px 500px at 15% 20%, rgba(34, 211, 238, 0.07), transparent 60%),
-    radial-gradient(700px 400px at 85% 15%, rgba(6, 182, 212, 0.04), transparent 55%),
-    radial-gradient(800px 600px at 50% 100%, rgba(4, 18, 38, 0.90), transparent 65%);
+/* ── Tipografía ──────────────────────────────────────── */
+.display {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
 }
 
-/* ── Keyframes ────────────────────────────────────── */
-@keyframes caret {
-  50% { border-color: transparent; }
+.h2 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
 }
 
-@keyframes typing {
-  from { width: 0; }
-  to   { width: 100%; }
+.meta {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--fg-3);
 }
 
-@keyframes floaty {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-8px); }
-  100% { transform: translateY(0); }
+.meta-caps {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--fg-3);
 }
 
-/* ── Utility classes ─────────────────────────────── */
-.glow {
-  box-shadow: var(--glow-btn);
+/* ── Rejilla técnica de fondo del hero ───────────────── */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(19, 19, 19, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(19, 19, 19, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 45%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(120% 90% at 50% 45%, #000 35%, transparent 100%);
 }
 
-.text-glow {
-  text-shadow: 0 0 22px var(--glow-text);
-}
-
-/* === TYPING === */
-.typing-wrap {
-  display: inline-block;
-  max-width: 100%;
-  white-space: nowrap;
+/* ── Arco del retrato ────────────────────────────────── */
+.arch {
+  border-radius: 50% / 34% 34% 30% 30%;
   overflow: hidden;
-  position: relative;
-  vertical-align: bottom;
 }
 
-.typing {
-  display: inline-block;
+/* ── Píldoras y botones ──────────────────────────────── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  padding: 0.6rem 1.15rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--fg);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.pill:hover { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+
+.pill-quiet {
+  background: var(--panel);
+  border-color: transparent;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--r-pill);
+  background: var(--panel);
+  color: var(--fg-2);
   white-space: nowrap;
-  width: 0;
-  overflow: hidden;
-  max-width: 100%;
-  animation: typing 2.4s steps(35, end) forwards;
 }
 
-.typing-wrap::after {
+/* ── Enlace subrayado ────────────────────────────────── */
+.link-u { position: relative; display: inline-block; transition: color 0.3s ease; }
+.link-u::after {
   content: "";
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 1.1em;
-  border-right: 2px solid var(--accent);
-  animation: caret .75s step-end infinite;
+  position: absolute; left: 0; bottom: -2px;
+  height: 1px; width: 100%;
+  background: currentColor;
+  transform: scaleX(0); transform-origin: right;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-u:hover::after { transform: scaleX(1); transform-origin: left; }
+
+/* ── Punto de disponibilidad ─────────────────────────── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.8); }
+}
+.dot-live {
+  width: 7px; height: 7px; border-radius: 999px;
+  background: var(--live);
+  animation: pulse-dot 2.2s ease-in-out infinite;
 }
 
+/* ── Campos de formulario ────────────────────────────── */
+.field {
+  width: 100%;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  padding: 0.85rem 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--fg);
+  outline: none;
+  transition: border-color 0.25s ease;
+}
+.field::placeholder { color: var(--fg-4); }
+.field:focus { border-color: var(--accent); }
+
+/* ── Marquee ─────────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track { display: flex; width: max-content; animation: marquee 34s linear infinite; }
+
+/* ── Lenis ──────────────────────────────────────────── */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .marquee-track, .dot-live { animation: none; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
