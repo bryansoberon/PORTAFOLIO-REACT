@@ -344,7 +344,8 @@ export const sections = [
   { id: "experience",     n: "04" },
   { id: "education",      n: "05" },
   { id: "certifications", n: "06" },
-  { id: "contact",        n: "07" },
+  { id: "stack",          n: "07" },
+  { id: "contact",        n: "08" },
 ];
 
 /* Textos del nuevo layout. */
@@ -356,15 +357,10 @@ export const ui = {
     sectionNames: {
       index: "Intro", about: "About", projects: "Selected work",
       experience: "Experience", education: "Education",
-      certifications: "Credentials", contact: "Contact",
+      certifications: "Credentials", stack: "Stack", contact: "Contact",
     },
-    heroBlurb:
-      "Bryan is a systems engineer & full-stack developer building web products end to end — from the data model to the interface people actually touch.",
-    heroStats: [
-      { n: "10+", label: "Projects\nshipped" },
-      { n: "4+",  label: "Stacks in\nproduction" },
-      { n: "5",   label: "Verified\ncredentials" },
-    ],
+    themeLabel: "Switch theme",
+    socialLabel: "Find me at",
     aboutLabel: "/about",
     aboutStatement:
       "I hold a bachelor's degree in Systems Engineering and I work across the whole stack — building web applications, modelling and analysing data, and running delivery with an agile approach. I like problems where architecture, data and interface all have to agree.",
@@ -377,7 +373,6 @@ export const ui = {
       Tools: "Version control, containers, agile boards and cloud fundamentals. The scaffolding that turns individual work into something a team can actually ship.",
     },
     scroll: "Scroll",
-    liveSite: "Website",
     contactLabel: "/new_project",
     contactBig: "Let's build something special",
     revealEmail: "Reveal\nemail address",
@@ -390,15 +385,10 @@ export const ui = {
     sectionNames: {
       index: "Intro", about: "Sobre mí", projects: "Trabajo seleccionado",
       experience: "Experiencia", education: "Educación",
-      certifications: "Credenciales", contact: "Contacto",
+      certifications: "Credenciales", stack: "Stack", contact: "Contacto",
     },
-    heroBlurb:
-      "Bryan es ingeniero de sistemas y desarrollador full-stack: construye productos web de punta a punta, desde el modelo de datos hasta la interfaz que la gente realmente usa.",
-    heroStats: [
-      { n: "10+", label: "Proyectos\nentregados" },
-      { n: "4+",  label: "Stacks en\nproducción" },
-      { n: "5",   label: "Credenciales\nverificadas" },
-    ],
+    themeLabel: "Cambiar tema",
+    socialLabel: "Encuéntrame en",
     aboutLabel: "/sobre-mi",
     aboutStatement:
       "Soy bachiller en Ingeniería de Sistemas y trabajo en todo el stack: construyo aplicaciones web, modelo y analizo datos, y gestiono la entrega con enfoque ágil. Me interesan los problemas donde la arquitectura, los datos y la interfaz tienen que ponerse de acuerdo.",
@@ -411,7 +401,6 @@ export const ui = {
       Herramientas: "Control de versiones, contenedores, tableros ágiles y fundamentos de nube. El andamiaje que convierte el trabajo individual en algo que un equipo puede entregar.",
     },
     scroll: "Desliza",
-    liveSite: "Ver sitio",
     contactLabel: "/nuevo-proyecto",
     contactBig: "Construyamos algo especial",
     revealEmail: "Mostrar\ncorreo",

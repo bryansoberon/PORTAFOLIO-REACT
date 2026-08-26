@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 /* ══════════════════════════════════════════════════════
-   Sistema de diseño — claro, geométrico, redondeado.
-   Blanco + grises + un solo naranja. Sin glows.
+   Sistema de diseño — claro y oscuro, geométrico.
+   Grises + un solo naranja. Sin glows.
    ══════════════════════════════════════════════════════ */
 
 :root {
@@ -11,7 +11,7 @@
   --panel:    #f2f2f0;
   --panel-2:  #e9e9e6;
   --panel-3:  #dedede;
-  --ink:      #131313;
+  --ink:      #131313;   /* fondo de las secciones invertidas */
 
   /* Texto */
   --fg:       #131313;
@@ -31,17 +31,59 @@
   --rule-soft: #eeeeeb;
   --rule-ink:  rgba(244, 244, 242, 0.16);
 
+  /* Decoración dependiente del tema */
+  --grid-line: rgba(19, 19, 19, 0.045);
+  --ghost:     rgba(19, 19, 19, 0.038);
+  --fade-out:  rgba(255, 255, 255, 0.85);
+  --shadow-card: 0 18px 50px -24px rgba(0, 0, 0, 0.45);
+  --cursor-blend: difference;
+
   /* Tipografía */
   --font-sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
-  /* Radios — la geometría define el estilo */
+  /* Radios */
   --r-pill: 999px;
   --r-lg:   28px;
   --r-md:   20px;
   --r-sm:   14px;
 
-  --gutter: clamp(1.25rem, 3.5vw, 3rem);
+  --gutter: clamp(1.1rem, 3.5vw, 3rem);
+}
+
+/* ── Tema oscuro ─────────────────────────────────────────
+   Se aplica por `data-theme="dark"` en <html>. Las secciones
+   invertidas no se vuelven blancas: pasan a un gris apenas
+   más claro, para que sigan leyéndose como un cambio de ritmo. */
+[data-theme="dark"] {
+  --paper:    #0e0e0d;
+  --panel:    #1a1a18;
+  --panel-2:  #232321;
+  --panel-3:  #2e2e2b;
+  --ink:      #1c1c1a;
+
+  --fg:       #f2f2f0;
+  --fg-2:     #b4b4ae;
+  --fg-3:     #898983;
+  --fg-4:     #5c5c57;
+  --on-ink:   #f2f2f0;
+  --on-ink-2: #9a9a94;
+
+  --accent:   #ff9448;
+  --accent-2: #ffab6d;
+  --live:     #3ecf6a;
+
+  --rule:      #2b2b28;
+  --rule-soft: #212120;
+  --rule-ink:  rgba(242, 242, 240, 0.14);
+
+  --grid-line: rgba(242, 242, 240, 0.05);
+  --ghost:     rgba(242, 242, 240, 0.045);
+  --fade-out:  rgba(14, 14, 13, 0.85);
+  --shadow-card: 0 18px 50px -24px rgba(0, 0, 0, 0.85);
+  --cursor-blend: exclusion;
+
+  color-scheme: dark;
 }
 
 html {
@@ -59,9 +101,10 @@ body {
   color: var(--fg);
   font-family: var(--font-sans);
   letter-spacing: -0.011em;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-::selection { background: var(--accent); color: #fff; }
+::selection { background: var(--accent); color: #131313; }
 
 /* ── Tipografía ──────────────────────────────────────── */
 .display {
@@ -99,8 +142,8 @@ body {
 /* ── Rejilla técnica de fondo del hero ───────────────── */
 .grid-bg {
   background-image:
-    linear-gradient(to right, rgba(19, 19, 19, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(19, 19, 19, 0.045) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: 56px 56px;
   -webkit-mask-image: radial-gradient(120% 90% at 50% 45%, #000 35%, transparent 100%);
   mask-image: radial-gradient(120% 90% at 50% 45%, #000 35%, transparent 100%);
@@ -126,12 +169,20 @@ body {
   color: var(--fg);
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
-.pill:hover { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
-
-.pill-quiet {
-  background: var(--panel);
-  border-color: transparent;
+.pill:hover {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--paper);
 }
+
+.pill-quiet { background: var(--panel); border-color: transparent; }
+
+.pill-accent {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #131313;
+}
+.pill-accent:hover { background: var(--accent-2); border-color: var(--accent-2); color: #131313; }
 
 .tag {
   font-family: var(--font-mono);
@@ -142,6 +193,19 @@ body {
   color: var(--fg-2);
   white-space: nowrap;
 }
+
+/* Botón redondo para iconos sociales y controles */
+.icon-btn {
+  display: grid;
+  place-items: center;
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--rule);
+  color: var(--fg-2);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.icon-btn:hover { background: var(--fg); border-color: var(--fg); color: var(--paper); }
 
 /* ── Enlace subrayado ────────────────────────────────── */
 .link-u { position: relative; display: inline-block; transition: color 0.3s ease; }
@@ -164,6 +228,7 @@ body {
   width: 7px; height: 7px; border-radius: 999px;
   background: var(--live);
   animation: pulse-dot 2.2s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
 /* ── Campos de formulario ────────────────────────────── */
@@ -189,15 +254,23 @@ body {
 }
 .marquee-track { display: flex; width: max-content; animation: marquee 34s linear infinite; }
 
-/* ── Lenis ──────────────────────────────────────────── */
+/* ── Lenis ───────────────────────────────────────────── */
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
 
+/* ── Apilado de proyectos: solo con altura de sobra ─────
+   En pantallas cortas la tarjeta es más alta que el viewport
+   y `sticky` deja el contenido a medio ver. */
+@media (min-width: 1024px) and (min-height: 700px) {
+  .stack-card { position: sticky; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .marquee-track, .dot-live { animation: none; }
+  .stack-card { position: static !important; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;

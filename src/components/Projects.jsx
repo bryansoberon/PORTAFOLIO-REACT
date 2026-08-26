@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Container, Reveal } from "./primitives.jsx";
+import { Container, Reveal, SectionHead } from "./primitives.jsx";
 import { projectsBase } from "../data/content.js";
 import { techIcons } from "../data/techIcons.js";
 
@@ -12,17 +12,16 @@ export default function Projects({ t, u }) {
   return (
     <section id="projects" className="py-20 sm:py-28">
       <Container>
-        <Reveal>
-          <div className="flex items-baseline justify-between border-t border-[var(--rule)] pt-5">
-            <span className="meta">/{u.sectionNames.projects.toLowerCase().replace(/\s+/g, "_")}</span>
-            <span className="meta">[{String(items.length).padStart(2, "0")}]</span>
-          </div>
-        </Reveal>
+        <SectionHead
+          label={u.sectionNames.projects}
+          title={`${t.projects.headingPrefix} ${t.projects.headingAccent}`}
+          count={items.length}
+        />
 
         {/* Pila */}
         <div className="mt-10">
           {items.map((p, i) => (
-            <StackedCard key={p.title} project={p} index={i} total={items.length} u={u} />
+            <StackedCard key={p.title} project={p} index={i} total={items.length} t={t} />
           ))}
         </div>
       </Container>
@@ -30,7 +29,7 @@ export default function Projects({ t, u }) {
   );
 }
 
-function StackedCard({ project, index, total, u }) {
+function StackedCard({ project, index, total, t }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start center", "end start"] });
 
@@ -43,7 +42,7 @@ function StackedCard({ project, index, total, u }) {
   return (
     <div
       ref={ref}
-      className="sticky"
+      className="stack-card"
       style={{ top: `calc(5rem + ${index * 1.25}rem)`, marginBottom: isLast ? 0 : "2rem" }}
     >
       <motion.article
@@ -81,9 +80,9 @@ function StackedCard({ project, index, total, u }) {
                 target="_blank"
                 rel="noreferrer"
                 className="pill"
-                data-cursor={u.liveSite}
+                data-cursor={t.projects.viewProject}
               >
-                {u.liveSite}
+                {t.projects.viewProject}
               </a>
             </div>
           </div>
@@ -119,11 +118,12 @@ function Preview({ project, index, progress }) {
       <motion.div
         style={{
           y,
+          boxShadow: "var(--shadow-card)",
           borderRadius: "var(--r-md)",
           backgroundColor: dark ? "var(--ink)" : "var(--paper)",
           color: dark ? "var(--on-ink)" : "var(--fg)",
         }}
-        className="w-full overflow-hidden shadow-[0_18px_50px_-24px_rgba(0,0,0,0.45)]"
+        className="w-full overflow-hidden" 
       >
         {/* Barra de dirección */}
         <div

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE } from "../lib/motion.js";
+import { ThemeToggle } from "./controls.jsx";
 import { sections, profile } from "../data/content.js";
 
 /* Barra superior fija + índice numerado + menú móvil. */
-export default function Nav({ activeId, onNav, u, lang, onLang, links }) {
+export default function Nav({ activeId, onNav, u, lang, onLang, links, theme, onTheme }) {
   const [open, setOpen] = useState(false);
   const [past, setPast] = useState(false);
 
@@ -40,9 +41,19 @@ export default function Nav({ activeId, onNav, u, lang, onLang, links }) {
             {/* Identidad */}
             <button
               onClick={() => go("index")}
-              className="link-u shrink-0 text-[0.95rem] font-bold tracking-[-0.02em] text-[var(--fg)]"
+              className="flex shrink-0 items-center gap-2.5"
+              data-cursor={u.sectionNames.index}
             >
-              {profile.name}
+              <img
+                src={`${import.meta.env.BASE_URL}favicon.png`}
+                alt=""
+                width={24}
+                height={24}
+                className="h-6 w-6 rounded-md border border-[var(--rule)] object-contain"
+              />
+              <span className="link-u text-[0.95rem] font-bold tracking-[-0.02em] text-[var(--fg)]">
+                {profile.name}
+              </span>
             </button>
 
             {/* Disponibilidad */}
@@ -55,6 +66,8 @@ export default function Nav({ activeId, onNav, u, lang, onLang, links }) {
             <div className="flex items-center gap-5">
               <a href={links.linkedin} target="_blank" rel="noreferrer" className="link-u hidden text-[0.8rem] text-[var(--fg-2)] sm:inline-block">LinkedIn</a>
               <a href={links.github} target="_blank" rel="noreferrer" className="link-u hidden text-[0.8rem] text-[var(--fg-2)] sm:inline-block">GitHub</a>
+
+              <ThemeToggle theme={theme} onToggle={onTheme} label={u.themeLabel} />
 
               <button
                 onClick={onLang}

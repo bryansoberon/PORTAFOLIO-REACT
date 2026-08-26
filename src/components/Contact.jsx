@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Github } from "lucide-react";
 import { Container, Reveal } from "./primitives.jsx";
 import { EASE } from "../lib/motion.js";
-import { profile, links } from "../data/content.js";
+import { SocialRow } from "./controls.jsx";
+import { profile } from "../data/content.js";
+import { links } from "../data/content.js";
 
 /* Sección 07 — titular grande, palabra fantasma de fondo,
    píldora que revela el correo y formulario. */
@@ -71,7 +74,7 @@ export default function Contact({ t, u }) {
           <span
             aria-hidden
             className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none text-center font-bold tracking-[-0.05em]"
-            style={{ fontSize: "clamp(4rem,14vw,13rem)", color: "rgba(19,19,19,0.04)", lineHeight: 1 }}
+            style={{ fontSize: "clamp(4rem,14vw,13rem)", color: "var(--ghost)", lineHeight: 1 }}
           >
             {profile.first.toLowerCase()}
           </span>
@@ -126,21 +129,21 @@ export default function Contact({ t, u }) {
                 <Row label="Location" value={profile.location} />
               </dl>
 
-              <ul className="mt-8 flex flex-wrap gap-2">
-                {[
-                  ["LinkedIn", links.linkedin],
-                  ["GitHub", links.github],
-                  ["X", links.twitter],
-                  ["Instagram", links.instagram],
-                  ["Facebook", links.facebook],
-                ].map(([label, href]) => (
-                  <li key={label}>
-                    <a href={href} target="_blank" rel="noreferrer" className="pill pill-quiet !py-2 !text-[0.85rem]">
-                      {label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              <div className="mt-8">
+                <span className="meta">{u.socialLabel}</span>
+                <SocialRow className="mt-3" />
+              </div>
+
+              <a
+                href={links.github}
+                target="_blank"
+                rel="noreferrer"
+                className="pill pill-accent mt-6"
+                data-cursor="GitHub"
+              >
+                <Github size={15} strokeWidth={1.8} />
+                {t.contact.githubBtn}
+              </a>
             </Reveal>
           </div>
 

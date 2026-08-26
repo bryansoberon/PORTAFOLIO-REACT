@@ -33,7 +33,7 @@ export default function About({ t, u }) {
         {/* Panel de diales */}
         <Reveal delay={0.1}>
           <div
-            className="mt-16 overflow-hidden border border-[var(--rule)] p-2"
+            className="mt-12 overflow-hidden border border-[var(--rule)] p-1.5 sm:mt-16 sm:p-2"
             style={{ borderRadius: "var(--r-lg)", backgroundColor: "var(--paper)" }}
           >
             {/* Fila de diales */}
@@ -104,11 +104,11 @@ function Dial({ index, title, active, onActivate, last }) {
       onFocus={onActivate}
       onClick={onActivate}
       aria-pressed={active}
-      className={`group relative flex aspect-square items-center justify-center p-4 sm:p-6 ${last ? "" : "lg:border-r"} border-[var(--rule)]`}
+      className={`group relative flex aspect-square items-center justify-center p-2 sm:p-5 lg:p-6 ${last ? "" : "lg:border-r"} border-[var(--rule)]`}
     >
       {/* Indicador de esquina */}
       <span
-        className="absolute right-4 top-4 h-2.5 w-2.5 rounded-full transition-colors duration-400"
+        className="absolute right-3 top-3 h-2 w-2 rounded-full transition-colors duration-400 sm:right-4 sm:top-4 sm:h-2.5 sm:w-2.5"
         style={{ backgroundColor: active ? "var(--accent)" : "var(--panel-2)" }}
       />
 
@@ -131,15 +131,15 @@ function Dial({ index, title, active, onActivate, last }) {
         </motion.span>
 
         {/* Núcleo + etiqueta */}
-        <span className="relative flex items-center gap-2.5">
+        <span className="relative flex items-center gap-1.5 sm:gap-2.5">
           <span
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-[0.8rem] font-semibold transition-colors duration-400"
+            className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-[0.7rem] font-semibold transition-colors duration-400 sm:h-9 sm:w-9 sm:text-[0.8rem]"
             style={{ backgroundColor: "var(--paper)", color: "var(--fg)" }}
           >
             {LETTERS[index]}
           </span>
           <motion.span
-            className="text-left text-[0.85rem] font-medium leading-tight"
+            className="text-left text-[0.72rem] font-medium leading-tight sm:text-[0.85rem]"
             animate={{
               rotate: active ? 0 : angle * 0.55,
               color: active ? "#ffffff" : "var(--fg-3)",

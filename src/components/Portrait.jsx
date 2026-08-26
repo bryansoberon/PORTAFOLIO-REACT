@@ -31,7 +31,7 @@ export default function Portrait() {
   }, []);
 
   return (
-    <div ref={box} className="relative mx-auto w-[min(78vw,26rem)]">
+    <div ref={box} className="relative mx-auto w-[min(58vw,14rem)] sm:w-[min(64vw,20rem)] lg:w-[min(78vw,26rem)]">
       {/* Marco en arco */}
       <motion.div
         className="arch relative aspect-[0.66] w-full"
@@ -74,7 +74,7 @@ export default function Portrait() {
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4"
-          style={{ background: "linear-gradient(to top, rgba(255,255,255,0.85), transparent)" }}
+          style={{ background: "linear-gradient(to top, var(--fade-out), transparent)" }}
         />
       </motion.div>
 

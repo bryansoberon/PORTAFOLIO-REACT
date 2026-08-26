@@ -56,8 +56,8 @@ export default function Cursor() {
   return (
     <motion.div
       aria-hidden
-      className="pointer-events-none fixed left-0 top-0 z-[100] grid place-items-center rounded-full mix-blend-difference"
-      style={{ x: sx, y: sy, translateX: "-50%", translateY: "-50%" }}
+      className="pointer-events-none fixed left-0 top-0 z-[100] grid place-items-center rounded-full"
+      style={{ x: sx, y: sy, translateX: "-50%", translateY: "-50%", mixBlendMode: "var(--cursor-blend)" }}
       animate={{
         width: size,
         height: size,

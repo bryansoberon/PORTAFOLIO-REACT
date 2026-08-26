@@ -1,63 +1,86 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Send } from "lucide-react";
 import Portrait from "./Portrait.jsx";
 import { Reveal } from "./primitives.jsx";
 import { EASE } from "../lib/motion.js";
+import { SocialRow, BadgeRow, ThemeToggle } from "./controls.jsx";
 import { profile, links } from "../data/content.js";
-import { Code2, Database, GitBranch } from "lucide-react";
-
-const STAT_ICONS = [Code2, Database, GitBranch];
 
 /* Sección 01 — retrato al centro, meta en las cuatro esquinas. */
-export default function Hero({ u, onNav }) {
+export default function Hero({ t, u, onNav, theme, onTheme }) {
+  const h = t.home;
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
 
-  /* Cada capa se aleja a distinta velocidad: rejilla lenta,
-     palabras fantasma rápidas, retrato intermedio. */
-  const gridY   = useTransform(scrollYProgress, [0, 1], ["0%", "16%"]);
-  const ghostL  = useTransform(scrollYProgress, [0, 1], ["0%", "-34%"]);
-  const ghostR  = useTransform(scrollYProgress, [0, 1], ["0%", "34%"]);
-  const portY   = useTransform(scrollYProgress, [0, 1], ["0%", "24%"]);
-  const portOp  = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
+  /* Cada capa se aleja a distinta velocidad. */
+  const gridY  = useTransform(scrollYProgress, [0, 1], ["0%", "16%"]);
+  const ghostL = useTransform(scrollYProgress, [0, 1], ["0%", "-34%"]);
+  const ghostR = useTransform(scrollYProgress, [0, 1], ["0%", "34%"]);
+  const portY  = useTransform(scrollYProgress, [0, 1], ["0%", "24%"]);
+  const portOp = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
 
   return (
-    <section ref={ref} id="index" className="relative min-h-[100svh] overflow-hidden">
+    <section ref={ref} id="index" className="relative overflow-hidden">
       {/* Rejilla técnica */}
       <motion.div aria-hidden className="grid-bg pointer-events-none absolute inset-0" style={{ y: gridY }} />
 
       {/* Marcas fantasma detrás del retrato */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 flex items-center justify-between px-[6vw]">
-        <motion.div style={{ x: ghostL }}><GhostWord text="FULL" /></motion.div>
-        <motion.div style={{ x: ghostR }}><GhostWord text="STACK" /></motion.div>
+      <div aria-hidden className="pointer-events-none absolute inset-0 hidden items-center justify-between px-[4vw] sm:flex">
+        <motion.div style={{ x: ghostL }}><GhostWord text={h.tagline[0]} /></motion.div>
+        <motion.div style={{ x: ghostR }}><GhostWord text={h.tagline[1]} /></motion.div>
       </div>
 
-      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1600px] flex-col px-[var(--gutter)] pb-8 pt-6">
+      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1600px] flex-col px-[var(--gutter)] pb-10 pt-5">
         {/* ── Barra superior ── */}
-        <div className="flex items-start justify-between gap-6">
+        <div className="flex items-start justify-between gap-4">
           <Reveal>
-            <button onClick={() => onNav("index")} className="block text-left" data-cursor="Inicio">
-              <span className="block text-[1.05rem] font-bold tracking-[-0.02em] text-[var(--fg)]">
-                {profile.name}
+            <button
+              onClick={() => onNav("index")}
+              className="flex items-center gap-3 text-left"
+              data-cursor={u.sectionNames.index}
+            >
+              <img
+                src={`${import.meta.env.BASE_URL}favicon.png`}
+                alt=""
+                width={30}
+                height={30}
+                className="h-[30px] w-[30px] shrink-0 rounded-lg border border-[var(--rule)] object-contain"
+              />
+              <span className="block">
+                <span className="block text-[0.95rem] font-bold leading-tight tracking-[-0.02em] text-[var(--fg)] sm:text-[1.05rem]">
+                  {profile.name}
+                </span>
+                <span className="mt-0.5 block text-[0.75rem] leading-tight text-[var(--fg-3)] sm:text-[0.85rem]">
+                  {u.tagline}
+                </span>
               </span>
-              <span className="mt-0.5 block text-[0.85rem] text-[var(--fg-3)]">{u.tagline}</span>
             </button>
           </Reveal>
 
           <Reveal delay={0.06}>
-            <div className="flex items-center gap-4 sm:gap-7">
-              <a href={links.linkedin} target="_blank" rel="noreferrer" className="link-u hidden text-[0.92rem] font-medium text-[var(--fg)] sm:inline-block">LinkedIn</a>
-              <a href={links.github} target="_blank" rel="noreferrer" className="link-u hidden text-[0.92rem] font-medium text-[var(--fg)] sm:inline-block">GitHub</a>
-              <button onClick={() => onNav("contact")} className="pill">
+            <div className="flex items-center gap-2 sm:gap-5">
+              <a href={links.linkedin} target="_blank" rel="noreferrer" className="link-u hidden text-[0.92rem] font-medium text-[var(--fg)] lg:inline-block">LinkedIn</a>
+              <a href={links.github} target="_blank" rel="noreferrer" className="link-u hidden text-[0.92rem] font-medium text-[var(--fg)] lg:inline-block">GitHub</a>
+
+              <ThemeToggle theme={theme} onToggle={onTheme} label={u.themeLabel} />
+
+              <button
+                onClick={() => onNav("contact")}
+                className="pill !px-3 sm:!px-[1.15rem]"
+                data-cursor={u.sectionNames.contact}
+              >
                 <span className="dot-live" />
-                <span>{u.availability}</span>
+                {/* En pantallas estrechas solo cabe el estado, no la frase. */}
+                <span className="hidden sm:inline">{u.availability}</span>
+                <span className="sm:hidden">{t.header.available}</span>
               </button>
             </div>
           </Reveal>
         </div>
 
         {/* ── Retrato ── */}
-        <div className="flex flex-1 items-center justify-center py-8">
+        <div className="flex flex-1 items-center justify-center py-8 sm:py-10">
           {/* Capa externa: paralaje. Capa interna: entrada.
               Separadas porque ambas animan `y` y `opacity`. */}
           <motion.div style={{ y: portY, opacity: portOp }}>
@@ -71,14 +94,15 @@ export default function Hero({ u, onNav }) {
           </motion.div>
         </div>
 
-        {/* ── Pie: descripción + métricas ── */}
-        <div className="flex flex-wrap items-end justify-between gap-8">
-          <Reveal delay={0.2}>
-            <div className="flex items-start gap-5">
+        {/* ── Pie: presentación + métricas ── */}
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-8">
+          <Reveal delay={0.2} className="lg:col-span-7">
+            <div className="flex items-start gap-4 sm:gap-5">
               <button
                 onClick={() => onNav("about")}
                 aria-label={u.scroll}
-                className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-[var(--rule)] transition-colors duration-300 hover:border-[var(--ink)] hover:bg-[var(--ink)] hover:text-[var(--on-ink)]"
+                data-cursor={u.scroll}
+                className="hidden h-12 w-12 shrink-0 place-items-center rounded-full border border-[var(--rule)] transition-colors duration-300 hover:border-[var(--fg)] hover:bg-[var(--fg)] hover:text-[var(--paper)] sm:grid"
               >
                 <motion.span animate={{ y: [0, 4, 0] }} transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}>
                   <svg viewBox="0 0 16 16" className="h-4 w-4">
@@ -87,31 +111,45 @@ export default function Hero({ u, onNav }) {
                 </motion.span>
               </button>
 
-              <p className="max-w-md text-[0.95rem] leading-[1.5] text-[var(--fg-2)]">
-                {u.heroBlurb}
-              </p>
+              <div>
+                <span className="meta">{h.greeting} {profile.name}</span>
+                <p className="mt-2 text-[clamp(1.05rem,2.4vw,1.5rem)] font-medium leading-[1.25] tracking-[-0.02em] text-[var(--fg)]">
+                  {h.subtitle}
+                </p>
+                <p className="mt-3 max-w-lg text-[0.92rem] leading-[1.55] text-[var(--fg-2)]">
+                  {h.paragraph}
+                </p>
+
+                <BadgeRow className="mt-5" />
+
+                <div className="mt-6 flex flex-wrap items-center gap-3">
+                  <button
+                    onClick={() => onNav("contact")}
+                    className="pill pill-accent"
+                    data-cursor={h.contact}
+                  >
+                    <Send size={15} strokeWidth={1.8} />
+                    {h.contact}
+                  </button>
+                  <SocialRow />
+                </div>
+              </div>
             </div>
           </Reveal>
 
-          <Reveal delay={0.28}>
-            <div className="flex flex-wrap items-center gap-x-9 gap-y-5">
-              {u.heroStats.map((s, k) => {
-                const Icon = STAT_ICONS[k];
-                return (
-                  <div key={s.label} className="flex items-center gap-3">
-                    {k === 0 ? (
-                      <span className="display text-[clamp(2rem,4vw,3.25rem)] text-[var(--fg)]">{s.n}</span>
-                    ) : (
-                      <span className="grid h-10 w-10 place-items-center rounded-full border border-[var(--rule)] text-[var(--fg-2)]">
-                        <Icon size={17} strokeWidth={1.5} />
-                      </span>
-                    )}
-                    <span className="whitespace-pre-line text-[0.8rem] leading-[1.25] text-[var(--fg-2)]">
-                      {s.label}
-                    </span>
-                  </div>
-                );
-              })}
+          {/* Métricas */}
+          <Reveal delay={0.28} className="lg:col-span-5">
+            <div className="flex flex-wrap items-start gap-x-8 gap-y-5 lg:justify-end">
+              {[
+                { n: "10+", label: h.stats.projects },
+                { n: "4+",  label: h.stats.stacks },
+                { n: "5",   label: u.sectionNames.certifications },
+              ].map(({ n, label }) => (
+                <div key={label}>
+                  <div className="display text-[clamp(1.75rem,4vw,3rem)] text-[var(--accent)]">{n}</div>
+                  <div className="meta mt-1">{label}</div>
+                </div>
+              ))}
             </div>
           </Reveal>
         </div>
@@ -124,11 +162,7 @@ function GhostWord({ text }) {
   return (
     <span
       className="select-none font-bold tracking-[-0.05em]"
-      style={{
-        fontSize: "clamp(5rem, 16vw, 15rem)",
-        color: "rgba(19,19,19,0.035)",
-        lineHeight: 1,
-      }}
+      style={{ fontSize: "clamp(5rem, 15vw, 15rem)", color: "var(--ghost)", lineHeight: 1 }}
     >
       {text}
     </span>

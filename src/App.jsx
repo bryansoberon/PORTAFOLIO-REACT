@@ -7,17 +7,20 @@ import About from "./components/About.jsx";
 import Projects from "./components/Projects.jsx";
 import Timeline from "./components/Timeline.jsx";
 import Certifications from "./components/Certifications.jsx";
+import Stack from "./components/Stack.jsx";
 import Contact from "./components/Contact.jsx";
 import Footer from "./components/Footer.jsx";
 import Cursor from "./components/Cursor.jsx";
 
 import { useSmoothScroll } from "./lib/useSmoothScroll.js";
+import { useTheme } from "./lib/useTheme.js";
 
 import { translations, ui, sections, links } from "./data/content.js";
 
 export default function App() {
   const [lang, setLang] = useState(() => localStorage.getItem("portfolio-lang") || "en");
   const [activeId, setActiveId] = useState("index");
+  const [theme, toggleTheme] = useTheme();
 
   const t = translations[lang];
   const u = ui[lang];
@@ -65,10 +68,12 @@ export default function App() {
         lang={lang}
         onLang={() => setLang((l) => (l === "en" ? "es" : "en"))}
         links={links}
+        theme={theme}
+        onTheme={toggleTheme}
       />
 
       <main>
-        <Hero u={u} onNav={scrollTo} />
+        <Hero t={t} u={u} onNav={scrollTo} theme={theme} onTheme={toggleTheme} />
         <About t={t} u={u} />
         <Projects t={t} u={u} />
 
@@ -88,6 +93,7 @@ export default function App() {
         />
 
         <Certifications t={t} u={u} />
+        <Stack t={t} u={u} />
         <Contact t={t} u={u} />
       </main>
 
