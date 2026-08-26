@@ -31,7 +31,7 @@ export default function Portrait() {
   }, []);
 
   return (
-    <div ref={box} className="relative mx-auto w-[min(58vw,14rem)] sm:w-[min(64vw,20rem)] lg:w-[min(78vw,26rem)]">
+    <div ref={box} className="relative mx-auto w-fit">
       {/* Resplandor: se desborda del arco y tiñe el aire alrededor */}
       <AnimatePresence mode="sync">
         <motion.div
@@ -50,7 +50,7 @@ export default function Portrait() {
 
       {/* Marco en arco */}
       <motion.div
-        className="arch relative aspect-[0.66] w-full"
+        className="arch relative aspect-[0.66] h-[min(34svh,15rem)] sm:h-[min(38svh,19rem)] lg:h-[min(42svh,23rem)]"
         animate={{ x: tilt.x * 10, y: tilt.y * 8 }}
         transition={{ type: "spring", stiffness: 60, damping: 18, mass: 0.6 }}
       >

@@ -25,10 +25,10 @@
   --on-ink-2: #8195a9;
 
   /* Acentos */
-  --accent:   #e8404a;   /* 4.91:1 sobre el fondo; #d4232e se quedaba en 3.81 */
-  --accent-2: #f4626b;
+  --accent:   oklch(0.48 0.12 240);   /* Modernizado: Azul profundo de alto contraste; original hwb(206 4% 25%) */
+  --accent-2: #4b0562;
   --on-accent: #070c14;  /* sobre el carmesí claro, la tinta contrasta más que el blanco */
-  --live:     #35b46b;
+  --live:     #780303;
 
   /* Líneas */
   --rule:      #1c2837;
@@ -70,10 +70,10 @@
   --on-ink:   #e6edf5;
   --on-ink-2: #8195a9;
 
-  --accent:   #b81c26;
-  --accent-2: #8e131b;
+  --accent:   #0074a3;   /* Modernizado a HEX; original hsl(197, 99%, 36%) */
+  --accent-2: oklch(0.76 0.14 246); /* Modernizado a OKLCH nativo; original lab(76.4% -23.87 -36.55) */
   --on-accent: #ffffff;
-  --live:     #16703d;
+  --live:     #900404;
 
   --rule:      #ccd7e3;
   --rule-soft: #dde5ee;
@@ -87,6 +87,7 @@
 
   color-scheme: light;
 }
+
 
 html {
   /* el scroll suave lo maneja Lenis; scroll-behavior nativo lo pelearía */

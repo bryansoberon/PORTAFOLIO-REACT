@@ -327,14 +327,15 @@ export const heroFrames = [1, 2, 3, 4, 5].map(
   (n) => `${import.meta.env.BASE_URL}hero/f${n}.webp`
 );
 
-/* Color del resplandor detrás del arco: cada fotograma trae su
-   propia atmósfera, como las nubes de la referencia. */
+/* Color del resplandor detrás del arco. Todos salen de la propia foto
+   —el terno, la sala, los diagramas de red—, sin rojo: el carmesí queda
+   reservado para el acento de la interfaz. */
 export const heroFrameGlow = [
+  "#2a3f5c",  // natural
   "#1e4f86",  // azul medianoche
-  "#a01820",  // carmesí
-  "#12565f",  // pino helado
-  "#3a4a5e",  // acero
-  "#7a1830",  // sangre
+  "#4a6275",  // acero
+  "#2c3a4a",  // grafito
+  "#10565f",  // pino helado
 ];
 
 /* Índice de secciones. */

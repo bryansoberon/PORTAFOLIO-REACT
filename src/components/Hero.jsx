@@ -31,7 +31,7 @@ export default function Hero({ t, u, onNav, theme, onTheme }) {
         <motion.div style={{ x: ghostR }}><GhostWord text={h.tagline[1]} /></motion.div>
       </div>
 
-      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1600px] flex-col px-[var(--gutter)] pb-10 pt-5">
+      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1600px] flex-col px-[var(--gutter)] pb-8 pt-5">
         {/* ── Barra superior ── */}
         <div className="flex items-start justify-between gap-4">
           <Reveal>
@@ -80,7 +80,7 @@ export default function Hero({ t, u, onNav, theme, onTheme }) {
         </div>
 
         {/* ── Retrato ── */}
-        <div className="flex flex-1 items-center justify-center py-8 sm:py-10">
+        <div className="flex flex-1 items-center justify-center py-4 sm:py-6">
           {/* Capa externa: paralaje. Capa interna: entrada.
               Separadas porque ambas animan `y` y `opacity`. */}
           <motion.div style={{ y: portY, opacity: portOp }}>
@@ -112,17 +112,19 @@ export default function Hero({ t, u, onNav, theme, onTheme }) {
               </button>
 
               <div>
-                <span className="meta">{h.greeting} {profile.name}</span>
-                <p className="mt-2 text-[clamp(1.05rem,2.4vw,1.5rem)] font-medium leading-[1.25] tracking-[-0.02em] text-[var(--fg)]">
+                <p className="text-[clamp(1.15rem,2.6vw,1.7rem)] font-semibold leading-[1.2] tracking-[-0.025em] text-[var(--fg)]">
+                  {h.greeting} <span className="text-[var(--accent)]">{profile.name}</span>
+                </p>
+                <p className="mt-1.5 text-[clamp(0.95rem,1.6vw,1.15rem)] font-medium leading-[1.3] text-[var(--fg-2)]">
                   {h.subtitle}
                 </p>
-                <p className="mt-3 max-w-lg text-[0.92rem] leading-[1.55] text-[var(--fg-2)]">
+                <p className="mt-3 max-w-lg text-[0.9rem] leading-[1.5] text-[var(--fg-3)]">
                   {h.paragraph}
                 </p>
 
-                <BadgeRow className="mt-5" />
+                <BadgeRow className="mt-4" />
 
-                <div className="mt-6 flex flex-wrap items-center gap-3">
+                <div className="mt-5 flex flex-wrap items-center gap-3">
                   <button
                     onClick={() => onNav("contact")}
                     className="pill pill-accent"
