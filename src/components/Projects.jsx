@@ -120,7 +120,7 @@ function Preview({ project, index, progress }) {
           y,
           boxShadow: "var(--shadow-card)",
           borderRadius: "var(--r-md)",
-          backgroundColor: dark ? "var(--ink)" : "var(--paper)",
+          backgroundColor: dark ? "var(--ink)" : "var(--panel-2)",
           color: dark ? "var(--on-ink)" : "var(--fg)",
         }}
         className="w-full overflow-hidden" 

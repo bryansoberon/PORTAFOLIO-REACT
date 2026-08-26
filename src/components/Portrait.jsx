@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { heroFrames, heroFrameBg, profile } from "../data/content.js";
+import { heroFrames, heroFrameGlow, profile } from "../data/content.js";
 
 const HOLD = 2600; // ms por fotograma
 
@@ -32,25 +32,28 @@ export default function Portrait() {
 
   return (
     <div ref={box} className="relative mx-auto w-[min(58vw,14rem)] sm:w-[min(64vw,20rem)] lg:w-[min(78vw,26rem)]">
+      {/* Resplandor: se desborda del arco y tiñe el aire alrededor */}
+      <AnimatePresence mode="sync">
+        <motion.div
+          key={`glow-${i}`}
+          aria-hidden
+          className="pointer-events-none absolute -inset-[18%] blur-[52px]"
+          style={{
+            background: `radial-gradient(50% 45% at 50% 45%, ${heroFrameGlow[i]} 0%, transparent 72%)`,
+          }}
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 0.62, scale: 1 }}
+          exit={{ opacity: 0, scale: 1.05 }}
+          transition={{ duration: 1.3, ease: "easeInOut" }}
+        />
+      </AnimatePresence>
+
       {/* Marco en arco */}
       <motion.div
         className="arch relative aspect-[0.66] w-full"
         animate={{ x: tilt.x * 10, y: tilt.y * 8 }}
         transition={{ type: "spring", stiffness: 60, damping: 18, mass: 0.6 }}
       >
-        {/* Fondo del fotograma */}
-        <AnimatePresence mode="sync">
-          <motion.div
-            key={`bg-${i}`}
-            className="absolute inset-0"
-            style={{ background: heroFrameBg[i] }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.1, ease: "easeInOut" }}
-          />
-        </AnimatePresence>
-
         {/* Fotogramas del retrato */}
         <AnimatePresence mode="sync">
           <motion.img
@@ -62,7 +65,6 @@ export default function Portrait() {
             loading="eager"
             decoding="async"
             className="absolute inset-0 h-full w-full object-cover object-top"
-            style={{ mixBlendMode: "multiply" }}
             initial={{ opacity: 0, scale: 1.06 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.02 }}
@@ -73,7 +75,7 @@ export default function Portrait() {
         {/* Degradado inferior para fundir con la página */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3"
           style={{ background: "linear-gradient(to top, var(--fade-out), transparent)" }}
         />
       </motion.div>

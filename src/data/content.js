@@ -327,13 +327,14 @@ export const heroFrames = [1, 2, 3, 4, 5].map(
   (n) => `${import.meta.env.BASE_URL}hero/f${n}.webp`
 );
 
-/* Fondo de cada fotograma, para que el ciclo también cambie de ambiente. */
-export const heroFrameBg = [
-  "linear-gradient(180deg, #ffe3ec 0%, #ffd9c2 55%, #f6efe6 100%)",
-  "linear-gradient(180deg, #ffd7e6 0%, #f6d5ff 60%, #efe6f6 100%)",
-  "linear-gradient(180deg, #dff5e4 0%, #c9ecd8 55%, #eaf4ec 100%)",
-  "linear-gradient(180deg, #e8e8e8 0%, #d5d5d5 55%, #efefef 100%)",
-  "linear-gradient(180deg, #ffe6cc 0%, #ffd2a8 55%, #f7ece0 100%)",
+/* Color del resplandor detrás del arco: cada fotograma trae su
+   propia atmósfera, como las nubes de la referencia. */
+export const heroFrameGlow = [
+  "#1e4f86",  // azul medianoche
+  "#a01820",  // carmesí
+  "#12565f",  // pino helado
+  "#3a4a5e",  // acero
+  "#7a1830",  // sangre
 ];
 
 /* Índice de secciones. */

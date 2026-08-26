@@ -2,11 +2,10 @@ import { useCallback, useState } from "react";
 
 const KEY = "portfolio-theme";
 
-/* Lee la preferencia guardada; si no hay, respeta la del sistema. */
+/* El diseño es oscuro de nacimiento: sin preferencia guardada, oscuro.
+   El claro es una elección explícita del visitante. */
 function initial() {
-  const saved = localStorage.getItem(KEY);
-  if (saved === "dark" || saved === "light") return saved;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  return localStorage.getItem(KEY) === "light" ? "light" : "dark";
 }
 
 /* El atributo se escribe en <html> antes de pintar (ver index.html),

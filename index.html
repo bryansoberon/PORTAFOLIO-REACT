@@ -9,17 +9,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0e0e0d" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#070c14" />
     <meta name="description" content="Bryan Soberon - Bachiller en Ingenieria de Sistemas. Desarrollo web full-stack, analisis de datos y gestion de proyectos." />
     <script>
-      // Se aplica antes de pintar para que no haya destello de tema claro.
+      // Se aplica antes de pintar para que no haya destello del tema contrario.
       (function () {
         try {
-          var saved = localStorage.getItem("portfolio-theme");
-          var dark = saved ? saved === "dark"
-                           : window.matchMedia("(prefers-color-scheme: dark)").matches;
-          if (dark) document.documentElement.setAttribute("data-theme", "dark");
+          if (localStorage.getItem("portfolio-theme") === "light")
+            document.documentElement.setAttribute("data-theme", "light");
         } catch (e) {}
       })();
     </script>

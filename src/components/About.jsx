@@ -115,7 +115,7 @@ function Dial({ index, title, active, onActivate, last }) {
       {/* Círculo */}
       <motion.span
         className="relative grid h-full w-full max-h-[15rem] max-w-[15rem] place-items-center rounded-full"
-        animate={{ backgroundColor: active ? "var(--accent)" : "var(--panel)" }}
+        animate={{ backgroundColor: active ? "var(--accent)" : "var(--panel-2)" }}
         transition={{ duration: 0.5, ease: EASE }}
       >
         {/* Aguja */}
@@ -126,7 +126,7 @@ function Dial({ index, title, active, onActivate, last }) {
         >
           <span
             className="absolute left-1/2 top-[8%] block h-[14%] w-[2px] -translate-x-1/2 rounded-full"
-            style={{ backgroundColor: active ? "#fff" : "var(--paper)" }}
+            style={{ backgroundColor: active ? "var(--on-accent)" : "var(--fg-4)" }}
           />
         </motion.span>
 
@@ -142,7 +142,7 @@ function Dial({ index, title, active, onActivate, last }) {
             className="text-left text-[0.72rem] font-medium leading-tight sm:text-[0.85rem]"
             animate={{
               rotate: active ? 0 : angle * 0.55,
-              color: active ? "#ffffff" : "var(--fg-3)",
+              color: active ? "var(--on-accent)" : "var(--fg-3)",
             }}
             transition={{ type: "spring", stiffness: 90, damping: 14 }}
           >
