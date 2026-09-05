@@ -1,25 +1,28 @@
 import { useEffect, useState } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 
-import Nav from "./components/Nav.jsx";
-import Hero from "./components/Hero.jsx";
-import About from "./components/About.jsx";
-import Projects from "./components/Projects.jsx";
-import Timeline from "./components/Timeline.jsx";
-import Certifications from "./components/Certifications.jsx";
-import Stack from "./components/Stack.jsx";
-import Contact from "./components/Contact.jsx";
-import Footer from "./components/Footer.jsx";
-import Cursor from "./components/Cursor.jsx";
+import Nav from "./components/Nav";
+import Hero from "./components/Hero";
+import About from "./components/About";
+import Projects from "./components/Projects";
+import Timeline from "./components/Timeline";
+import Certifications from "./components/Certifications";
+import Stack from "./components/Stack";
+import Contact from "./components/Contact";
+import Footer from "./components/Footer";
+import Cursor from "./components/Cursor";
 
-import { useSmoothScroll } from "./lib/useSmoothScroll.js";
-import { useTheme } from "./lib/useTheme.js";
+import { useSmoothScroll } from "./lib/useSmoothScroll";
+import { useTheme } from "./lib/useTheme";
 
-import { translations, ui, sections, links } from "./data/content.js";
+import { translations, ui, sections, links } from "./data/content";
+import type { Lang, SectionId } from "./types";
 
 export default function App() {
-  const [lang, setLang] = useState(() => localStorage.getItem("portfolio-lang") || "en");
-  const [activeId, setActiveId] = useState("index");
+  const [lang, setLang] = useState<Lang>(
+    () => (localStorage.getItem("portfolio-lang") as Lang | null) ?? "en"
+  );
+  const [activeId, setActiveId] = useState<SectionId>("index");
   const [theme, toggleTheme] = useTheme();
 
   const t = translations[lang];
@@ -32,13 +35,16 @@ export default function App() {
 
   /* ScrollSpy para el índice. */
   useEffect(() => {
-    const els = sections.map((s) => document.getElementById(s.id)).filter(Boolean);
+    const els = sections
+      .map((s) => document.getElementById(s.id))
+      .filter((el): el is HTMLElement => el !== null);
+
     const obs = new IntersectionObserver(
       (entries) => {
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0))[0];
-        if (visible?.target?.id) setActiveId(visible.target.id);
+        if (visible?.target?.id) setActiveId(visible.target.id as SectionId);
       },
       { rootMargin: "-20% 0px -60% 0px", threshold: [0.1, 0.25, 0.5, 0.75] }
     );

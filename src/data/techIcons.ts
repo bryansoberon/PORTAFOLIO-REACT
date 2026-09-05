@@ -6,9 +6,10 @@ import {
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa";
 import { Database, Code2, RefreshCw, Cloud } from "lucide-react";
+import type { TechIconEntry } from "../types";
 
 /* Color de marca — se aplica solo en hover; en reposo todo va en tinta. */
-export const techIcons = {
+export const techIcons: Record<string, TechIconEntry> = {
   "Vue.js":          { Icon: SiVuedotjs,   color: "#4FC08D" },
   "Angular":         { Icon: SiAngular,    color: "#DD0031" },
   "TypeScript":      { Icon: SiTypescript, color: "#3178C6" },

@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
+import { prefersReducedMotion } from "../lib/motion";
+
+type CursorMode = "idle" | "link" | "label";
 
 /* Cursor propio: un disco que sigue al puntero, crece sobre elementos
    interactivos y muestra la etiqueta que el elemento declare en
@@ -7,11 +10,9 @@ import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motio
 export default function Cursor() {
   /* Se decide una sola vez al montar: en un efecto dispararía un render extra. */
   const [enabled] = useState(
-    () =>
-      window.matchMedia("(pointer: fine)").matches &&
-      !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    () => window.matchMedia("(pointer: fine)").matches && !prefersReducedMotion()
   );
-  const [mode, setMode] = useState("idle"); // idle | link | label
+  const [mode, setMode] = useState<CursorMode>("idle");
   const [label, setLabel] = useState("");
   const [visible, setVisible] = useState(false);
 
@@ -23,7 +24,7 @@ export default function Cursor() {
   useEffect(() => {
     if (!enabled) return;
 
-    const onMove = (e) => {
+    const onMove = (e: PointerEvent) => {
       x.set(e.clientX);
       y.set(e.clientY);
       setVisible(true);
@@ -34,7 +35,7 @@ export default function Cursor() {
 
       if (!hit) { setMode("idle"); setLabel(""); return; }
 
-      const text = hit.getAttribute?.("data-cursor");
+      const text = hit.getAttribute("data-cursor");
       if (text) { setMode("label"); setLabel(text); }
       else { setMode("link"); setLabel(""); }
     };
@@ -57,7 +58,14 @@ export default function Cursor() {
     <motion.div
       aria-hidden
       className="pointer-events-none fixed left-0 top-0 z-[100] grid place-items-center rounded-full"
-      style={{ x: sx, y: sy, translateX: "-50%", translateY: "-50%", mixBlendMode: "var(--cursor-blend)" }}
+      style={{
+        x: sx,
+        y: sy,
+        translateX: "-50%",
+        translateY: "-50%",
+        // El modo de mezcla cambia con el tema, así que vive en una variable CSS.
+        mixBlendMode: "var(--cursor-blend)" as CSSProperties["mixBlendMode"],
+      }}
       animate={{
         width: size,
         height: size,

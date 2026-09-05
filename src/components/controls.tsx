@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { Sun, Moon } from "lucide-react";
-import { socialLinks } from "../data/socialLinks.js";
+import { socialLinks } from "../data/socialLinks";
+import type { Theme } from "../types";
 
-export function SocialRow({ size = 17, className = "" }) {
+export function SocialRow({ size = 17, className = "" }: { size?: number; className?: string }) {
   return (
     <ul className={`flex flex-wrap items-center gap-2 ${className}`}>
       {socialLinks.map(({ label, href, Icon }) => (
@@ -24,7 +25,7 @@ export function SocialRow({ size = 17, className = "" }) {
 }
 
 /* Tecnologías insignia — heredado del diseño anterior. */
-export function BadgeRow({ className = "" }) {
+export function BadgeRow({ className = "" }: { className?: string }) {
   return (
     <ul className={`flex flex-wrap items-center gap-1.5 ${className}`}>
       {["Angular", "Vue", "Next.js", "Django", "Scrum"].map((tag) => (
@@ -34,7 +35,13 @@ export function BadgeRow({ className = "" }) {
   );
 }
 
-export function ThemeToggle({ theme, onToggle, label }) {
+interface ThemeToggleProps {
+  theme: Theme;
+  onToggle: () => void;
+  label: string;
+}
+
+export function ThemeToggle({ theme, onToggle, label }: ThemeToggleProps) {
   const dark = theme === "dark";
 
   return (

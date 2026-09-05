@@ -1,16 +1,25 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Send } from "lucide-react";
-import Portrait from "./Portrait.jsx";
-import { Reveal } from "./primitives.jsx";
-import { EASE } from "../lib/motion.js";
-import { SocialRow, BadgeRow, ThemeToggle } from "./controls.jsx";
-import { profile, links } from "../data/content.js";
+import Portrait from "./Portrait";
+import { Reveal } from "./primitives";
+import { EASE } from "../lib/motion";
+import { SocialRow, BadgeRow, ThemeToggle } from "./controls";
+import { profile, links } from "../data/content";
+import type { NavHandler, Theme, Translation, UiCopy } from "../types";
+
+interface HeroProps {
+  t: Translation;
+  u: UiCopy;
+  onNav: NavHandler;
+  theme: Theme;
+  onTheme: () => void;
+}
 
 /* Sección 01 — retrato al centro, meta en las cuatro esquinas. */
-export default function Hero({ t, u, onNav, theme, onTheme }) {
+export default function Hero({ t, u, onNav, theme, onTheme }: HeroProps) {
   const h = t.home;
-  const ref = useRef(null);
+  const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
 
   /* Cada capa se aleja a distinta velocidad. */
@@ -89,7 +98,7 @@ export default function Hero({ t, u, onNav, theme, onTheme }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 1.1, ease: EASE, delay: 0.12 }}
             >
-              <Portrait />
+              <Portrait revealHint={u.revealHint} />
             </motion.div>
           </motion.div>
         </div>
@@ -160,7 +169,7 @@ export default function Hero({ t, u, onNav, theme, onTheme }) {
   );
 }
 
-function GhostWord({ text }) {
+function GhostWord({ text }: { text: string }) {
   return (
     <span
       className="select-none font-bold tracking-[-0.05em]"

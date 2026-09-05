@@ -1,8 +1,15 @@
-import { Container, Arrow } from "./primitives.jsx";
-import { profile, links } from "../data/content.js";
+import { Container, Arrow } from "./primitives";
+import { profile, links } from "../data/content";
+import type { NavHandler, Translation, UiCopy } from "../types";
+
+interface FooterProps {
+  t: Translation;
+  u: UiCopy;
+  onNav: NavHandler;
+}
 
 /* Cierre: marquee tipográfico + créditos. */
-export default function Footer({ t, u, onNav }) {
+export default function Footer({ t, u, onNav }: FooterProps) {
   const phrase = `${profile.name} — ${t.header.role} — ${profile.location} —`;
 
   return (
@@ -23,12 +30,12 @@ export default function Footer({ t, u, onNav }) {
         </p>
 
         <nav className="flex flex-wrap items-center gap-x-7 gap-y-2">
-          {[
+          {([
             ["LinkedIn", links.linkedin],
             ["GitHub", links.github],
             ["X", links.twitter],
             ["Instagram", links.instagram],
-          ].map(([label, href]) => (
+          ] as const).map(([label, href]) => (
             <a
               key={label}
               href={href}

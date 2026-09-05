@@ -1,14 +1,20 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Container, Reveal } from "./primitives.jsx";
-import { EASE } from "../lib/motion.js";
-import { stackCategoriesBase } from "../data/content.js";
-import { techIcons } from "../data/techIcons.js";
+import { Container, Reveal } from "./primitives";
+import { EASE } from "../lib/motion";
+import { stackCategoriesBase } from "../data/content";
+import { techIcons } from "../data/techIcons";
+import type { Translation, UiCopy } from "../types";
 
 const LETTERS = ["A", "B", "C", "D"];
 
+interface AboutProps {
+  t: Translation;
+  u: UiCopy;
+}
+
 /* Sección 02 — declaración + diales por área del stack. */
-export default function About({ t, u }) {
+export default function About({ t, u }: AboutProps) {
   const cats = stackCategoriesBase.map((c, i) => ({ ...c, title: t.stack.categories[i] }));
   const [active, setActive] = useState(2);
   const current = cats[active];
@@ -93,8 +99,16 @@ export default function About({ t, u }) {
   );
 }
 
+interface DialProps {
+  index: number;
+  title: string;
+  active: boolean;
+  onActivate: () => void;
+  last: boolean;
+}
+
 /* Un dial: círculo grande con aguja que gira al activarse. */
-function Dial({ index, title, active, onActivate, last }) {
+function Dial({ index, title, active, onActivate, last }: DialProps) {
   const angle = [-14, -34, 0, 42][index % 4];
 
   return (
@@ -154,7 +168,7 @@ function Dial({ index, title, active, onActivate, last }) {
   );
 }
 
-function Weapon({ name, delay }) {
+function Weapon({ name, delay }: { name: string; delay: number }) {
   const entry = techIcons[name];
   if (!entry) return null;
   const { Icon, color } = entry;

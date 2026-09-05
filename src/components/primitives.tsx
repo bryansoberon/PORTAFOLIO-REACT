@@ -1,10 +1,18 @@
-import { useRef } from "react";
+import { useRef, type CSSProperties, type ReactNode } from "react";
 import { motion, useInView } from "framer-motion";
-import { EASE } from "../lib/motion.js";
+import { EASE } from "../lib/motion";
+
+interface RevealProps {
+  children: ReactNode;
+  delay?: number;
+  y?: number;
+  className?: string;
+  style?: CSSProperties;
+}
 
 /* Aparición al hacer scroll — una sola vez, sutil. */
-export function Reveal({ children, delay = 0, y = 22, className = "", style }) {
-  const ref = useRef(null);
+export function Reveal({ children, delay = 0, y = 22, className = "", style }: RevealProps) {
+  const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-8% 0px -10% 0px" });
 
   return (
@@ -21,8 +29,13 @@ export function Reveal({ children, delay = 0, y = 22, className = "", style }) {
   );
 }
 
+interface ContainerProps {
+  children: ReactNode;
+  className?: string;
+}
+
 /* Contenedor con los márgenes del grid. */
-export function Container({ children, className = "" }) {
+export function Container({ children, className = "" }: ContainerProps) {
   return (
     <div className={`mx-auto w-full max-w-[1600px] px-[var(--gutter)] ${className}`}>
       {children}
@@ -30,8 +43,16 @@ export function Container({ children, className = "" }) {
   );
 }
 
+interface SectionHeadProps {
+  label: string;
+  title?: string;
+  note?: string;
+  count?: number;
+  onInk?: boolean;
+}
+
 /* Cabecera de sección: etiqueta tipo ruta + contador + título. */
-export function SectionHead({ label, title, note, count, onInk = false }) {
+export function SectionHead({ label, title, note, count, onInk = false }: SectionHeadProps) {
   const slug = `/${label.toLowerCase().replace(/\s+/g, "_")}`;
 
   return (
@@ -73,7 +94,7 @@ export function SectionHead({ label, title, note, count, onInk = false }) {
 }
 
 /* Flecha diagonal que se desplaza en hover del contenedor `group`. */
-export function Arrow({ className = "" }) {
+export function Arrow({ className = "" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 16 16"

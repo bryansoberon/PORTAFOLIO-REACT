@@ -1,13 +1,19 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Container, Reveal, SectionHead } from "./primitives.jsx";
-import { projectsBase } from "../data/content.js";
-import { techIcons } from "../data/techIcons.js";
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { Container, SectionHead } from "./primitives";
+import { projectsBase } from "../data/content";
+import { techIcons } from "../data/techIcons";
+import type { Project, Translation, UiCopy } from "../types";
+
+interface ProjectsProps {
+  t: Translation;
+  u: UiCopy;
+}
 
 /* Sección 03 — cada proyecto es una tarjeta que se queda pegada
    mientras la siguiente sube por encima. */
-export default function Projects({ t, u }) {
-  const items = projectsBase.map((p, i) => ({ ...p, ...t.projects.items[i] }));
+export default function Projects({ t, u }: ProjectsProps) {
+  const items: Project[] = projectsBase.map((p, i) => ({ ...p, ...t.projects.items[i] }));
 
   return (
     <section id="projects" className="py-20 sm:py-28">
@@ -29,8 +35,15 @@ export default function Projects({ t, u }) {
   );
 }
 
-function StackedCard({ project, index, total, t }) {
-  const ref = useRef(null);
+interface StackedCardProps {
+  project: Project;
+  index: number;
+  total: number;
+  t: Translation;
+}
+
+function StackedCard({ project, index, total, t }: StackedCardProps) {
+  const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start center", "end start"] });
 
   /* La tarjeta saliente se encoge y se apaga bajo la que entra. */
@@ -97,8 +110,14 @@ function StackedCard({ project, index, total, t }) {
   );
 }
 
+interface PreviewProps {
+  project: Project;
+  index: number;
+  progress: MotionValue<number>;
+}
+
 /* Maqueta de navegador construida con los datos reales del proyecto. */
-function Preview({ project, index, progress }) {
+function Preview({ project, index, progress }: PreviewProps) {
   const host = (() => {
     try { return new URL(project.link).host.replace(/^www\./, ""); }
     catch { return project.link; }
@@ -123,7 +142,7 @@ function Preview({ project, index, progress }) {
           backgroundColor: dark ? "var(--ink)" : "var(--panel-2)",
           color: dark ? "var(--on-ink)" : "var(--fg)",
         }}
-        className="w-full overflow-hidden" 
+        className="w-full overflow-hidden"
       >
         {/* Barra de dirección */}
         <div

@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Container, SectionHead, Reveal, Arrow } from "./primitives.jsx";
-import { EASE } from "../lib/motion.js";
-import { certificationsBase } from "../data/content.js";
+import { Container, SectionHead, Reveal, Arrow } from "./primitives";
+import { EASE } from "../lib/motion";
+import { certificationsBase } from "../data/content";
+import type { Translation, UiCopy } from "../types";
+
+interface CertificationsProps {
+  t: Translation;
+  u: UiCopy;
+}
 
 /* Sección 05 — credenciales como acordeón numerado. */
-export default function Certifications({ t, u }) {
+export default function Certifications({ t, u }: CertificationsProps) {
   const items = certificationsBase.map((c, i) => ({ ...c, ...t.certifications.items[i] }));
   const [openIdx, setOpenIdx] = useState(0);
   const c = t.certifications;

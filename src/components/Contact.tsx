@@ -1,27 +1,43 @@
-import { useState } from "react";
+import { useState, type ChangeEvent, type FormEvent, type InputHTMLAttributes, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Github } from "lucide-react";
-import { Container, Reveal } from "./primitives.jsx";
-import { EASE } from "../lib/motion.js";
-import { SocialRow } from "./controls.jsx";
-import { profile } from "../data/content.js";
-import { links } from "../data/content.js";
+import { Container, Reveal } from "./primitives";
+import { EASE } from "../lib/motion";
+import { SocialRow } from "./controls";
+import { profile, links } from "../data/content";
+import type { Translation, UiCopy } from "../types";
+
+interface ContactProps {
+  t: Translation;
+  u: UiCopy;
+}
+
+interface FormState {
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+}
+
+type Status = "idle" | "sending" | "sent" | "error";
 
 /* Sección 07 — titular grande, palabra fantasma de fondo,
    píldora que revela el correo y formulario. */
-export default function Contact({ t, u }) {
+export default function Contact({ t, u }: ContactProps) {
   const f = t.contact.form;
   const FORMSPREE = import.meta.env.VITE_FORMSPREE_URL;
 
-  const empty = { name: "", email: "", phone: "", subject: "", message: "" };
-  const [form, setForm] = useState(empty);
-  const [status, setStatus] = useState("idle");
+  const empty: FormState = { name: "", email: "", phone: "", subject: "", message: "" };
+  const [form, setForm] = useState<FormState>(empty);
+  const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [revealed, setRevealed] = useState(false);
 
-  const onChange = (e) => setForm((s) => ({ ...s, [e.target.name]: e.target.value }));
+  const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm((s) => ({ ...s, [e.target.name]: e.target.value }));
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("sending");
     setErrorMsg("");
@@ -191,7 +207,13 @@ export default function Contact({ t, u }) {
   );
 }
 
-function Row({ label, value, href }) {
+interface RowProps {
+  label: string;
+  value: ReactNode;
+  href?: string;
+}
+
+function Row({ label, value, href }: RowProps) {
   return (
     <div className="flex items-baseline justify-between gap-4 border-b border-[var(--rule-soft)] pb-2.5">
       <dt className="meta">{label}</dt>
@@ -202,7 +224,12 @@ function Row({ label, value, href }) {
   );
 }
 
-function Field({ label, name, ...props }) {
+interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+  name: string;
+}
+
+function Field({ label, name, ...props }: FieldProps) {
   return (
     <div>
       <label className="meta" htmlFor={name}>{label}</label>

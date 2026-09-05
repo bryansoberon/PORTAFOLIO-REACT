@@ -1,11 +1,23 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { EASE } from "../lib/motion.js";
-import { ThemeToggle } from "./controls.jsx";
-import { sections, profile } from "../data/content.js";
+import { EASE } from "../lib/motion";
+import { ThemeToggle } from "./controls";
+import { sections, profile } from "../data/content";
+import type { Lang, Links, NavHandler, SectionId, Theme, UiCopy } from "../types";
+
+interface NavProps {
+  activeId: SectionId;
+  onNav: NavHandler;
+  u: UiCopy;
+  lang: Lang;
+  onLang: () => void;
+  links: Links;
+  theme: Theme;
+  onTheme: () => void;
+}
 
 /* Barra superior fija + índice numerado + menú móvil. */
-export default function Nav({ activeId, onNav, u, lang, onLang, links, theme, onTheme }) {
+export default function Nav({ activeId, onNav, u, lang, onLang, links, theme, onTheme }: NavProps) {
   const [open, setOpen] = useState(false);
   const [past, setPast] = useState(false);
 
@@ -22,7 +34,7 @@ export default function Nav({ activeId, onNav, u, lang, onLang, links, theme, on
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const go = (id) => { setOpen(false); onNav(id); };
+  const go: NavHandler = (id) => { setOpen(false); onNav(id); };
 
   return (
     <>

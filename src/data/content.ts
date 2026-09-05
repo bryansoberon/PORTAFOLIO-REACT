@@ -1,6 +1,20 @@
-/* Contenido del portafolio. Fuente única de verdad — editar aquí, no en los componentes. */
+/* Contenido del portafolio. Fuente única de verdad — editar aquí, no en los componentes.
+   Al estar tipado como Record<Lang, …>, si una clave existe en un idioma
+   y falta en el otro, la compilación falla en vez de romper en runtime. */
 
-export const translations = {
+import type {
+  CertificationBase,
+  Lang,
+  Links,
+  Profile,
+  ProjectBase,
+  SectionRef,
+  StackCategoryBase,
+  Translation,
+  UiCopy,
+} from "../types";
+
+export const translations: Record<Lang, Translation> = {
   en: {
     nav: {
       home: "Home", projects: "Projects", experience: "Experience", education: "Education",
@@ -253,12 +267,12 @@ export const translations = {
   },
 };
 
-export const projectsBase = [
+export const projectsBase: ProjectBase[] = [
   { tags: ["Next.js", "React", "Vue 3", "Prisma", "PostgreSQL", "Vercel", "neon"], link: "https://mailofcix.shop/" },
   { tags: ["Laravel 12", "Livewire Volt", "DDD", "MySQL", "PHP 8.2"], link: "https://github.com/bryansoberon" },
 ];
 
-export const certificationsBase = [
+export const certificationsBase: CertificationBase[] = [
   {
     issuer: "IBM (Coursera)",
     credentialId: "TV4D2T7L7BPJ",
@@ -296,7 +310,7 @@ export const certificationsBase = [
   },
 ];
 
-export const stackCategoriesBase = [
+export const stackCategoriesBase: StackCategoryBase[] = [
   { techs: ["Vue.js", "Angular", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind CSS", "Bootstrap"] },
   { techs: ["Django", "Next.js", "Laravel", "Spring Boot"] },
   { techs: ["PostgreSQL", "MySQL", "PgAdmin", "MongoDB", "SQL Server", "SQLite"] },
@@ -304,7 +318,7 @@ export const stackCategoriesBase = [
 ];
 
 /* ── Perfil y enlaces ──────────────────────────────── */
-export const profile = {
+export const profile: Profile = {
   name: "Bryan Soberón",
   first: "Bryan",
   last: "Soberón",
@@ -313,7 +327,7 @@ export const profile = {
   location: "Chiclayo, Perú",
 };
 
-export const links = {
+export const links: Links = {
   linkedin:  "https://www.linkedin.com/in/bernabe-bryan-sober%C3%B3n-quintana-195437307/",
   github:    "https://github.com/bryansoberon",
   instagram: "https://www.instagram.com/bryansoberon/",
@@ -323,14 +337,14 @@ export const links = {
 
 
 /* Fotogramas del retrato — se generan desde public/hero. */
-export const heroFrames = [1, 2, 3, 4, 5].map(
+export const heroFrames: string[] = [1, 2, 3, 4, 5].map(
   (n) => `${import.meta.env.BASE_URL}hero/f${n}.webp`
 );
 
 /* Color del resplandor detrás del arco. Todos salen de la propia foto
    —el terno, la sala, los diagramas de red—, sin rojo: el carmesí queda
    reservado para el acento de la interfaz. */
-export const heroFrameGlow = [
+export const heroFrameGlow: string[] = [
   "#2a3f5c",  // natural
   "#1e4f86",  // azul medianoche
   "#4a6275",  // acero
@@ -339,7 +353,7 @@ export const heroFrameGlow = [
 ];
 
 /* Índice de secciones. */
-export const sections = [
+export const sections: SectionRef[] = [
   { id: "index",          n: "01" },
   { id: "about",          n: "02" },
   { id: "projects",       n: "03" },
@@ -351,7 +365,7 @@ export const sections = [
 ];
 
 /* Textos del nuevo layout. */
-export const ui = {
+export const ui: Record<Lang, UiCopy> = {
   en: {
     availability: "Available for work",
     indexLabel: "Index",
@@ -375,6 +389,7 @@ export const ui = {
       Tools: "Version control, containers, agile boards and cloud fundamentals. The scaffolding that turns individual work into something a team can actually ship.",
     },
     scroll: "Scroll",
+    revealHint: "Reveal",
     contactLabel: "/new_project",
     contactBig: "Let's build something special",
     revealEmail: "Reveal\nemail address",
@@ -403,6 +418,7 @@ export const ui = {
       Herramientas: "Control de versiones, contenedores, tableros ágiles y fundamentos de nube. El andamiaje que convierte el trabajo individual en algo que un equipo puede entregar.",
     },
     scroll: "Desliza",
+    revealHint: "Revela",
     contactLabel: "/nuevo-proyecto",
     contactBig: "Construyamos algo especial",
     revealEmail: "Mostrar\ncorreo",

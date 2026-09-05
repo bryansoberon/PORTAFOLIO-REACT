@@ -1,12 +1,18 @@
 import { useState } from "react";
-import { Container, SectionHead, Reveal } from "./primitives.jsx";
-import { stackCategoriesBase } from "../data/content.js";
-import { techIcons } from "../data/techIcons.js";
+import { Container, SectionHead, Reveal } from "./primitives";
+import { stackCategoriesBase } from "../data/content";
+import { techIcons } from "../data/techIcons";
+import type { Translation, UiCopy } from "../types";
+
+interface StackProps {
+  t: Translation;
+  u: UiCopy;
+}
 
 /* Sección 07 — el stack completo, visible de un vistazo.
    Los diales de «Sobre mí» muestran una categoría a la vez;
    aquí están las cuatro juntas, para quien viene a escanear. */
-export default function Stack({ t, u }) {
+export default function Stack({ t, u }: StackProps) {
   const cats = stackCategoriesBase.map((c, i) => ({ ...c, title: t.stack.categories[i] }));
   const total = cats.reduce((sum, c) => sum + c.techs.length, 0);
 
@@ -44,7 +50,7 @@ export default function Stack({ t, u }) {
 }
 
 /* El color de marca solo aparece al pasar el cursor; en reposo, tinta. */
-function TechItem({ name }) {
+function TechItem({ name }: { name: string }) {
   const [hover, setHover] = useState(false);
   const entry = techIcons[name];
   if (!entry) return null;

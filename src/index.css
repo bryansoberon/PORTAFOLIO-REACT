@@ -52,6 +52,10 @@
   --r-md:   20px;
   --r-sm:   14px;
 
+  /* Alias que esperan los componentes de shadcn/ui. No toca la escala
+     `rounded-*` de Tailwind: solo sirve para los que leen `var(--radius)`. */
+  --radius: var(--r-md);
+
   --gutter: clamp(1.1rem, 3.5vw, 3rem);
 }
 
@@ -86,6 +90,51 @@
   --cursor-blend: difference;
 
   color-scheme: light;
+}
+
+/* ══════════════════════════════════════════════════════
+   Puente shadcn/ui → sistema propio.
+
+   Los componentes de 21st.dev y shadcn vienen con clases como
+   `bg-background`, `text-muted-foreground` o `border-border`.
+   Aquí esas utilidades quedan apuntando a las variables de arriba,
+   así que cualquier componente pegado hereda la paleta invernal y
+   cambia con el tema solo, en vez de traer sus propios colores.
+
+   `inline` es deliberado: sin él, el valor se congela en :root y no
+   volvería a resolverse bajo [data-theme="light"].
+
+   Es puramente aditivo — no pisa ninguna utilidad de Tailwind que ya
+   se esté usando, ni la escala `rounded-*`.
+   ══════════════════════════════════════════════════════ */
+@theme inline {
+  --color-background: var(--paper);
+  --color-foreground: var(--fg);
+
+  --color-card: var(--panel);
+  --color-card-foreground: var(--fg);
+  --color-popover: var(--panel);
+  --color-popover-foreground: var(--fg);
+
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--on-accent);
+  --color-secondary: var(--panel-2);
+  --color-secondary-foreground: var(--fg);
+
+  --color-muted: var(--panel-2);
+  --color-muted-foreground: var(--fg-3);
+
+  /* Ojo: en shadcn `accent` es una superficie de hover, no el color de
+     marca. El color de marca es `primary`. */
+  --color-accent: var(--panel-2);
+  --color-accent-foreground: var(--fg);
+
+  --color-destructive: var(--accent-2);
+  --color-destructive-foreground: var(--on-accent);
+
+  --color-border: var(--rule);
+  --color-input: var(--rule);
+  --color-ring: var(--accent);
 }
 
 
@@ -250,6 +299,30 @@ body {
 .field::placeholder { color: var(--fg-4); }
 .field:focus { border-color: var(--accent); }
 
+/* ── Filas de experiencia y educación ────────────────────
+   Reposo idéntico al de antes. Al pasar el cursor la fila se
+   desplaza un poco y la línea superior se tiñe del acento: el
+   desplazamiento escalonado (número, luego título) es lo que da
+   la sensación de peso, no la distancia recorrida. */
+.tl-row {
+  border-color: var(--tl-rule);
+  transition: border-color 0.5s ease;
+}
+.tl-row .tl-meta  { color: var(--tl-meta); }
+.tl-row .tl-title { color: var(--tl-title); }
+.tl-row .tl-desc  { color: var(--tl-desc); }
+
+.tl-row .tl-meta,
+.tl-row .tl-title {
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), color 0.4s ease;
+}
+
+@media (hover: hover) {
+  .tl-row:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--tl-rule)); }
+  .tl-row:hover .tl-meta  { transform: translateX(4px); }
+  .tl-row:hover .tl-title { transform: translateX(8px); color: var(--accent); }
+}
+
 /* ── Marquee ─────────────────────────────────────────── */
 @keyframes marquee {
   from { transform: translateX(0); }
@@ -270,12 +343,12 @@ html.lenis, html.lenis body { height: auto; }
   .stack-card { position: sticky; }
 }
 
+/* El movimiento del sitio no depende ya de esta preferencia: el
+   interruptor está en src/lib/motion.ts (`HONOR_REDUCED_MOTION`), para
+   que sea una sola decisión y no cinco condiciones repartidas.
+
+   Aquí solo queda el scroll nativo, que no es decorativo: Lenis lo
+   necesita en `auto` para no pelearse con él. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .marquee-track, .dot-live { animation: none; }
-  .stack-card { position: static !important; }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
 }
